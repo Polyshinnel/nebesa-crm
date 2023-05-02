@@ -1,0 +1,180 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <div class="work-area-info-common">
+        <div class="work-area-info-common-title">
+            <a href="/"><img src="/assets/img/angle.svg" alt=""></a>
+            <h2>{{ card.deal_name }}</h2>
+        </div>
+
+        <div class="work-area-info-common-stage">
+            <p class="work-area-info-common-stage_subtitle">Текущий этап:</p>
+            <div class="work-area-info-common-stage-block {{ card.stage_color }}">
+                <h4>{{ card.stage_name }}</h4>
+                <img src="/assets/img/angle.svg" alt="" class="angle-rotated">
+            </div>
+        </div>
+
+        <div class="work-area-info-common-text">
+            <div class="work-area-info-common-text-line">
+                <p class="title">ФИО Умершего:</p>
+                <p class="text">{{ card.dead_name }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">ФИО Заказчика:</p>
+                <p class="text">{{ card.customer_name }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Кладбище:</p>
+                <p class="text">{{ card.graveyard }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Место на кладбище:</p>
+                <p class="text">{{ card.graveyard_place }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Телефон Заказчика:</p>
+                <p class="text">{{ card.customer_phone }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Дата смерти:</p>
+                <p class="text">{{ card.date_dead }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Дата рождения:</p>
+                <p class="text">{{ card.date_birth }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Агент/Мастер:</p>
+                <p class="text">{{ card.agent }}</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Комментарий:</p>
+                <p class="text">{{ card.description | raw }}</p>
+            </div>
+
+            <div class="work-area-info-common-btns">
+                <div class="work-area-info-common-btn end-btn">
+                    <p>Завершить заказ</p>
+                </div>
+
+                <div class="work-area-info-common-btn cancel-btn">
+                    <p>Отменить заказ</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="work-area work-area_card">
+        <div class="work-area__header">
+            <div class="work-area__header-title">
+                <h1>Производство памятников</h1>
+                <p>С возвращением, {{ userName }}</p>
+            </div>
+
+            <div class="work-area__header-search">
+                <input type="text" name="" id="" placeholder="Поиск">
+                <img src="/assets/img/search.svg" alt="">
+            </div>
+
+            <div class="work-area__header-add-btn">
+                <img src="/assets/img/plus-btn.svg" alt="">
+                <p>Новый заказ</p>
+            </div>
+
+            <div class="work-area__header-notify">
+                <img src="/assets/img/notification.svg" alt="">
+            </div>
+
+            <div class="work-area__header-user">
+                <img src="{{ avatar }}" alt="">
+            </div>
+        </div>
+
+        <div class="work-area-info-messages">
+            <h2 class="work-area-info-messages-title">Данные заказа</h2>
+            <div class="work-area-block">
+                <div class="work-area-info-messages-area">
+                    {% if card.products %}
+                    <div class="work-area-info-message">
+                        <div class="work-area-info-message-header">
+                            <div class="work-area-info-message-header-icon">
+                                <img src="/assets/img/cart-msg.svg" alt="">
+                            </div>
+                            <div class="work-area-info-message-header-text">
+                                <h4>Состав заказа:</h4>
+                                <p>{{ card.date_add }}</p>
+                            </div>
+                        </div>
+
+                        <div class="work-area-info-message-body">
+                            <table>
+                                <tr>
+                                    <th>№ п/п</th>
+                                    <th>Наименование</th>
+                                    <th>Кол-во</th>
+                                    <th>Цена</th>
+                                </tr>
+                                {% for product in card.products %}
+                                    <tr>
+                                        <td>{{ product.position }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity }}</td>
+                                        <td>{{ product.price }} руб/ед.</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <p class="work-area-info-message-from">от Система</p>
+                    </div>
+                    {% endif %}
+
+                    {% if card.events %}
+                        {% for event in card.events %}
+                            {% if event.type_event == 'system' %}
+                                <p class="work-area-info-message-event">{{ event.text }}</p>
+                            {% endif %}
+
+                            {% if event.type_event == 'message' %}
+                                <div class="work-area-info-message">
+                                    <div class="work-area-info-message-header">
+                                        <div class="work-area-info-message-header-icon">
+                                            <img src="/assets/img/chat-msg.svg" alt="">
+                                        </div>
+                                        <div class="work-area-info-message-header-text">
+                                            <h4>Сообщение:</h4>
+                                            <p>{{ event.date_create }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="work-area-info-message-body">
+                                        <p>{{ event.text }}</p>
+                                    </div>
+                                    <p class="work-area-info-message-from">от {{ event.username }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="add-text-message">
+                    <div class="add-text-message__input">
+                        <textarea placeholder="Введите текст сообщения"></textarea>
+                        <img src="/assets/img/chat-msg.svg" alt="">
+                    </div>
+                    <div class="add-text-message-btn">
+                        <p>Отправить</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

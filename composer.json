@@ -1,0 +1,27 @@
+{
+    "name": "admin/slim-skeleton.web",
+    "description": "Basic skeleton for slim",
+    "license": "free",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Polyshinnel",
+            "email": "polyshinnel@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.4",
+        "slim/twig-view": "^3.2",
+        "symfony/console": "^5.4",
+        "illuminate/database": "^7.30",
+        "illuminate/pagination": "^7.30",
+        "robmorgan/phinx": "^0.12.12",
+        "php-di/php-di": "^6.3",
+        "monolog/monolog": "^2.8"
+    }
+}

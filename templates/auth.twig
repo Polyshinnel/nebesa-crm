@@ -1,0 +1,26 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <div class="auth-block">
+        <form action="/authUser" method="post" class="auth-form">
+            <img src="/assets/img/form-logo.svg" alt="">
+            <p>Система управления похоронами</p>
+            <div class="auth-form__input-block">
+                <div class="auth-form__input">
+                    <label for="username">Логин</label>
+                    <input type="text" name="username" id="username" placeholder="Имя пользователя">
+                </div>
+                <div class="auth-form__input">
+                    <label for="pass">Пароль</label>
+                    <input type="password" name="pass" id="pass" placeholder="Пароль">
+                    <img src="/assets/img/eye.svg" alt="" class="show-pass">
+                </div>
+            </div>
+
+            <input type="submit" value="Войти" class="form-auth__btn">
+            {% if err %}
+                <p>Не верное имя пользователя или пароль!</p>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}
