@@ -75,3 +75,89 @@ $('.form-block__btn').on('click',function () {
         }
     });
 })
+
+$('.add-text-message-btn').on('click',function () {
+    let text_msg = $('#msg-text').val()
+    console.log(text_msg)
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    let type = 'message';
+
+
+    $.ajax({
+        url: '/add-event',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'deal_id': idDeal,
+            'text_data': text_msg,
+            'type': type,
+        },
+        success: function(data){
+            $('#msg-text').val('')
+            $('.work-area-info-messages-area').append('<div class="work-area-info-message">\n' +
+            '<div class="work-area-info-message-header">\n' +
+            '<div class="work-area-info-message-header-icon">\n' +
+            '<img src="/assets/img/chat-msg.svg" alt="">\n' +
+            '</div>\n' +
+            '<div class="work-area-info-message-header-text">\n' +
+            '<h4>Сообщение:</h4>\n' +
+            '<p>'+data.date+'</p>\n' +
+            '</div>\n' +
+            '</div>\n' +
+            '\n' +
+            '<div class="work-area-info-message-body">\n' +
+            '<p>'+text_msg+'</p>\n' +
+            '</div>\n' +
+            '<p class="work-area-info-message-from">от '+data.username+'</p>\n' +
+            '</div>')
+        }
+    });
+})
+
+$('.end-btn').on('click',function () {
+    let text_msg = $('#msg-text').val()
+    console.log(text_msg)
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    let idStage = 6
+
+    $.ajax({
+        url: '/change-stage',
+        method: 'post',
+        dataType: 'html',
+        data: {
+            'deal_id': idDeal,
+            'stage_id': idStage,
+        },
+        success: function(data){
+            let url = '/'
+            $(location).attr('href',url);
+        }
+    });
+})
+
+$('.cancel-btn').on('click',function () {
+    let text_msg = $('#msg-text').val()
+    console.log(text_msg)
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    let idStage = 7
+
+    $.ajax({
+        url: '/change-stage',
+        method: 'post',
+        dataType: 'html',
+        data: {
+            'deal_id': idDeal,
+            'stage_id': idStage,
+        },
+        success: function(data){
+            let url = '/'
+            $(location).attr('href',url);
+        }
+    });
+})

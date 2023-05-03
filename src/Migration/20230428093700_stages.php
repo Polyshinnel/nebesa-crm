@@ -45,12 +45,12 @@ final class Stages extends Migration
             ],
             [
                 'name' => 'Отмененный',
-                'color_class' => 'base',
+                'color_class' => 'canceled',
                 'visible' => 0
             ],
             [
                 'name' => 'Успешно выполненный',
-                'color_class' => 'base',
+                'color_class' => 'success',
                 'visible' => 0
             ],
         ];

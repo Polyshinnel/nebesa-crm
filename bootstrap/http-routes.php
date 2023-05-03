@@ -3,6 +3,7 @@
 
 use App\Middlevare\BasicAuthMiddleware;
 use App\Pages\AddDealPage;
+use App\Pages\AddEventPage;
 use App\Pages\AuthPage;
 use App\Pages\CardPage;
 use App\Pages\ChangeStagePage;
@@ -19,5 +20,6 @@ return static function (App $app): void {
         $group->get('card/{id}',[CardPage::class,'get']);
         $group->post('change-stage',[ChangeStagePage::class,'get']);
         $group->post('add-deal',[AddDealPage::class,'get']);
+        $group->post('add-event',[AddEventPage::class,'get']);
     })->add(BasicAuthMiddleware::class);;
 };
