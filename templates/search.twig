@@ -69,12 +69,12 @@
     <div class="work-area">
         <div class="work-area__header">
             <div class="work-area__header-title">
-                <h1>Производство памятников</h1>
+                <h1>Результаты поиска</h1>
                 <p>С возвращением, {{ userName }}</p>
             </div>
 
             <div class="work-area__header-search">
-                <input type="text" name="search" id="search" placeholder="Поиск">
+                <input type="text" name="search" id="search" placeholder="Поиск" value="{{ query }}">
                 <img src="/assets/img/search.svg" alt="" class="search-btn">
             </div>
 
@@ -92,79 +92,8 @@
             </div>
         </div>
 
-        <div class="work-area__view">
-            <div class="work-area__view-btn work-area__view-btn_active" data-name="canban">
-                <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.09336 0.000968491C6.25165 0.000968491 7.19063 0.91501 7.19063 2.04254V18.9584C7.19063 20.086 6.25165 21 5.09336 21H2.09727C0.938976 21 0 20.086 0 18.9584V2.04254C0 0.971392 0.847428 0.0929092 1.92526 0.00773486L2.09727 0.000968491H5.09336ZM21.9027 0.000968491C23.061 0.000968491 24 0.91501 24 2.04254V18.9584C24 20.086 23.061 21 21.9027 21H18.9066C17.7483 21 16.8094 20.086 16.8094 18.9584V2.04254C16.8094 0.91501 17.7483 0.000968491 18.9066 0.000968491H21.9027ZM13.4824 0C14.6407 0 15.5797 0.914041 15.5797 2.04157V18.9575C15.5797 20.085 14.6407 20.9991 13.4824 20.9991H10.4863C9.32805 20.9991 8.38907 20.085 8.38907 18.9575V2.04157C8.38907 0.914041 9.32805 0 10.4863 0H13.4824ZM5.09336 1.75089H2.09727L2.02857 1.7586C1.89621 1.78883 1.79766 1.90448 1.79766 2.04254V18.9584C1.79766 19.1195 1.9318 19.2501 2.09727 19.2501H5.09336C5.25883 19.2501 5.39297 19.1195 5.39297 18.9584V2.04254C5.39297 1.88147 5.25883 1.75089 5.09336 1.75089ZM21.9027 1.75089H18.9066C18.7411 1.75089 18.607 1.88147 18.607 2.04254V18.9584C18.607 19.1195 18.7411 19.2501 18.9066 19.2501H21.9027C22.0682 19.2501 22.2023 19.1195 22.2023 18.9584V2.04254C22.2023 1.88147 22.0682 1.75089 21.9027 1.75089ZM13.4824 1.74992H10.4863C10.3209 1.74992 10.1867 1.8805 10.1867 2.04157V18.9575C10.1867 19.1185 10.3209 19.2491 10.4863 19.2491H13.4824C13.6479 19.2491 13.782 19.1185 13.782 18.9575V2.04157C13.782 1.8805 13.6479 1.74992 13.4824 1.74992Z" fill="#B1B7C3"/>
-                </svg>
-                <p>Канбан</p>
-            </div>
-            <div class="work-area__view-btn" data-name="list">
-                <svg width="24" height="17" viewBox="0 0 24 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 17H3.59999V13.6H0V17ZM6 17H24V14.7333H6V17ZM0 10.2H3.59999V6.8H0V10.2ZM6 10.2H24V7.93333H6V10.2ZM0 3.4H3.59999V0H0V3.4ZM6 3.4H24V1.13333H6V3.4Z" fill="#B1B7C3"/>
-                </svg>
-                <p>Список</p>
-            </div>
-        </div>
-
-        <!--Canban-->
-        <div class="work-area__columns">
-            {% for stage in stages %}
-                <div class="container">
-                <div class="container__header {{ stage['color_class'] }}">
-                    <h2>{{ stage['stage_name'] }}</h2>
-                    <div class="container__header-counter">
-                        <p>{{ stage['deals_count'] }}</p>
-                    </div>
-                    <img src="/assets/img/more.svg" alt="" class="container__header-settings">
-                </div>
-
-                {% if stage['stage_id'] == 1 %}
-                <div class="add-new-order">
-                    <img src="/assets/img/plus.svg" alt="">
-                    <p>Новый заказ</p>
-                </div>
-                {% endif %}
-
-                <ul class="sortable connectedSortable" data-stage="{{ stage['stage_id'] }}">
-                    {% if stage['deals'] %}
-                        {% for deal in stage['deals'] %}
-                        <li class="card" data-deal="{{ deal.id }}">
-                            <div class="card-header">
-                                <a href="/card/{{ deal.id }}"><h4 class="card-title">{{ deal.name }}</h4></a>
-                                <p class="card-subtitle">{{ deal.dead_name }}</p>
-                                <p class="card-agent">Агент/Мастер: {{ deal.agent }}</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="card-footer-tag">
-                                    <p>{{ deal.tag }}</p>
-                                </div>
-                                <div class="card-footer-graveyard">
-                                    <img src="/assets/img/grave.svg" alt="">
-                                    <p>{{ deal.graveyard }}</p>
-                                </div>
-                                <div class="card-footer-demiter"></div>
-                                <div class="card-footer__bottom">
-                                    <div class="card-footer__bottom-unit">
-                                        <img src="/assets/img/chat-card.svg" alt="">
-                                        <p>{{ deal.messages_count }}</p>
-                                    </div>
-                                    <div class="card-footer__bottom-unit">
-                                        <img src="/assets/img/calendar-card.svg" alt="">
-                                        <p>{{ deal.date_create }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        {% endfor %}
-                    {% endif %}
-                </ul>
-            </div>
-            {% endfor %}
-        </div>
-
         <!--List-->
-        <div class="work-area__rows">
+        <div class="work-area__rows work-area__rows_search">
             {% if deals %}
                 {% for deal in deals %}
                     <div class="work-area__row">

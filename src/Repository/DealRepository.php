@@ -53,4 +53,25 @@ class DealRepository
         ];
         $this->dealModel::where('id',$dealId)->update($updateArr);
     }
+
+    public function getFullFilteredDeals($filter) {
+        return $this->dealModel::select(
+            'deals.id',
+            'deals.name',
+            'deals.agent',
+            'deals.tag',
+            'deals.dead_name',
+            'deals.customer_name',
+            'deals.customer_phone',
+            'deals.graveyard',
+            'deals.date_create',
+            'stages.name as stage_name',
+            'stages.color_class'
+        )
+            ->leftjoin('stages','deals.stage_id','=','stages.id')
+            ->orderBy('deals.id','DESC')
+            ->where($filter)
+            ->get()
+            ->toArray();
+    }
 }
