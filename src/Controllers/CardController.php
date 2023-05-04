@@ -71,4 +71,8 @@ class CardController
         ];
     }
 
+    public function getListStages() {
+        return $this->stagesRepository->getVisibleStages();
+    }
+
 }

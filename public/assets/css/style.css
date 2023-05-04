@@ -435,6 +435,7 @@ body {
 }
 .work-area-info-common .work-area-info-common-stage {
   margin-top: 25px;
+  position: relative;
 }
 .work-area-info-common .work-area-info-common-stage .work-area-info-common-stage_subtitle {
   font-size: 12px;
@@ -458,6 +459,27 @@ body {
   font-size: 18px;
   font-weight: 600;
   color: #333;
+}
+.work-area-info-common .work-area-info-common-stage .work-area-info-common-stage-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  background-color: #fff;
+  width: 100%;
+  display: none;
+}
+.work-area-info-common .work-area-info-common-stage .work-area-info-common-stage-list li {
+  padding: 10px 10px;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  background: #fff;
+  transition: 0.3s all ease;
+}
+.work-area-info-common .work-area-info-common-stage .work-area-info-common-stage-list li:hover {
+  background: #F4F9FF;
 }
 .work-area-info-common .work-area-info-common-text {
   margin-top: 20px;

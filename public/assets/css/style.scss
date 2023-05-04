@@ -508,6 +508,7 @@ body{
 
     .work-area-info-common-stage{
         margin-top: 25px;
+        position: relative;
 
         .work-area-info-common-stage_subtitle{
             font-size: 12px;
@@ -533,6 +534,30 @@ body{
                 font-size: 18px;
                 font-weight: 600;
                 color: $fontColor;
+            }
+        }
+
+        .work-area-info-common-stage-list{
+            position: absolute;
+            top: 100%;
+            left: 0;
+            list-style: none;
+            background-color: #fff;
+            width: 100%;
+            display: none;
+
+            li{
+                padding: 10px 10px;
+                font-size: 14px;
+                color: $fontColor;
+                border-bottom: 1px solid #ccc;
+                cursor: pointer;
+                background: #fff;
+                transition: 0.3s all ease;
+
+                &:hover{
+                    background: #F4F9FF;
+                }
             }
         }
     }

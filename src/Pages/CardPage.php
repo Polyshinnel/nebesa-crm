@@ -36,12 +36,14 @@ class CardPage
 
         $dealId = $args['id'];
         $cardData = $this->cardController->getCardInfo($dealId);
+        $stagesList = $this->cardController->getListStages();
 
         $data = $this->twig->fetch('card.twig', [
             'title' => 'Карточка',
             'userName' => $headerData['name'],
             'avatar' => $headerData['avatar'],
-            'card' => $cardData
+            'card' => $cardData,
+            'stages' => $stagesList
         ]);
         return new Response(
             200,

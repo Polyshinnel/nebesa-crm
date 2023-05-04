@@ -184,3 +184,37 @@ $('#search').keydown(function(e) {
         $(location).attr('href',url);
     }
 });
+
+$('.work-area-info-common-stage-block').on('click',function () {
+    $('.work-area-info-common-stage-list').slideToggle();
+})
+
+$('.work-area-info-common-stage-list li').on('click', function () {
+    let idStage = $(this).attr('data-id')
+    let className = $(this).attr('data-class')
+    let name = $(this).html()
+    let workAreaBlock = $('.work-area-info-common-stage-block')
+    let classArr = workAreaBlock.attr('class');
+    classArr = classArr.split(' ')
+    let clearClass = classArr[0]
+    workAreaBlock.attr('class', clearClass)
+    workAreaBlock.addClass(className)
+    workAreaBlock.find('h4').html(name)
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+
+    $('.work-area-info-common-stage-list').slideUp()
+    $.ajax({
+        url: '/change-stage',
+        method: 'post',
+        dataType: 'html',
+        data: {
+            'deal_id': idDeal,
+            'stage_id': idStage,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})

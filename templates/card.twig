@@ -13,6 +13,14 @@
                 <h4>{{ card.stage_name }}</h4>
                 <img src="/assets/img/angle.svg" alt="" class="angle-rotated">
             </div>
+
+            <ul class="work-area-info-common-stage-list">
+                {% if stages %}
+                    {% for stage in stages %}
+                        <li data-class="{{ stage.color_class }}" data-id="{{ stage.id }}">{{ stage.name }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
         </div>
 
         <div class="work-area-info-common-text">
