@@ -1,6 +1,7 @@
 $(function() {
     $( ".sortable" ).sortable({
     connectWith: ".connectedSortable",
+    dropOnEmpty: true,
     remove: function(event, ui) {
         let currCounter = parseInt($(this).parent().find('.container__header-counter p').html());
         currCounter = currCounter - 1;
@@ -215,6 +216,36 @@ $('.work-area-info-common-stage-list li').on('click', function () {
         },
         success: function(data){
             window.location.reload(true);
+        }
+    });
+})
+
+$('.work-area-info-sms-btn').on('click',function () {
+    $('.work-area-info-sms-form').slideToggle();
+});
+
+$('.work-area-info-sms-btn-send').on('click', function () {
+    let customerNum = $('#sms-num').val();
+    let smsText = $('#text-msg-sms').val();
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+
+    $.ajax({
+        url: '/send-sms',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'customer_num': customerNum,
+            'msg_text': smsText,
+            'deal_id': idDeal
+        },
+        success: function(data){
+            console.log(data)
+            $('.sms-msg-info').html(data.msg);
+            setTimeout(function(){
+                window.location.reload(true);
+            }, 2000);
         }
     });
 })
