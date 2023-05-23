@@ -44,7 +44,9 @@ class SearchPage
             'userName' => $headerData['name'],
             'avatar' => $headerData['avatar'],
             'deals' => $deals,
-            'query' => $query
+            'query' => $query,
+            'workAreaTitle' => 'Поиск - '.$query,
+            'funnelSwitch' => false
         ]);
 
         return new Response(

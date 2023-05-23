@@ -1,0 +1,55 @@
+{% extends 'base-extended.twig' %}
+
+{% block body %}
+    <div class="calendar-area">
+
+        <div class="calendar-area__title">
+            <a href="{{ dateLinks.prevLink }}"><img src="/assets/img/angle.svg" alt="" class="angle angle_right"></a>
+            <h4>{{ mouth}} {{ year }}</h4>
+            <a href="{{ dateLinks.nextLink }}"><img src="/assets/img/angle.svg" alt="" class="angle-rotated-180 angle_left"></a>
+        </div>
+
+        <div class="calendar-area__columns">
+            {% for week in calendar %}
+                <!--calendar-area__column-->
+                <div class="calendar-area__column">
+                    <div class="calendar-area__column-header">
+                        <h4>{{ week.day_week }}</h4>
+                    </div>
+
+                    <div class="calendar-area__column-wrapper">
+                        {% for day in week.days %}
+                            {% if day.day == 'empty' %}
+                                <div class="calendar-area__column-day_empty"></div>
+                            {% else %}
+                                <a href="/calendar-day?date={{ day.date }}" class="calendar-area__column-day_link">
+                                    <div class="calendar-area__column-day">
+                                        <div class="calendar-area__column-day-date"><p>{{ day.day }}</p></div>
+                                        {% if day.events %}
+                                            <div class="calendar-area__column-day-events">
+                                                {% for event in day.events %}
+                                                    {% if event == 'memorial' %}
+                                                        <div class="event event_memorial">
+                                                            <p>Памятники</p>
+                                                        </div>
+                                                    {% endif %}
+
+                                                    {% if event == 'landscaping' %}
+                                                        <div class="event event_landscaping">
+                                                            <p>Благоустройство</p>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!--/calendar-area__column-->
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

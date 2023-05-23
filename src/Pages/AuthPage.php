@@ -71,7 +71,7 @@ class AuthPage
             $authResult = 'AuthSuccess';
 
             $response = $this->responseFactory->createResponse();
-            return $response->withHeader('Location','/')->withStatus(302);
+            return $response->withHeader('Location','/deals')->withStatus(302);
         }
 
 

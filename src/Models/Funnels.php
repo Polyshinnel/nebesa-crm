@@ -6,15 +6,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Stages extends Model
+class Funnels extends Model
 {
-    protected $table = 'stages';
+    protected $table = 'funnels';
     public $timestamps = false;
     protected $fillable = [
         'id',
         'name',
-        'color_class',
-        'visible',
-        'funnel_id'
+        'tag'
     ];
 }

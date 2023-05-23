@@ -15,8 +15,12 @@ class StagesRepository
         $this->stagesModel = $stagesModel;
     }
 
-    public function getVisibleStages(): ?array {
-        return $this->stagesModel::where('visible',1)->get()->toArray();
+    public function getVisibleStages($funnelId): ?array {
+        $filter = [
+            'visible' => 1,
+            'funnel_id' => $funnelId
+        ];
+        return $this->stagesModel::where($filter)->get()->toArray();
     }
 
     public function getAllStages(): ?array {
@@ -30,5 +34,14 @@ class StagesRepository
     public function getStageNameById($stageId): String {
         $data = $this->stagesModel::where('id',$stageId)->first()->toArray();
         return $data['name'];
+    }
+
+    public function getFirstStage($funnelId): array {
+        $filter = [
+            'funnel_id' => $funnelId,
+            'color_class' => 'base'
+        ];
+
+        return $this->stagesModel::where($filter)->first()->toArray();
     }
 }

@@ -1,3 +1,20 @@
+function getUrlParameter(sParam) {
+    let sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+}
+
+
 $(function() {
     $( ".sortable" ).sortable({
     connectWith: ".connectedSortable",
@@ -11,6 +28,11 @@ $(function() {
         let idStage = $(this).attr('data-stage');
         let idDeal = ui.item.attr('data-deal');
 
+        let funnelId = getUrlParameter('funnel_id');
+        if(!funnelId) {
+            funnelId = 1
+        }
+
         let currCounter = parseInt($(this).parent().find('.container__header-counter p').html());
         currCounter = currCounter + 1;
         $(this).parent().find('.container__header-counter p').html(currCounter)
@@ -20,6 +42,7 @@ $(function() {
             method: 'post',
             dataType: 'html',
             data: {
+                'funnel_id': funnelId,
                 'deal_id': idDeal,
                 'stage_id': idStage,
             },
@@ -63,16 +86,24 @@ $('.form-block__btn').on('click',function () {
     $('.await-form').css('display','flex')
     let dealNum = $('#deal-num').val();
 
+    let funnelId = getUrlParameter('funnel_id');
+    if(!funnelId) {
+        funnelId = 1
+    }
+
+    console.log(funnelId)
+
     $.ajax({
         url: '/add-deal',
         method: 'post',
         dataType: 'json',
         data: {
+            'funnel_id': funnelId,
             'deal_num': dealNum,
         },
         success: function(data){
             let dealId = data.deal_id;
-            let url = '/card/'+dealId
+            let url = '/card/'+dealId+'?funnel_id='+funnelId
             $(location).attr('href',url);
         }
     });
@@ -124,13 +155,23 @@ $('.end-btn').on('click',function () {
     let url = window.location.pathname;
     url = url.split('/');
     let idDeal = url.pop();
-    let idStage = 6
+    let idStage = 7
+
+    let funnelId = getUrlParameter('funnel_id');
+    if(!funnelId) {
+        funnelId = 1
+    }
+
+    if(funnelId == 2) {
+        idStage = 12
+    }
 
     $.ajax({
         url: '/change-stage',
         method: 'post',
         dataType: 'html',
         data: {
+            'funnel_id': funnelId,
             'deal_id': idDeal,
             'stage_id': idStage,
         },
@@ -147,13 +188,23 @@ $('.cancel-btn').on('click',function () {
     let url = window.location.pathname;
     url = url.split('/');
     let idDeal = url.pop();
-    let idStage = 7
+    let idStage = 6
+
+    let funnelId = getUrlParameter('funnel_id');
+    if(!funnelId) {
+        funnelId = 1
+    }
+
+    if(funnelId == 2) {
+        idStage = 13
+    }
 
     $.ajax({
         url: '/change-stage',
         method: 'post',
         dataType: 'html',
         data: {
+            'funnel_id': funnelId,
             'deal_id': idDeal,
             'stage_id': idStage,
         },
@@ -205,12 +256,20 @@ $('.work-area-info-common-stage-list li').on('click', function () {
     url = url.split('/');
     let idDeal = url.pop();
 
+
     $('.work-area-info-common-stage-list').slideUp()
+
+    let funnelId = getUrlParameter('funnel_id');
+    if(!funnelId) {
+        funnelId = 1
+    }
+
     $.ajax({
         url: '/change-stage',
         method: 'post',
         dataType: 'html',
         data: {
+            'funnel_id': funnelId,
             'deal_id': idDeal,
             'stage_id': idStage,
         },
@@ -248,4 +307,8 @@ $('.work-area-info-sms-btn-send').on('click', function () {
             }, 2000);
         }
     });
+})
+
+$('.work-area__header-title_switch').on('click', function () {
+    $('.funnel-list').slideToggle();
 })

@@ -38,10 +38,15 @@ class CardPage
     {
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
+        $params = $request->getQueryParams();
+        $funnelId = 1;
+        if(isset($params['funnel_id'])){
+            $funnelId = $params['funnel_id'];
+        }
 
         $dealId = $args['id'];
         $cardData = $this->cardController->getCardInfo($dealId);
-        $stagesList = $this->cardController->getListStages();
+        $stagesList = $this->cardController->getListStages($funnelId);
 
         $phone = preg_replace('![^0-9]+!', '', $cardData['customer_phone']);
         $phone = substr($phone,1);
@@ -60,7 +65,8 @@ class CardPage
             'card' => $cardData,
             'stages' => $stagesList,
             'customer_phone' => $phone,
-            'memorial_text' => $memorialText
+            'memorial_text' => $memorialText,
+            'funnelId' => $funnelId
         ]);
         return new Response(
             200,

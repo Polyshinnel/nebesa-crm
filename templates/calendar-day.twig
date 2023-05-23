@@ -1,21 +1,27 @@
 {% extends 'base-extended.twig' %}
 
 {% block body %}
-    <!--List-->
+<!--List-->
     <div class="work-area__rows work-area__rows_search">
         {% if deals %}
             {% for deal in deals %}
                 <div class="work-area__row">
                     <div class="work-area__row-info">
-                        <a href="/card/{{ deal.id }}"><h4 class="card-title">{{ deal.name }}</h4></a>
+                        <a href="/card/{{ deal.id }}?funnel_id={{ deal.funnel_id }}"><h4 class="card-title">{{ deal.name }}</h4></a>
                         <p class="card-subtitle">{{ deal.dead_name }}</p>
                         <p class="card-agent">Агент/Мастер: {{ deal.agent }}</p>
                     </div>
 
                     <div class="work-area__row-tag-graveyard">
-                        <div class="work-area__row-tag">
-                            <p>{{ deal.tag }}</p>
-                        </div>
+                        {% if deal.funnel_id == 2 %}
+                            <div class="work-area__row-tag work-area__row-tag_landscaped">
+                                <p>{{ deal.tag }}</p>
+                            </div>
+                        {% else %}
+                            <div class="work-area__row-tag">
+                                <p>{{ deal.tag }}</p>
+                            </div>
+                        {% endif %}
 
                         <div class="work-area__row-graveyard">
                             <img src="/assets/img/grave.svg" alt="">

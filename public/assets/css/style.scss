@@ -408,6 +408,14 @@ body{
                 }
             }
 
+            .card-footer-tag_landscaped{
+                background-color: #FFF5E9;
+
+                p{
+                    color: #FF9F2D;
+                }
+            }
+
             .card-footer-graveyard{
                 display: flex;
                 align-items: center;
@@ -529,11 +537,6 @@ body{
             margin-top: 15px;
             padding-bottom: 10px;
             border-bottom: 2px solid #CCCCCC;
-
-            .angle-rotated{
-                transform: rotate(-90deg);
-                width: 10px;
-            }
 
             h4{
                 font-size: 18px;
@@ -930,6 +933,26 @@ body{
             }
         }
 
+        .work-area__row-tag_landscaped{
+            background-color: #FFF5E9;
+
+            p{
+                color: #FF9F2D;
+            }
+        }
+        
+        .work-area__row-tag_graveyard{
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+
+            p{
+                font-size: 14px;
+                margin-left: 5px;
+                color: $secondaryColor;
+            }
+        }
+
         .work-area__row-graveyard{
             display: flex;
             align-items: center;
@@ -1189,4 +1212,161 @@ body{
 
 .success{
     border-color: #09F467 !important;
+}
+
+
+
+.calendar-area{
+    margin-top: 20px;
+
+    .calendar-area__title{
+        display: flex;
+        align-items: center;
+
+        h4{
+            font-size: 24px;
+            color: #585757;
+        }
+
+        a{
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .calendar-area__columns{
+        display: flex;
+        align-items: flex-start;
+        margin-top: 25px;
+
+        .calendar-area__column{
+            width: 185px;
+
+            .calendar-area__column-header{
+                background: #FFFFFF;
+                border: 1px solid #E8E8E8;
+                padding: 9px 12px;
+
+                h4{
+                    font-size: 16px;
+                    color: #969696;
+                    font-weight: 500;
+                }
+            }
+
+            .calendar-area__column-day_empty{
+                width: 100%;
+                height: 120px;
+            }
+
+            .calendar-area__column-day{
+                width: 100%;
+                height: 120px;
+                background-color: #fff;
+                padding: 12px;
+                border: 1px solid #E8E8E8;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .calendar-area__column-day-date{
+                    p{
+                        font-size: 20px;
+                        color: #969696;
+                    }
+                }
+
+                .event{
+                    margin-top: 4px;
+                    padding: 3px;
+                    border-radius: 2px;
+
+                    p{
+                        font-size: 10px;
+                    }
+                }
+
+                .event_memorial{
+                    background-color: #F0F9FD;
+
+                    p{
+                        color: #6FBADD;
+                    }
+                }
+
+                .event_landscaping{
+                    background-color: #FFF5E9;
+
+                    p{
+                        color: #FF9F2D;
+                    }
+                }
+            }
+
+            .calendar-area__column-day_link{
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+.angle-rotated{
+    transform: rotate(-90deg);
+    width: 10px;
+}
+
+.angle-rotated-180{
+    transform: rotate(-180deg);
+    width: 8px;
+}
+
+.angle{
+    width: 8px;
+}
+
+
+.angle_left{
+    margin-left: 20px;
+}
+
+.angle_right{
+    margin-right: 20px;
+}
+
+.work-area__header-title_switch{
+    position: relative;
+    cursor: pointer;
+
+    .work-area__header-title_switch-line{
+        display: flex;
+        align-items: center;
+    }
+    
+    ul{
+        list-style: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        display: none;
+
+        li{
+            background: #fff;
+            font-size: 14px;
+            color: #333;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            transition: 0.3s all ease;
+
+            &:hover{
+                background: $hoverColor;
+            }
+
+            a{
+                text-decoration: none;
+                color: #333;
+            }
+        }
+    }
 }

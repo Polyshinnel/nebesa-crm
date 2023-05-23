@@ -28,13 +28,14 @@ class ChangeStagePage
         $params = $request->getParsedBody();
         $dealId = $params['deal_id'];
         $stageId = $params['stage_id'];
+        $funnelId = $params['funnel_id'];
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
         $userId = $headerData['id'];
         $userName = $headerData['name'];
 
 
-        $this->dealController->updateDeal($dealId,$stageId,$userName,$userId);
+        $this->dealController->updateDeal($dealId,$stageId,$userName,$userId,$funnelId);
 
         $data = json_encode(['msg' => 'deal id='.$dealId.' get stage id='.$stageId]);
 

@@ -23,6 +23,7 @@ final class Deals extends Migration
             $table->integer('order_id');
             $table->date('date_birth');
             $table->date('date_dead');
+            $table->integer('funnel_id');
             $table->integer('stage_id');
             $table->dateTime('date_add');
             $table->dateTime('date_create');

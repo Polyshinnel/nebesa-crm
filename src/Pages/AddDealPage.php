@@ -24,8 +24,9 @@ class AddDealPage
     {
         $params = $request->getParsedBody();
         $dealNum = $params['deal_num'];
+        $funnelId = $params['funnel_id'];
 
-        $dealId = $this->dealController->createDeal($dealNum);
+        $dealId = $this->dealController->createDeal($dealNum,$funnelId);
 
         $data = json_encode(['deal_id' => $dealId]);
 

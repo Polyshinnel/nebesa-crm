@@ -29,14 +29,14 @@ class StagesController
         $this->stagesRepository = $stagesRepository;
     }
 
-    public function getStagesAndDeals()
+    public function getStagesAndDeals($funnelId)
     {
-        $stages = $this->stagesRepository->getVisibleStages();
+        $stages = $this->stagesRepository->getVisibleStages($funnelId);
         $formattedStagesArr = [];
         foreach ($stages as $stage) {
             $id = $stage['id'];
             $dealBlock = [];
-            $deals = $this->dealRepository->getFilteredDeals($id);
+            $deals = $this->dealRepository->getFilteredDeals($funnelId,$id);
             $dealsCount = count($deals);
             if (!empty($deals)) {
                 foreach ($deals as $deal) {
@@ -66,8 +66,8 @@ class StagesController
         return $formattedStagesArr;
     }
 
-    public function getAllDeals() {
-        $deals = $this->dealRepository->getAllDeals();
+    public function getAllDeals($funnelId) {
+        $deals = $this->dealRepository->getAllDeals($funnelId);
         $processedDeals = [];
         foreach ($deals as $deal) {
             $messages = $this->eventRepository->getMessageEvent($deal['id']);

@@ -51,11 +51,15 @@ class MoySkladController
         $data = json_decode($this->tools->getGetRequest($url, $header),true);
 
         $orderId = $data['rows'][0]['id'];
-        $description = $data['rows'][0]['description'];
+        $description = '';
+        if(isset($data['rows'][0]['description'])) {
+            $description = $data['rows'][0]['description'];
+        }
         $dateCreated = $data['rows'][0]['moment'];
         $customerData = $data['rows'][0]['agent']['meta']['href'];
         $customerArr = explode('/',$customerData);
         $customerId = array_pop($customerArr);
+        $deliveryMoment = $data['rows'][0]['deliveryPlannedMoment'];
 
 
         $attributes = $data['rows'][0]['attributes'];
@@ -106,7 +110,8 @@ class MoySkladController
             'graveyard' => $graveyard,
             'graveyard_place' => $graveyardPlace,
             'agent_name' => $agent,
-            'dead_name' => $deadName
+            'dead_name' => $deadName,
+            'delivery_moment' => $deliveryMoment
         ];
     }
 

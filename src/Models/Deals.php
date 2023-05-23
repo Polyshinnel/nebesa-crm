@@ -24,9 +24,11 @@ class Deals extends Model
         'order_id',
         'date_birth',
         'date_dead',
+        'funnel_id',
         'stage_id',
         'date_add',
         'date_create',
+        'date_delivery',
         'date_updated'
     ];
 }

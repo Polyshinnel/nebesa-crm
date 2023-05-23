@@ -3,7 +3,7 @@
 {% block body %}
     <div class="work-area-info-common">
         <div class="work-area-info-common-title">
-            <a href="/"><img src="/assets/img/angle.svg" alt=""></a>
+            <a href="/deals?funnel_id={{ funnelId }}"><img src="/assets/img/angle.svg" alt=""></a>
             <h2>{{ card.deal_name }}</h2>
         </div>
 
@@ -24,6 +24,11 @@
         </div>
 
         <div class="work-area-info-common-text">
+            <div class="work-area-info-common-text-line">
+                <p class="title">Дата отгрузки:</p>
+                <p class="text">{{ card.date_delivery }}</p>
+            </div>
+
             <div class="work-area-info-common-text-line">
                 <p class="title">ФИО Умершего:</p>
                 <p class="text">{{ card.dead_name }}</p>

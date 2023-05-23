@@ -1,0 +1,41 @@
+<div class="work-area__header">
+    <div class="work-area__header-title">
+
+        {% if funnelSwitch %}
+            <div class="work-area__header-title_switch">
+                <div class="work-area__header-title_switch-line">
+                    <h1>{{ workAreaTitle }}</h1>
+                    <img src="assets/img/angle.svg" alt="" class="angle-rotated angle_left">
+                </div>
+
+                <ul class="funnel-list">
+                    {% for funnel in funnelList %}
+                        <li><a href="/deals?funnel_id={{ funnel.id }}">{{ funnel.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <h1>{{ workAreaTitle }}</h1>
+        {% endif %}
+
+        <p>С возвращением, {{ userName }}</p>
+    </div>
+
+    <div class="work-area__header-search">
+        <input type="text" name="search" id="search" placeholder="Поиск">
+        <img src="/assets/img/search.svg" alt="" class="search-btn">
+    </div>
+
+    <div class="work-area__header-add-btn">
+        <img src="/assets/img/plus-btn.svg" alt="">
+        <p>Новый заказ</p>
+    </div>
+
+    <div class="work-area__header-notify">
+        <img src="/assets/img/notification.svg" alt="">
+    </div>
+
+    <div class="work-area__header-user">
+        <img src="{{ avatar }}" alt="">
+    </div>
+</div>

@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Repository\DealRepository;
 use App\Repository\EventRepository;
+use App\Repository\FunnelRepository;
 use App\Repository\OrderDetailRepository;
 use App\Repository\OrderRepository;
 use App\Repository\StagesRepository;
@@ -20,6 +21,7 @@ class DealController
     private MoySkladController $skladController;
     private ToolClass $toolClass;
     private StagesRepository $stageRepository;
+    private FunnelRepository $funnelRepository;
 
     public function __construct(
         DealRepository $dealRepository,
@@ -28,7 +30,8 @@ class DealController
         EventRepository $eventRepository,
         MoySkladController $skladController,
         ToolClass $toolClass,
-        StagesRepository $stageRepository
+        StagesRepository $stageRepository,
+        FunnelRepository $funnelRepository
     )
     {
         $this->dealRepository = $dealRepository;
@@ -38,9 +41,10 @@ class DealController
         $this->skladController = $skladController;
         $this->toolClass = $toolClass;
         $this->stageRepository = $stageRepository;
+        $this->funnelRepository = $funnelRepository;
     }
 
-    public function createDeal($deanNum): string
+    public function createDeal($deanNum,$funnelId): string
     {
         $data = $this->skladController->getTotalOrderData($deanNum);
 
@@ -64,10 +68,16 @@ class DealController
             $this->orderDetailRepository->createOrderDetail($createArr);
         }
 
+        $stageInfo = $this->stageRepository->getFirstStage($funnelId);
+        $stageId = $stageInfo['id'];
+        $funnelInfo = $this->funnelRepository->getFunnelById($funnelId);
+        $tag = $funnelInfo['tag'];
+
+
         $dealCreateArr = [
             'name' => 'Заказ №' . $deanNum,
             'agent' => $data['common_data']['agent_name'],
-            'tag' => 'Памятники',
+            'tag' => $tag,
             'dead_name' => $data['common_data']['dead_name'],
             'customer_name' => $data['customer_data']['customer_name'],
             'customer_phone' => $data['customer_data']['phone'],
@@ -77,9 +87,11 @@ class DealController
             'order_id' => $orderId,
             'date_birth' => $this->toolClass->reformatDate($data['common_data']['date_birth'], 'eng'),
             'date_dead' => $this->toolClass->reformatDate($data['common_data']['date_dead'], 'eng'),
-            'stage_id' => 1,
+            'funnel_id' => $funnelId,
+            'stage_id' => $stageId,
             'date_add' => date("Y-m-d H:i:s"),
             'date_create' => $data['common_data']['date_created'],
+            'date_delivery' => $data['common_data']['delivery_moment'],
             'date_updated' => date("Y-m-d H:i:s"),
         ];
 
@@ -87,8 +99,8 @@ class DealController
         return $this->dealRepository->createDeal($dealCreateArr);
     }
 
-    public function updateDeal($dealId,$stageId,$userName,$userId) {
-        $this->dealRepository->updateDealStage($dealId,$stageId);
+    public function updateDeal($dealId,$stageId,$userName,$userId,$funnelId) {
+        $this->dealRepository->updateDealStage($dealId,$funnelId,$stageId);
         $stageName = $this->stageRepository->getStageNameById($stageId);
         $text = 'Новый этап: '.$stageName.' '.date("d.m.Y H:i:s").' переместил '.$userName;
 

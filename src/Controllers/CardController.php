@@ -65,14 +65,15 @@ class CardController
             'date_birth' => $deal['date_birth'],
             'date_dead' => $deal['date_dead'],
             'date_add' => $deal['date_add'],
+            'date_delivery' => $deal['date_delivery'],
             'description' => htmlspecialchars_decode($deal['description']),
             'products' => $dealProducts,
             'events' => $dealEventsProcessing
         ];
     }
 
-    public function getListStages() {
-        return $this->stagesRepository->getVisibleStages();
+    public function getListStages($funnelId) {
+        return $this->stagesRepository->getVisibleStages($funnelId);
     }
 
 }
