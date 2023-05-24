@@ -23,10 +23,12 @@ class CalendarDayController
         $dateEnd = $date.' 23:59:59';
         $filters = [
             [
-                'deals.funnel_id' => 1
+                'deals.funnel_id' => 1,
+                ['stages.visible','!=','0']
             ],
             [
-                'deals.funnel_id' => 2
+                'deals.funnel_id' => 2,
+                ['stages.visible','!=','0']
             ]
         ];
 

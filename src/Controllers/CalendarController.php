@@ -62,7 +62,8 @@ class CalendarController
             $events = [];
 
             $filter = [
-                'deals.funnel_id' => 1
+                'deals.funnel_id' => 1,
+                ['stages.visible','!=','0']
             ];
             $dateStart = $date.' 00:00:00';
             $dateEnd = $date.' 23:59:59';
@@ -72,7 +73,8 @@ class CalendarController
             }
 
             $filter = [
-                'deals.funnel_id' => 2
+                'deals.funnel_id' => 2,
+                ['stages.visible','!=','0']
             ];
 
             $res = $this->dealRepository->getFilteredByDateDeals($dateStart, $dateEnd, $filter);

@@ -94,6 +94,7 @@ class DealRepository
             'deals.date_create',
             'stages.name as stage_name',
             'stages.color_class',
+            'stages.visible',
             'deals.funnel_id',
         )
             ->leftjoin('stages','deals.stage_id','=','stages.id')

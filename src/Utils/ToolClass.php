@@ -45,4 +45,10 @@ class ToolClass
         }
 
     }
+
+    public function normalizeNum($num) {
+        $num = explode('.',$num);
+        $sum = $num[0];
+        return mb_substr($sum, 0, -2);
+    }
 }

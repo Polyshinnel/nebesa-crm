@@ -60,7 +60,8 @@ class MoySkladController
         $customerArr = explode('/',$customerData);
         $customerId = array_pop($customerArr);
         $deliveryMoment = $data['rows'][0]['deliveryPlannedMoment'];
-
+        $totalSum = $this->tools->normalizeNum($data['rows'][0]['sum']);
+        $paymentSum = $this->tools->normalizeNum($data['rows'][0]['payedSum']);
 
         $attributes = $data['rows'][0]['attributes'];
         $dateBirth = '';
@@ -111,7 +112,9 @@ class MoySkladController
             'graveyard_place' => $graveyardPlace,
             'agent_name' => $agent,
             'dead_name' => $deadName,
-            'delivery_moment' => $deliveryMoment
+            'delivery_moment' => $deliveryMoment,
+            'total_sum' => $totalSum,
+            'payed_sum' => $paymentSum
         ];
     }
 
