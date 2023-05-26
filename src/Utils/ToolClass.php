@@ -47,8 +47,11 @@ class ToolClass
     }
 
     public function normalizeNum($num) {
-        $num = explode('.',$num);
-        $sum = $num[0];
-        return mb_substr($sum, 0, -2);
+        if(!empty($num)) {
+            $num = explode('.',$num);
+            $sum = $num[0];
+            return mb_substr($sum, 0, -2);
+        }
+        return 0;
     }
 }
