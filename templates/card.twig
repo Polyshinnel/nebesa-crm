@@ -5,6 +5,7 @@
         <div class="work-area-info-common-title">
             <a href="/deals?funnel_id={{ funnelId }}"><img src="/assets/img/angle.svg" alt=""></a>
             <h2>{{ card.deal_name }}</h2>
+            <img src="/assets/img/refresh.svg" alt="" class="refresh-payment">
         </div>
 
         <div class="work-area-info-common-stage">
@@ -61,7 +62,7 @@
 
             <div class="work-area-info-common-text-line">
                 <p class="title">Оплата:</p>
-                <p class="text">{{ card.payed_sum }}₽ из {{ card.total_sum }}₽</p>
+                <p class="text" id="deal-sum">{{ card.payed_sum }}₽ из {{ card.total_sum }}₽</p>
             </div>
 
             <div class="work-area-info-common-text-line">

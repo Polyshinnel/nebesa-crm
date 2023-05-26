@@ -1372,3 +1372,24 @@ body{
         }
     }
 }
+
+.refresh-payment{
+    cursor: pointer;
+    margin-left: 150px;
+}
+
+.rotation-animation{
+    animation-name: rotation;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rotation {
+    0% {
+        transform:rotate(0deg);
+    }
+    100% {
+        transform:rotate(360deg);
+    }
+}

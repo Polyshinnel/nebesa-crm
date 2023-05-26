@@ -137,4 +137,29 @@ class CardPage
             (new StreamFactory())->createStream($answer)
         );
     }
+
+    public function updateDeal(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $params = $request->getParsedBody();
+        $dealId = $params['deal_id'];
+
+        $dealUpdate = $this->cardController->updateCardPayment($dealId);
+        $dataMsg = [
+            'msg' => 'Сделка не обновлена',
+            'err' => 'icorrect sklad id'
+        ];
+        if($dealUpdate) {
+            $dataMsg = [
+                'msg' => 'Данные обновлены',
+                'err' => 'none'
+            ];
+        }
+
+        $answer = json_encode($dataMsg,JSON_UNESCAPED_UNICODE);
+        return new Response(
+            200,
+            new Headers(['Content-Type' => 'text/html']),
+            (new StreamFactory())->createStream($answer)
+        );
+    }
 }

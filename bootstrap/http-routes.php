@@ -29,5 +29,6 @@ return static function (App $app): void {
         $group->post('add-deal',[AddDealPage::class,'get']);
         $group->post('add-event',[AddEventPage::class,'get']);
         $group->post('send-sms',[CardPage::class,'sendSms']);
+        $group->post('update-payment',[CardPage::class,'updateDeal']);
     })->add(BasicAuthMiddleware::class);;
 };

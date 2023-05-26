@@ -312,3 +312,21 @@ $('.work-area-info-sms-btn-send').on('click', function () {
 $('.work-area__header-title_switch').on('click', function () {
     $('.funnel-list').slideToggle();
 })
+
+$('.refresh-payment').click(function () {
+    $(this).addClass('rotation-animation')
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    $.ajax({
+        url: '/update-payment',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'deal_id': idDeal
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})

@@ -180,4 +180,22 @@ class MoySkladController
             'products' => $products
         ];
     }
+
+    public function getPaymentInfo($skladId) {
+        $token = $this->getToken();
+        $url = 'https://online.moysklad.ru/api/remap/1.2/entity/customerorder/'.$skladId;
+        $header = [
+            "Authorization: Bearer $token",
+        ];
+        $data = json_decode($this->tools->getGetRequest($url, $header),true);
+
+
+        $totalSum = $this->tools->normalizeNum($data['sum']);
+        $paymentSum = $this->tools->normalizeNum($data['payedSum']);
+
+        return [
+            'total_sum' => $totalSum,
+            'payed_sum' => $paymentSum
+        ];
+    }
 }

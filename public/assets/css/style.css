@@ -1177,4 +1177,25 @@ body {
 .work-area__header-title_switch ul li a {
   text-decoration: none;
   color: #333;
+}
+
+.refresh-payment {
+  cursor: pointer;
+  margin-left: 150px;
+}
+
+.rotation-animation {
+  animation-name: rotation;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }/*# sourceMappingURL=style.css.map */

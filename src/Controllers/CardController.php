@@ -19,6 +19,7 @@ class CardController
     private StagesRepository $stagesRepository;
     private ToolClass $toolClass;
     private UserRepository $userRepository;
+    private MoySkladController $skladController;
 
     public function __construct(
         DealRepository $dealRepository,
@@ -26,7 +27,8 @@ class CardController
         OrderDetailRepository $orderDetailRepository,
         StagesRepository $stagesRepository,
         ToolClass $toolClass,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        MoySkladController $skladController
     )
     {
         $this->dealRepository = $dealRepository;
@@ -35,6 +37,7 @@ class CardController
         $this->stagesRepository = $stagesRepository;
         $this->toolClass = $toolClass;
         $this->userRepository = $userRepository;
+        $this->skladController = $skladController;
     }
 
     public function getCardInfo($id) {
@@ -76,6 +79,17 @@ class CardController
 
     public function getListStages($funnelId) {
         return $this->stagesRepository->getVisibleStages($funnelId);
+    }
+
+    public function updateCardPayment($idDeal) {
+        $deal = $this->dealRepository->getDealById($idDeal);
+        $skladId = $deal['sklad_id'];
+        if(!empty($skladId)) {
+            $paymentData = $this->skladController->getPaymentInfo($skladId);
+            $this->dealRepository->updateDealPayment($idDeal, $paymentData['payed_sum'],$paymentData['total_sum']);
+            return true;
+        }
+        return false;
     }
 
 }

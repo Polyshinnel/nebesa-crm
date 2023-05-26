@@ -62,6 +62,14 @@ class DealRepository
         $this->dealModel::where('id',$dealId)->update($updateArr);
     }
 
+    public function updateDealPayment($dealId,$payedSum,$totalSum): void {
+        $updateArr = [
+            'payed_sum' => $payedSum,
+            'total_sum' => $totalSum,
+        ];
+        $this->dealModel::where('id',$dealId)->update($updateArr);
+    }
+
     public function getFullFilteredDeals($filter) {
         return $this->dealModel::select(
             'deals.id',
