@@ -68,7 +68,9 @@ class CardController
             'date_delivery' => $deal['date_delivery'],
             'description' => htmlspecialchars_decode($deal['description']),
             'products' => $dealProducts,
-            'events' => $dealEventsProcessing
+            'events' => $dealEventsProcessing,
+            'payed_sum' => $deal['payed_sum'],
+            'total_sum' => $deal['total_sum'],
         ];
     }
 

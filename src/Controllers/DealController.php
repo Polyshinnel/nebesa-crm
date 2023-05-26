@@ -76,6 +76,9 @@ class DealController
 
         $dealCreateArr = [
             'name' => 'Заказ №' . $deanNum,
+            'sklad_id' => $data['common_data']['order_id'],
+            'payed_sum' => $data['common_data']['payed_sum'],
+            'total_sum' => $data['common_data']['total_sum'],
             'agent' => $data['common_data']['agent_name'],
             'tag' => $tag,
             'dead_name' => $data['common_data']['dead_name'],

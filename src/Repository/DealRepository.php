@@ -36,6 +36,8 @@ class DealRepository
             'deals.tag',
             'deals.dead_name',
             'deals.graveyard',
+            'deals.payed_sum',
+            'deals.total_sum',
             'deals.date_create',
             'stages.name as stage_name',
             'stages.color_class'
@@ -64,6 +66,8 @@ class DealRepository
         return $this->dealModel::select(
             'deals.id',
             'deals.name',
+            'deals.payed_sum',
+            'deals.total_sum',
             'deals.agent',
             'deals.tag',
             'deals.dead_name',
@@ -85,6 +89,8 @@ class DealRepository
         return $this->dealModel::select(
             'deals.id',
             'deals.name',
+            'deals.payed_sum',
+            'deals.total_sum',
             'deals.agent',
             'deals.tag',
             'deals.dead_name',

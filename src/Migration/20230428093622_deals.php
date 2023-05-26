@@ -12,6 +12,9 @@ final class Deals extends Migration
         $this->schema->create('deals',function (Blueprint $table){
             $table->increments('id');
             $table->string('name','127');
+            $table->string('sklad_id','127');
+            $table->decimal('payed_sum','10','2');
+            $table->decimal('total_sum','10', '2');
             $table->string('agent','127');
             $table->string('tag','127');
             $table->string('dead_name','127');

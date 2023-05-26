@@ -124,6 +124,16 @@
                             <p>{{ deal.date_create }}</p>
                         </div>
                     </div>
+
+                    <div class="work-area__row-chat-date">
+                        <div class="work-area__row-chat">
+                            <img src="/assets/img/payments.svg" alt="">
+                            <p>{{ deal.payed_sum }}₽ из {{ deal.total_sum }}₽</p>
+                        </div>
+                        <div class="work-area__row-stage {{ deal.color_class_payment }}">
+                            <h4>{{ deal.payment_status }}</h4>
+                        </div>
+                    </div>
                 </div>
             {% endfor %}
         {% endif %}

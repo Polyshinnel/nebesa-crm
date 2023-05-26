@@ -13,6 +13,9 @@ class Deals extends Model
     protected $fillable = [
         'id',
         'name',
+        'sklad_id',
+        'payed_sum',
+        'total_sum',
         'agent',
         'tag',
         'dead_name',
@@ -29,6 +32,6 @@ class Deals extends Model
         'date_add',
         'date_create',
         'date_delivery',
-        'date_updated'
+        'date_updated',
     ];
 }

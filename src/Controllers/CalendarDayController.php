@@ -51,6 +51,16 @@ class CalendarDayController
                 $messages = $this->eventRepository->getMessageEvent($deal['id']);
                 $messageCount = count($messages);
                 $deal['message_count'] = $messageCount;
+
+                $colorClassPayment = 'success';
+                $payment_status = 'Оплачено';
+
+                if($deal['payed_sum'] != $deal['total_sum']) {
+                    $colorClassPayment = 'canceled';
+                    $payment_status = 'Не оплачено';
+                }
+                $deal['payment_status'] = $payment_status;
+                $deal['color_class_payment'] = $colorClassPayment;
                 $processedDeals[] = $deal;
             }
             $deals = $processedDeals;

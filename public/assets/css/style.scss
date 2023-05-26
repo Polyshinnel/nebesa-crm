@@ -974,16 +974,7 @@ body{
             font-size: 14px;
             color: #6FBADD;
         }
-        .work-area__row-stage{
-            padding-bottom: 5px;
-            border-bottom: 2px solid #333;
-            margin-top: 4px;
-            h4{
-                font-weight: 600;
-                color: #333;
-                font-size: 16px;
-            }
-        }
+        
     }
 
     .work-area__row-chat-date{
@@ -1011,6 +1002,17 @@ body{
                 color: $secondaryCardColor;
             }
         }
+    }
+}
+
+.work-area__row-stage{
+    padding-bottom: 5px;
+    border-bottom: 2px solid #333;
+    margin-top: 4px;
+    h4{
+        font-weight: 600;
+        color: #333;
+        font-size: 16px;
     }
 }
 
