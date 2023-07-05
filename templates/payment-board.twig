@@ -1,0 +1,34 @@
+{% extends 'base-extended.twig' %}
+
+{% block body %}
+    <div class="work-area__rows work-area__rows_search">
+        <div class="board-list">
+            <a href="/add-brigade" class="board-list-link">
+                <div class="board-list-item">
+                    <div class="board-list-item-img">
+                        <img src="/assets/img/payment/worker.svg" alt="">
+                    </div>
+                    <p>Бригады</p>
+                </div>
+            </a>
+
+            <a href="/payment-products" class="board-list-link">
+                <div class="board-list-item">
+                    <div class="board-list-item-img">
+                        <img src="/assets/img/payment/barcode.svg" alt="">
+                    </div>
+                    <p>Номенклатура</p>
+                </div>
+            </a>
+
+            <a href="/payment-list" class="board-list-link">
+                <div class="board-list-item">
+                    <div class="board-list-item-img">
+                        <img src="/assets/img/payment/payment.svg" alt="">
+                    </div>
+                    <p>Зарплата</p>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}

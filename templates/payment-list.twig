@@ -1,0 +1,153 @@
+{% extends 'base-extended.twig' %}
+
+{% block body %}
+    <div class="work-area__rows work-area__rows_search">
+        <div class="products-periods-filter">
+            <div class="form-input">
+                <label for="">Начало периода</label>
+                <input type="text" placeholder="Дата начала" id="time-start">
+                <img src="/assets/img/sidebar/3.svg" alt="">
+            </div>
+
+            <div class="form-input">
+                <label for="">Конец периода</label>
+                <input type="text" placeholder="Дата окончания" id="time-end">
+                <img src="/assets/img/sidebar/3.svg" alt="">
+            </div>
+
+            <div class="products-periods-filter-btn">
+                <img src="/assets/img/payment/filter.svg" alt="">
+                <p>Фильтр</p>
+            </div>
+
+            <div class="products-periods-filter-block">
+                <img src="/assets/img/payment/close.svg" alt="" class="close-filter">
+                <div class="form-input">
+                    <label for="">Статус</label>
+                    <input type="text" placeholder="Статус">
+
+                    <ul class="form-input-list">
+                        <li>Не оплачено</li>
+                        <li>Частично оплачено</li>
+                        <li>Оплачено</li>
+                    </ul>
+                </div>
+
+                <div class="form-input">
+                    <label for="">Бригада</label>
+                    <input type="text" placeholder="Бригада">
+
+                    <ul class="form-input-list">
+                        <li>Бригада 1</li>
+                        <li>Бригада 2</li>
+                    </ul>
+                </div>
+
+                <div class="work-area__rows-btn work-area__rows-btn_acept-filter">
+                    <p>Применить</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-worker-list">
+            <div class="work-area__row">
+                <div class="work-area__row-info">
+                    <a href="/payment-edit/1"><h4 class="card-title">Заказ № 00639</h4></a>
+                    <p class="card-subtitle">Иванов Иван Иванович</p>
+                    <p class="card-agent">Агент/Мастер: Спасенов Александр</p>
+                </div>
+
+                <div class="work-area__row-tag-graveyard">
+                    <div class="work-area__row-tag">
+                        <p>Памятники</p>
+                    </div>
+
+                    <div class="work-area__row-graveyard">
+                        <img src="/assets/img/grave.svg" alt="">
+                        <p>Литвиново</p>
+                    </div>
+                </div>
+
+                <div class="work-area__row-stage-info">
+                    <p>Статус:</p>
+
+                    <div class="work-area__row-stage">
+                        <h4>Не оплачено</h4>
+                    </div>
+                </div>
+
+                <div class="work-area__row-chat-date">
+                    <div class="work-area__row-chat">
+                        <img src="/assets/img/payment/list.svg" alt="">
+                        <p>5/7</p>
+                    </div>
+                    <div class="work-area__row-date">
+                        <img src="/assets/img/payment/money.svg" alt="">
+                        <p>4300р / 5200р</p>
+                    </div>
+                </div>
+
+                <div class="work-area__row-chat-date">
+                    <div class="work-area__row-chat">
+                        <img src="/assets/img/payment/brigade.svg" alt="">
+                        <p>Бригада 1</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-area__row">
+                <div class="work-area__row-info">
+                    <a href="/payment-edit/1"><h4 class="card-title">Заказ № 00639</h4></a>
+                    <p class="card-subtitle">Иванов Иван Иванович</p>
+                    <p class="card-agent">Агент/Мастер: Спасенов Александр</p>
+                </div>
+
+                <div class="work-area__row-tag-graveyard">
+                    <div class="work-area__row-tag">
+                        <p>Памятники</p>
+                    </div>
+
+                    <div class="work-area__row-graveyard">
+                        <img src="/assets/img/grave.svg" alt="">
+                        <p>Литвиново</p>
+                    </div>
+                </div>
+
+                <div class="work-area__row-stage-info">
+                    <p>Статус:</p>
+
+                    <div class="work-area__row-stage">
+                        <h4>Не оплачено</h4>
+                    </div>
+                </div>
+
+                <div class="work-area__row-chat-date">
+                    <div class="work-area__row-chat">
+                        <img src="/assets/img/payment/list.svg" alt="">
+                        <p>5/7</p>
+                    </div>
+                    <div class="work-area__row-date">
+                        <img src="/assets/img/payment/money.svg" alt="">
+                        <p>4300р / 5200р</p>
+                    </div>
+                </div>
+
+                <div class="work-area__row-chat-date">
+                    <div class="work-area__row-chat">
+                        <img src="/assets/img/payment/brigade.svg" alt="">
+                        <p>Бригада 1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new AirDatepicker('#time-start', {
+            autoClose: true,
+        });
+        new AirDatepicker('#time-end', {
+            autoClose: true,
+        });
+    </script>
+{% endblock %}

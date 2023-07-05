@@ -1,0 +1,72 @@
+{% extends 'base-extended.twig' %}
+
+{% block body %}
+    <div class="work-area__rows work-area__rows_search">
+        <div class="work-area__rows-brigades">
+            <div class="work-area__rows-brigades-line">
+                <div class="work-area__rows-brigades-line-name">
+                    <p>Бригада 1</p>
+                </div>
+
+                <div class="work-area__rows-btn">
+                    <p>Редактировать</p>
+                </div>
+
+                <div class="work-area__rows-btn work-area__rows-btn-red">
+                    <p>Удалить</p>
+                </div>
+            </div>
+
+            <div class="work-area__rows-brigades-line">
+                <div class="work-area__rows-brigades-line-name">
+                    <p>Бригада 1</p>
+                </div>
+
+                <div class="work-area__rows-btn">
+                    <p>Редактировать</p>
+                </div>
+
+                <div class="work-area__rows-btn work-area__rows-btn-red">
+                    <p>Удалить</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-area__rows-btn work-area__rows-btn-add-brigade">
+            <p>Добавить бригаду</p>
+        </div>
+    </div>
+
+
+    <div class="brigade-fancy brigade-fancy-edit">
+        <div class="brigade-fancy-wrapper">
+            <div class="brigade-fancy-window">
+                <img src="/assets/img/payment/close.svg" alt="" class="close-fancy">
+                <h4>Редактирование бригады</h4>
+                <div class="form-input">
+                    <input type="text" placeholder="Название бригады">
+                </div>
+
+                <div class="work-area__rows-btn work-area__rows-btn-window">
+                    <p>Редактировать бригаду</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="brigade-fancy brigade-fancy-add">
+        <div class="brigade-fancy-wrapper">
+            <div class="brigade-fancy-window">
+                <img src="/assets/img/payment/close.svg" alt="" class="close-fancy">
+                <h4>Добавление бригады</h4>
+                <div class="form-input">
+                    <input type="text" placeholder="Название бригады">
+                </div>
+
+                <div class="work-area__rows-btn work-area__rows-btn-window">
+                    <p>Добавить бригаду</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

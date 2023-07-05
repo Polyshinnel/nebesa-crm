@@ -1,0 +1,33 @@
+{% extends 'base-extended.twig' %}
+
+{% block body %}
+    <div class="work-area__rows work-area__rows_search">
+        <div class="work-area__rows-products-wrapper">
+            <div class="work-area__rows-products-line">
+                <div class="form-input">
+                    <label for="">Название наименования</label>
+                    <input type="text" placeholder="Название">
+                </div>
+
+                <div class="form-input">
+                    <label for="">Категория</label>
+                    <input type="text" placeholder="Название">
+
+                    <ul class="form-input-list">
+                        <li>Монтаж</li>
+                        <li>Демонтаж</li>
+                    </ul>
+                </div>
+
+                <div class="form-input">
+                    <label for="">Цена</label>
+                    <input type="text" placeholder="Название">
+                </div>
+            </div>
+        </div>
+
+        <div class="work-area__rows-btn work-area__rows-btn-save">
+            <p>Редактировать</p>
+        </div>
+    </div>
+{% endblock %}

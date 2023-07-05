@@ -1,0 +1,52 @@
+{% extends 'base-extended.twig' %}
+
+{% block body %}
+    <div class="work-area__rows work-area__rows_search">
+        <div class="position-list-wrapper">
+            <div class="position-list-wrapper-line">
+                <div class="form-input">
+                    <label for="">Наименование</label>
+                    <input type="text" placeholder="Наименование">
+                </div>
+    
+                <div class="form-input">
+                    <label for="">Количество</label>
+                    <input type="text" placeholder="Количество">
+                </div>
+    
+                <div class="form-input form-input_sm">
+                    <label for="">Цена</label>
+                    <input type="text" placeholder="Цена">
+                </div>
+
+                <div class="form-input form-input_sm">
+                    <label for="">Итого</label>
+                    <input type="text" placeholder="Цена">
+                </div>
+
+                <div class="form-input form-input_checkbox">
+                    <label for="">Выполнено</label>
+                    <input type="checkbox" name="" id="">
+                </div>
+
+                <div class="work-area__rows-btn work-area__rows-btn-red">
+                    <p>Удалить</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-area__rows-btn work-area__rows-btn-add-payment-position">
+            <p>Добавить позицию</p>
+        </div>
+
+        <div class="total-block">
+            <p><b>Итого к оплате:</b> 5 позиций на 4240 руб.</p>
+
+            <div class="total-block-btns">
+                <div class="work-area__rows-btn">
+                    <p>Закрыть</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
