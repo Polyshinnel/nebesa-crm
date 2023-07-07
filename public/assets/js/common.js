@@ -330,3 +330,209 @@ $('.refresh-payment').click(function () {
         }
     });
 })
+
+$(document).ready(function (){
+    let path = window.location.pathname;
+    let paymentFlag = false;
+
+    let paymentArr = [
+        'payment-board',
+        'add-brigade',
+        'payment-products',
+        'edit-payment-products',
+        'add-payment-products',
+        'payment-list',
+        'payment-edit'
+    ]
+
+    pathArr = path.split('/')
+    for(let i = 0; i < pathArr.length; i++) {
+        if(paymentArr.includes(pathArr[i])){
+            paymentFlag = true;
+            break;
+        }
+    }
+
+
+    $('.sidebar-nav ul li').each(function (){
+        $(this).removeClass('sidebar-nav_active')
+        let href = $(this).find('a').attr('href')
+        if(href == path) {
+            $(this).addClass('sidebar-nav_active')
+        }
+        if((paymentFlag == true) && (href == '/payment-board')) {
+            $(this).addClass('sidebar-nav_active')
+        }
+    })
+});
+
+$('.work-area__rows-btn-add-brigade').click(function () {
+    $('.brigade-fancy-add').fadeIn(300);
+})
+
+$('.close-fancy').click(function () {
+    $('.brigade-fancy').fadeOut(300);
+})
+
+$('#add-window-brigade').click(function () {
+    let name = $('#brigade-add-name').val()
+    $.ajax({
+        url: '/create-worker',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'name': name
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+$('.worker-edit-btn').click(function () {
+    $('.brigade-fancy-edit').fadeIn(300);
+    let id = $(this).attr('data-id');
+    $('#brigade-edit-name').attr('data-id', id)
+})
+
+$('#edit-window-brigade').click(function () {
+    let brigadeElem = $('#brigade-edit-name');
+    let name = brigadeElem.val()
+    let id = brigadeElem.attr('data-id');
+    $.ajax({
+        url: '/update-worker',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'id': id,
+            'name': name
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+$('.worker-delete-btn').click(function () {
+    let id = $(this).attr('data-id');
+    $.ajax({
+        url: '/delete-worker',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'id': id,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+
+$(document).on('click', '.work-area__rows-products-line-add', function () {
+    $('.work-area__rows-products-wrapper').append('<div class="work-area__rows-products-line">\n' +
+        '<div class="form-input">\n' +
+        '<label for="">Название наименования</label>\n' +
+        '<input type="text" placeholder="Название" class="payment-product-name">\n' +
+        '</div>\n' +
+        '\n' +
+        '<div class="form-input form-input-select">\n' +
+        '<label for="">Категория</label>\n' +
+        '<input type="text" placeholder="Категория" readonly class="payment-product-cat">\n' +
+        '\n' +
+        '<ul class="form-input-list">\n' +
+        '<li>Монтаж</li>\n' +
+        '<li>Демонтаж</li>\n' +
+        '</ul>\n' +
+        '</div>\n' +
+        '\n' +
+        '<div class="form-input">\n' +
+        '<label for="">Цена</label>\n' +
+        '<input type="text" placeholder="Цена" class="payment-product-price">\n' +
+        '</div>\n' +
+        '\n' +
+        '<div class="work-area__rows-products-line-add">\n' +
+        '<img src="/assets/img/plus-btn.svg" alt="">\n' +
+        '</div>\n' +
+        '</div>'
+    )
+})
+
+$(document).on('click', '.form-input-select input', function () {
+    $(this).parent().find('.form-input-list').slideToggle()
+})
+
+$(document).on('click', '.form-input-list li', function () {
+    let val = $(this).html()
+    $(this).parent().parent().find('input').val(val)
+    $(this).parent().slideUp()
+})
+
+$('#create-products').click(function () {
+    let productList = []
+    $('.work-area__rows-products-line').each(function () {
+        let name = $(this).find('.payment-product-name').val()
+        let category = $(this).find('.payment-product-cat').val()
+        let price = $(this).find('.payment-product-price').val()
+
+        let productItem = {
+            'name': name,
+            'category': category,
+            'price': price
+        }
+
+        productList.push(productItem)
+    })
+
+    let json = JSON.stringify(productList);
+
+    $.ajax({
+        url: '/create-products',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'json': json,
+        },
+        success: function(data){
+            window.location.replace('/payment-products')
+        }
+    });
+})
+
+$('#payment-product-edit').click(function () {
+    let productNameInput = $('#payment-product-name')
+    let id = productNameInput.attr('data-id')
+    let name = productNameInput.val()
+    let catName = $('#payment-product-cat').val()
+    let price = $('#payment-product-price').val()
+
+    $.ajax({
+        url: '/update-product',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'id': id,
+            'name': name,
+            'category': catName,
+            'price': price
+        },
+        success: function(data){
+            window.location.replace('/payment-products')
+        }
+    });
+})
+
+$('.delete-product-btn').click(function () {
+    let id = $(this).attr('data-id')
+    $.ajax({
+        url: '/delete-product',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'id': id,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})

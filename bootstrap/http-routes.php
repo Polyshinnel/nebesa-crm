@@ -11,7 +11,9 @@ use App\Pages\CardPage;
 use App\Pages\ChangeStagePage;
 use App\Pages\IndexPage;
 use App\Pages\PaymentPage;
+use App\Pages\ProductPaymentActionPage;
 use App\Pages\SearchPage;
+use App\Pages\WorkerActionPage;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -38,5 +40,13 @@ return static function (App $app): void {
         $group->post('add-event',[AddEventPage::class,'get']);
         $group->post('send-sms',[CardPage::class,'sendSms']);
         $group->post('update-payment',[CardPage::class,'updateDeal']);
+
+        $group->post('create-worker',[WorkerActionPage::class,'create']);
+        $group->post('update-worker',[WorkerActionPage::class,'update']);
+        $group->post('delete-worker',[WorkerActionPage::class,'delete']);
+
+        $group->post('create-products',[ProductPaymentActionPage::class,'create']);
+        $group->post('update-product',[ProductPaymentActionPage::class,'update']);
+        $group->post('delete-product',[ProductPaymentActionPage::class,'delete']);
     })->add(BasicAuthMiddleware::class);;
 };

@@ -6,6 +6,8 @@ namespace App\Pages;
 
 use App\Controllers\DealController;
 use App\Controllers\HeaderController;
+use App\Controllers\ProductPaymentController;
+use App\Controllers\WorkerController;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Factory\StreamFactory;
@@ -18,11 +20,20 @@ class PaymentPage
 
     private Twig $twig;
     private HeaderController $headerController;
+    private WorkerController $workerController;
+    private ProductPaymentController $productPaymentController;
 
-    public function __construct(Twig $twig, HeaderController $headerController)
+    public function __construct(
+        Twig $twig,
+        HeaderController $headerController,
+        WorkerController $workerController,
+        ProductPaymentController $productPaymentController
+    )
     {
         $this->twig = $twig;
         $this->headerController = $headerController;
+        $this->workerController = $workerController;
+        $this->productPaymentController = $productPaymentController;
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -30,12 +41,14 @@ class PaymentPage
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
 
+
         $data = $this->twig->fetch('payment-board.twig', [
             'title' => 'Расчет зарплаты',
             'userName' => $headerData['name'],
             'avatar' => $headerData['avatar'],
             'funnelSwitch' => false,
             'workAreaTitle' => 'Расчет зарплаты',
+
         ]);
 
         return new Response(
@@ -48,6 +61,7 @@ class PaymentPage
     public function addBrigade(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
+        $workers = $this->workerController->getWorkers();
 
         $data = $this->twig->fetch('payment-add-brigade.twig', [
             'title' => 'Список бригад',
@@ -55,6 +69,7 @@ class PaymentPage
             'avatar' => $headerData['avatar'],
             'funnelSwitch' => false,
             'workAreaTitle' => 'Список бригад',
+            'workers' => $workers
         ]);
 
         return new Response(
@@ -67,6 +82,7 @@ class PaymentPage
     public function productsList(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
+        $productList = $this->productPaymentController->getAllProducts();
 
         $data = $this->twig->fetch('payment-products-list.twig', [
             'title' => 'Список номенклатуры',
@@ -74,6 +90,7 @@ class PaymentPage
             'avatar' => $headerData['avatar'],
             'funnelSwitch' => false,
             'workAreaTitle' => 'Список номенклатуры',
+            'products' => $productList
         ]);
 
         return new Response(
@@ -106,6 +123,7 @@ class PaymentPage
         $id = $args['id'];
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
+        $product_info = $this->productPaymentController->getProductById($id);
 
         $data = $this->twig->fetch('payment-edit-products.twig', [
             'title' => 'Редактирование номенклатуры',
@@ -113,6 +131,7 @@ class PaymentPage
             'avatar' => $headerData['avatar'],
             'funnelSwitch' => false,
             'workAreaTitle' => 'Редактирование номенклатуры',
+            'product_info' => $product_info
         ]);
 
         return new Response(

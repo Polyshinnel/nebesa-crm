@@ -6,12 +6,12 @@
             <div class="work-area__rows-products-line">
                 <div class="form-input">
                     <label for="">Название наименования</label>
-                    <input type="text" placeholder="Название">
+                    <input type="text" placeholder="Название" id="payment-product-name" value="{{ product_info.name }}" data-id="{{ product_info.id }}">
                 </div>
 
-                <div class="form-input">
+                <div class="form-input form-input-select">
                     <label for="">Категория</label>
-                    <input type="text" placeholder="Название">
+                    <input type="text" placeholder="Категория" id="payment-product-cat" readonly value="{{ product_info.category_name }}">
 
                     <ul class="form-input-list">
                         <li>Монтаж</li>
@@ -21,12 +21,12 @@
 
                 <div class="form-input">
                     <label for="">Цена</label>
-                    <input type="text" placeholder="Название">
+                    <input type="text" placeholder="Цена" id="payment-product-price" value="{{ product_info.price }}">
                 </div>
             </div>
         </div>
 
-        <div class="work-area__rows-btn work-area__rows-btn-save">
+        <div class="work-area__rows-btn work-area__rows-btn-save" id="payment-product-edit">
             <p>Редактировать</p>
         </div>
     </div>

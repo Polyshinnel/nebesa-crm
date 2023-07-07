@@ -2,35 +2,25 @@
 
 {% block body %}
     <div class="work-area__rows work-area__rows_search">
+        {% if workers %}
         <div class="work-area__rows-brigades">
-            <div class="work-area__rows-brigades-line">
-                <div class="work-area__rows-brigades-line-name">
-                    <p>Бригада 1</p>
-                </div>
+            {% for worker in workers %}
+                <div class="work-area__rows-brigades-line">
+                    <div class="work-area__rows-brigades-line-name">
+                        <p>{{ worker.name }}</p>
+                    </div>
 
-                <div class="work-area__rows-btn">
-                    <p>Редактировать</p>
-                </div>
+                    <div class="work-area__rows-btn worker-edit-btn" data-id="{{ worker.id }}">
+                        <p>Редактировать</p>
+                    </div>
 
-                <div class="work-area__rows-btn work-area__rows-btn-red">
-                    <p>Удалить</p>
+                    <div class="work-area__rows-btn work-area__rows-btn-red worker-delete-btn" data-id="{{ worker.id }}">
+                        <p>Удалить</p>
+                    </div>
                 </div>
-            </div>
-
-            <div class="work-area__rows-brigades-line">
-                <div class="work-area__rows-brigades-line-name">
-                    <p>Бригада 1</p>
-                </div>
-
-                <div class="work-area__rows-btn">
-                    <p>Редактировать</p>
-                </div>
-
-                <div class="work-area__rows-btn work-area__rows-btn-red">
-                    <p>Удалить</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+        {% endif %}
 
         <div class="work-area__rows-btn work-area__rows-btn-add-brigade">
             <p>Добавить бригаду</p>
@@ -44,10 +34,10 @@
                 <img src="/assets/img/payment/close.svg" alt="" class="close-fancy">
                 <h4>Редактирование бригады</h4>
                 <div class="form-input">
-                    <input type="text" placeholder="Название бригады">
+                    <input type="text" placeholder="Название бригады" id="brigade-edit-name">
                 </div>
 
-                <div class="work-area__rows-btn work-area__rows-btn-window">
+                <div class="work-area__rows-btn work-area__rows-btn-window" id="edit-window-brigade">
                     <p>Редактировать бригаду</p>
                 </div>
             </div>
@@ -60,10 +50,10 @@
                 <img src="/assets/img/payment/close.svg" alt="" class="close-fancy">
                 <h4>Добавление бригады</h4>
                 <div class="form-input">
-                    <input type="text" placeholder="Название бригады">
+                    <input type="text" placeholder="Название бригады" id="brigade-add-name">
                 </div>
 
-                <div class="work-area__rows-btn work-area__rows-btn-window">
+                <div class="work-area__rows-btn work-area__rows-btn-window" id="add-window-brigade">
                     <p>Добавить бригаду</p>
                 </div>
             </div>
