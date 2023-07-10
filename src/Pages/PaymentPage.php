@@ -7,9 +7,11 @@ namespace App\Pages;
 use App\Controllers\DealController;
 use App\Controllers\HeaderController;
 use App\Controllers\PaymentController;
+use App\Controllers\PaymentDetailsController;
 use App\Controllers\PaymentStatusController;
 use App\Controllers\ProductPaymentController;
 use App\Controllers\WorkerController;
+use App\Repository\OrderDetailRepository;
 use App\Repository\PaymentStatusRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,6 +29,7 @@ class PaymentPage
     private ProductPaymentController $productPaymentController;
     private PaymentController $paymentController;
     private PaymentStatusController $paymentStatusController;
+    private PaymentDetailsController $paymentDetailsController;
 
 
     public function __construct(
@@ -35,7 +38,8 @@ class PaymentPage
         WorkerController $workerController,
         ProductPaymentController $productPaymentController,
         PaymentController $paymentController,
-        PaymentStatusController $paymentStatusController
+        PaymentStatusController $paymentStatusController,
+        PaymentDetailsController $paymentDetailsController
     )
     {
         $this->twig = $twig;
@@ -44,6 +48,7 @@ class PaymentPage
         $this->productPaymentController = $productPaymentController;
         $this->paymentController = $paymentController;
         $this->paymentStatusController = $paymentStatusController;
+        $this->paymentDetailsController = $paymentDetailsController;
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -228,13 +233,31 @@ class PaymentPage
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
 
+        $productList = $this->paymentDetailsController->getAllDealsProducts($id);
+        $positionQuantity = 0;
+        $positionTotal = 0;
+
+        if(!empty($productList)) {
+            foreach ($productList as $item) {
+                if($item['state'] == 1){
+                    $positionTotal += $item['total'];
+                    $positionQuantity += 1;
+                }
+
+            }
+        }
+
         $data = $this->twig->fetch('payment-brigade-edit.twig', [
             'title' => 'Расчет зарплаты',
             'userName' => $headerData['name'],
             'avatar' => $headerData['avatar'],
             'funnelSwitch' => false,
             'workAreaTitle' => 'Расчет зарплаты',
+            'product_list' => $productList,
+            'deal_total' => $positionTotal,
+            'deal_quantity' => $positionQuantity
         ]);
+
 
         return new Response(
             200,

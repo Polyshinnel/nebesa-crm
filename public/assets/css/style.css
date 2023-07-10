@@ -1594,6 +1594,11 @@ a {
   height: 35px;
   margin-top: 25px;
 }
+.position-list-wrapper-line .create-product-btn {
+  margin-left: 50px;
+  height: 35px;
+  margin-top: 25px;
+}
 
 .work-area__rows-btn-add-payment-position {
   width: 200px;

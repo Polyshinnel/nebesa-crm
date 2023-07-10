@@ -3,36 +3,47 @@
 {% block body %}
     <div class="work-area__rows work-area__rows_search">
         <div class="position-list-wrapper">
-            <div class="position-list-wrapper-line">
-                <div class="form-input">
-                    <label for="">Наименование</label>
-                    <input type="text" placeholder="Наименование">
-                </div>
-    
-                <div class="form-input">
-                    <label for="">Количество</label>
-                    <input type="text" placeholder="Количество">
-                </div>
-    
-                <div class="form-input form-input_sm">
-                    <label for="">Цена</label>
-                    <input type="text" placeholder="Цена">
-                </div>
+            {% if product_list %}
+                {% for product in product_list %}
+                    <div class="position-list-wrapper-line">
+                        <div class="form-input">
+                            <label for="name_id_{{ product.id }}">Наименование</label>
+                            <input class="prod_pay_name" type="text" placeholder="Наименование" value="{{ product.product_name }}" id="name_id_{{ product.id }}">
+                        </div>
 
-                <div class="form-input form-input_sm">
-                    <label for="">Итого</label>
-                    <input type="text" placeholder="Цена">
-                </div>
+                        <div class="form-input">
+                            <label for="quant_id_{{ product.id }}">Количество</label>
+                            <input class="prod_pay_quant" type="text" placeholder="Количество" value="{{ product.quantity }}" id="quant_id_{{ product.id }}">
+                        </div>
 
-                <div class="form-input form-input_checkbox">
-                    <label for="">Выполнено</label>
-                    <input type="checkbox" name="" id="">
-                </div>
+                        <div class="form-input form-input_sm">
+                            <label for="price_id_{{ product.id }}">Цена</label>
+                            <input class="prod_pay_price" type="text" placeholder="Цена" value="{{ product.price }}" id="price_id_{{ product.id }}">
+                        </div>
 
-                <div class="work-area__rows-btn work-area__rows-btn-red">
-                    <p>Удалить</p>
-                </div>
-            </div>
+                        <div class="form-input form-input_sm">
+                            <label for="total_id_{{ product.id }}">Итого</label>
+                            <input class="total_pay_price" type="text" placeholder="Итого" value="{{ product.total }}" id="total_id_{{ product.id }}">
+                        </div>
+
+                        {% if product.state == '0' %}
+                        <div class="form-input form-input_checkbox">
+                            <label for="product_id_{{ product.id }}">Выполнено</label>
+                            <input type="checkbox" name="" id="product_id_{{ product.id }}" data-id="{{ product.id }}">
+                        </div>
+                        {% else %}
+                            <div class="form-input form-input_checkbox">
+                                <label for="product_id_{{ product.id }}">Выполнено</label>
+                                <input type="checkbox" name="" id="product_id_{{ product.id }}" data-id="{{ product.id }}" checked>
+                            </div>
+                        {% endif %}
+
+                        <div class="work-area__rows-btn work-area__rows-btn-red delete-payment-btn" data-id="{{ product.id }}">
+                            <p>Удалить</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
 
         <div class="work-area__rows-btn work-area__rows-btn-add-payment-position">
@@ -40,12 +51,15 @@
         </div>
 
         <div class="total-block">
-            <p><b>Итого к оплате:</b> 5 позиций на 4240 руб.</p>
+            <p><b>Итого к оплате:</b> {{ deal_quantity }} позиций на {{ deal_total}} руб.</p>
 
             <div class="total-block-btns">
-                <div class="work-area__rows-btn">
-                    <p>Закрыть</p>
-                </div>
+                <a href="/payment-list" style="text-decoration: none">
+                    <div class="work-area__rows-btn">
+                        <p>Закрыть</p>
+                    </div>
+                </a>
+
             </div>
         </div>
     </div>

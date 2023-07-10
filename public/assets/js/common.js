@@ -611,3 +611,135 @@ $('.filter-btn__reset').click(function () {
     window.location.replace(url)
 })
 
+$('.work-area__rows-btn-add-payment-position').click(function () {
+    $('.position-list-wrapper').append('<div class="position-list-wrapper-line">\n' +
+        '    <div class="form-input">\n' +
+        '        <label for="">Наименование</label>\n' +
+        '        <input type="text" placeholder="Наименование" class="new-product-name">\n' +
+        '    </div>\n' +
+        '\n' +
+        '    <div class="form-input">\n' +
+        '        <label for="">Количество</label>\n' +
+        '        <input type="text" placeholder="Количество" class="new-product-quant">\n' +
+        '    </div>\n' +
+        '\n' +
+        '    <div class="form-input form-input_sm">\n' +
+        '        <label for="">Цена</label>\n' +
+        '        <input type="text" placeholder="Цена" class="new-product-price">\n' +
+        '    </div>\n' +
+        '\n' +
+        '    <div class="form-input form-input_sm">\n' +
+        '        <label for="">Итого</label>\n' +
+        '        <input type="text" placeholder="Итого" class="new-product-total">\n' +
+        '    </div>\n' +
+        '\n' +
+        '    <div class="work-area__rows-btn create-product-btn">\n' +
+        '        <p>Добавить</p>\n' +
+        '    </div>\n' +
+        '</div>')
+});
+
+$('.form-input_checkbox input').click(function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    let prodLine = $(this).parent().parent()
+    let prodName = prodLine.find('.prod_pay_name').val()
+    let quantity = prodLine.find('.prod_pay_quant').val()
+    let price = prodLine.find('.prod_pay_price').val()
+    let total = prodLine.find('.total_pay_price').val()
+    let product_id = prodLine.find('.delete-payment-btn').attr('data-id')
+
+    let state = 0;
+
+    if ($(this).is(':checked')){
+        state = 1;
+    }
+
+    let productObj = {
+        'deal_id': idDeal,
+        'product_name': prodName,
+        'quantity': quantity,
+        'price': price,
+        'total': total,
+        'state': state,
+        'product_id': product_id
+    }
+
+    let json = JSON.stringify(productObj)
+
+    $.ajax({
+        url: '/update-deal-detail',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'json': json,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+});
+
+$('.delete-payment-btn').click(function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    let productId = $(this).attr('data-id');
+
+    let productObj = {
+        'deal_id': idDeal,
+        'product_id': productId
+    }
+
+    let json = JSON.stringify(productObj)
+
+    $.ajax({
+        url: '/delete-deal-detail',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'json': json,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+$(document).on('click', '.create-product-btn', function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    let prodLine = $(this).parent()
+    let prodName = prodLine.find('.new-product-name').val()
+    let prodQuant = prodLine.find('.new-product-quant').val()
+    let prodPrice = prodLine.find('.new-product-price').val()
+    let prodTotal = prodLine.find('.new-product-total').val()
+
+
+    let prodObj = {
+        'deal_id': idDeal,
+        'product_name': prodName,
+        'quantity': prodQuant,
+        'price': prodPrice,
+        'total': prodTotal,
+        'state': 0
+    }
+
+    let json = JSON.stringify(prodObj)
+
+    $.ajax({
+        url: '/create-deal-detail',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'json': json,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+
+})
+

@@ -4,7 +4,9 @@
 namespace App\Pages;
 
 use App\Controllers\HeaderController;
+use App\Controllers\PaymentController;
 use App\Controllers\StagesController;
+use App\Controllers\WorkerController;
 use App\Repository\FunnelRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -22,6 +24,7 @@ class IndexPage
     private ResponseFactoryInterface $responseFactory;
     private FunnelRepository $funnelRepository;
 
+
     public function __construct(
         Twig $twig,
         HeaderController $headerController,
@@ -35,6 +38,7 @@ class IndexPage
         $this->stagesController = $stagesController;
         $this->responseFactory = $responseFactory;
         $this->funnelRepository = $funnelRepository;
+
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -56,6 +60,9 @@ class IndexPage
         $stagesArr = $this->stagesController->getStagesAndDeals($funnelId);
         $dealsAll = $this->stagesController->getAllDeals($funnelId);
         $workAreaTitle = $funnelName;
+
+
+
 
 
         $data = $this->twig->fetch('index.twig', [

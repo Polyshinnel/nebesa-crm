@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use App\Repository\OrderDetailRepository;
 use App\Repository\PaymentStatusRepository;
 use App\Repository\WorkerDealsRepository;
 use App\Repository\WorkerRepository;
@@ -15,19 +16,25 @@ class PaymentController
     private ToolClass $toolClass;
     private PaymentStatusRepository $paymentStatusRepository;
     private WorkerRepository $workerRepository;
+    private OrderDetailRepository $orderDetailRepository;
+    private PaymentDetailsController $paymentDetailController;
 
 
     public function __construct(
         WorkerDealsRepository $workerDealsRepository,
         ToolClass $toolClass,
         PaymentStatusRepository $paymentStatusRepository,
-        WorkerRepository $workerRepository
+        WorkerRepository $workerRepository,
+        OrderDetailRepository $orderDetailRepository,
+        PaymentDetailsController $paymentDetailController
     )
     {
         $this->workerDealsRepository = $workerDealsRepository;
         $this->toolClass = $toolClass;
         $this->paymentStatusRepository = $paymentStatusRepository;
         $this->workerRepository = $workerRepository;
+        $this->orderDetailRepository = $orderDetailRepository;
+        $this->paymentDetailController = $paymentDetailController;
     }
 
     public function getWorkerDealByOrderId($orderId) {
@@ -43,7 +50,51 @@ class PaymentController
     }
 
     public function createDeal($createArr) {
-        $this->workerDealsRepository->createDeal($createArr);
+        $orderId = $createArr['order_id'];
+        $orderProducts = $this->orderDetailRepository->getFilteredProducts($orderId);
+        $paymentDealDetails = [];
+        $totalPayment = 0;
+
+        foreach ($orderProducts as $orderProduct) {
+            $productName = $orderProduct['name'];
+            $quantity = $orderProduct['quantity'];
+            $paymentProductInfo = $this->paymentDetailController->getProductByName($productName);
+            if(!empty($paymentProductInfo)){
+                $categoryId = $paymentProductInfo['category_id'];
+                $price = $paymentProductInfo['price'];
+                $total = $price * $quantity;
+                if($categoryId == 2) {
+                    $total = $total * 0.4;
+                }
+                $totalPayment += $total;
+                $paymentDealDetails[] = [
+                    'product_name' => $productName,
+                    'quantity' => $quantity,
+                    'price' => $price,
+                    'total' => $total
+                ];
+            }
+        }
+
+        $totalTasks = count($paymentDealDetails);
+        $createArr['tasks_totals'] = $totalTasks;
+        $createArr['total_money'] = $totalPayment;
+
+        $workerDealId = $this->workerDealsRepository->createDeal($createArr);
+
+        if(!empty($paymentDealDetails)){
+            foreach ($paymentDealDetails as $paymentDealDetail) {
+                $createDealDetail = [
+                    'worker_deal' => $workerDealId,
+                    'product_name' => $paymentDealDetail['product_name'],
+                    'quantity' => $paymentDealDetail['quantity'],
+                    'price' => $paymentDealDetail['price'],
+                    'total' => $paymentDealDetail['total'],
+                    'state' => 0,
+                ];
+                $this->paymentDetailController->createWorkerDealDetail($createDealDetail);
+            }
+        }
     }
 
     public function updateDeal($workerPaymentId, $brigadeId) {

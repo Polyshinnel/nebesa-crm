@@ -55,6 +55,7 @@ class WorkerDealsRepository
     }
 
     public function createDeal($createArr) {
-        $this->workerDealsModel::create($createArr);
+        $model = $this->workerDealsModel::create($createArr);
+        return $model->id;
     }
 }

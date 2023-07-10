@@ -58,6 +58,12 @@
                                         <img src="/assets/img/grave.svg" alt="">
                                         <p>{{ deal.graveyard }}</p>
                                     </div>
+                                    {% if deal.worker_name %}
+                                    <div class="card-footer-graveyard">
+                                        <img src="/assets/img/payment/brigade.svg" alt="">
+                                        <p>{{ deal.worker_name }}</p>
+                                    </div>
+                                    {% endif %}
                                     <div class="card-footer-demiter"></div>
                                     <div class="card-footer__bottom">
                                         <div class="card-footer__bottom-unit">

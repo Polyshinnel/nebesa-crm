@@ -10,6 +10,7 @@ use App\Pages\CalendarPage;
 use App\Pages\CardPage;
 use App\Pages\ChangeStagePage;
 use App\Pages\IndexPage;
+use App\Pages\PaymentDetailActionPage;
 use App\Pages\PaymentPage;
 use App\Pages\ProductPaymentActionPage;
 use App\Pages\SearchPage;
@@ -51,5 +52,9 @@ return static function (App $app): void {
         $group->post('create-products',[ProductPaymentActionPage::class,'create']);
         $group->post('update-product',[ProductPaymentActionPage::class,'update']);
         $group->post('delete-product',[ProductPaymentActionPage::class,'delete']);
+
+        $group->post('create-deal-detail',[PaymentDetailActionPage::class,'create']);
+        $group->post('update-deal-detail',[PaymentDetailActionPage::class,'update']);
+        $group->post('delete-deal-detail',[PaymentDetailActionPage::class,'delete']);
     })->add(BasicAuthMiddleware::class);;
 };

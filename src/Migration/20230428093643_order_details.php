@@ -14,8 +14,8 @@ final class OrderDetails extends Migration
             $table->integer('order_id');
             $table->string('name','127');
             $table->integer('position');
-            $table->integer('quantity');
-            $table->decimal('price');
+            $table->decimal('quantity', 10, 2);
+            $table->decimal('price', 10, 2);
         });
     }
 
