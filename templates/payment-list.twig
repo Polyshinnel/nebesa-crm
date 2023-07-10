@@ -4,14 +4,14 @@
     <div class="work-area__rows work-area__rows_search">
         <div class="products-periods-filter">
             <div class="form-input">
-                <label for="">Начало периода</label>
-                <input type="text" placeholder="Дата начала" id="time-start">
+                <label for="time-start">Начало периода</label>
+                <input type="text" placeholder="Дата начала" id="time-start" value="{{ date_start }}">
                 <img src="/assets/img/sidebar/3.svg" alt="">
             </div>
 
             <div class="form-input">
-                <label for="">Конец периода</label>
-                <input type="text" placeholder="Дата окончания" id="time-end">
+                <label for="time-end">Конец периода</label>
+                <input type="text" placeholder="Дата окончания" id="time-end" value="{{ date_end }}">
                 <img src="/assets/img/sidebar/3.svg" alt="">
             </div>
 
@@ -24,8 +24,8 @@
                 <img src="/assets/img/payment/close.svg" alt="" class="close-filter">
                 {% if status_list %}
                     <div class="form-input form-input-select">
-                        <label for="">Статус</label>
-                        <input type="text" placeholder="Статус">
+                        <label for="status_name">Статус</label>
+                        <input type="text" placeholder="Статус" id="status_name" value="{{ status_name }}">
 
                         <ul class="form-input-list">
                             {% for status in status_list %}
@@ -37,8 +37,8 @@
 
                 {% if brigade_list %}
                 <div class="form-input form-input-select">
-                    <label for="">Бригада</label>
-                    <input type="text" placeholder="Бригада">
+                    <label for="brigade_name">Бригада</label>
+                    <input type="text" placeholder="Бригада" id="brigade_name" value="{{ brigade_name }}">
 
                     <ul class="form-input-list">
                         {% for brigade in brigade_list %}
@@ -105,6 +105,11 @@
                         <div class="work-area__row-chat">
                             <img src="/assets/img/payment/brigade.svg" alt="">
                             <p>{{ payment.brigade_name }}</p>
+                        </div>
+
+                        <div class="work-area__row-date">
+                            <img src="/assets/img/calendar-card.svg" alt="">
+                            <p>{{ payment.date_create }}</p>
                         </div>
                     </div>
                 </div>

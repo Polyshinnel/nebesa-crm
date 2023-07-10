@@ -177,6 +177,29 @@ class PaymentPage
         $brigadeList = $this->workerController->getWorkers();
         $statusList = $this->paymentStatusController->getStatusList();
 
+        $dateStart = '';
+        if(isset($params['date_start'])) {
+            $dateStart = $params['date_start'];
+        }
+
+        $dateEnd = '';
+        if(isset($params['date_end'])){
+            $dateEnd = $params['date_end'];
+        }
+
+
+        $brigadeName = '';
+        if(isset($params['brigade_name'])) {
+            $brigadeName = $params['brigade_name'];
+        }
+
+
+        $statusName = '';
+        if(isset($params['status_name'])) {
+            $statusName = $params['status_name'];
+        }
+
+
 
         $data = $this->twig->fetch('payment-list.twig', [
             'title' => 'Список к оплате',
@@ -186,7 +209,11 @@ class PaymentPage
             'workAreaTitle' => 'Список к оплате',
             'worker_payment_list' => $finalWorkerPaymentList,
             'brigade_list' => $brigadeList,
-            'status_list' => $statusList
+            'status_list' => $statusList,
+            'date_start' => $dateStart,
+            'date_end' => $dateEnd,
+            'brigade_name' => $brigadeName,
+            'status_name' => $statusName
         ]);
 
         return new Response(

@@ -34,4 +34,8 @@ class WorkerRepository
     public function deleteWorker($id): void {
         $this->workerModel::where('id', $id)->delete();
     }
+
+    public function getWorkerByName($name): array {
+        return $this->workerModel::where('name', $name)->first()->toArray();
+    }
 }

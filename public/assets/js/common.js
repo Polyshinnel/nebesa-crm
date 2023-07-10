@@ -573,3 +573,41 @@ $('.products-periods-filter-btn').click(function () {
 $('.close-filter').click(function () {
     $('.products-periods-filter-block').slideUp()
 })
+
+$('.work-area__rows-btn_acept-filter').click(function () {
+    let query = window.location.search
+    let baseUrl = window.location.pathname
+
+    let params = {}
+    let date_start = $('#time-start').val()
+    let date_end = $('#time-end').val()
+    let status_name = $('#status_name').val()
+    let brigade_name = $('#brigade_name').val()
+
+    if(date_start !== '') {
+        params.date_start = date_start
+    }
+
+    if(date_end !== '') {
+        params.date_end = date_end
+    }
+
+    if(status_name !== '') {
+        params.status_name = status_name
+    }
+
+    if(brigade_name !== '') {
+        params.brigade_name = brigade_name
+    }
+
+    let getQuery = $.param(params)
+    let url = baseUrl+'?'+getQuery
+    window.location.replace(url)
+})
+
+
+$('.filter-btn__reset').click(function () {
+    let url = window.location.pathname;
+    window.location.replace(url)
+})
+
