@@ -16,7 +16,7 @@ class WorkerDeals extends Model
         'dead_name',
         'agent_name',
         'tag',
-        'funeral_status',
+        'funeral',
         'status_id',
         'task_done',
         'tasks_totals',

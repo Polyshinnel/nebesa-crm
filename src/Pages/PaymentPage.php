@@ -6,8 +6,11 @@ namespace App\Pages;
 
 use App\Controllers\DealController;
 use App\Controllers\HeaderController;
+use App\Controllers\PaymentController;
+use App\Controllers\PaymentStatusController;
 use App\Controllers\ProductPaymentController;
 use App\Controllers\WorkerController;
+use App\Repository\PaymentStatusRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Factory\StreamFactory;
@@ -22,18 +25,25 @@ class PaymentPage
     private HeaderController $headerController;
     private WorkerController $workerController;
     private ProductPaymentController $productPaymentController;
+    private PaymentController $paymentController;
+    private PaymentStatusController $paymentStatusController;
+
 
     public function __construct(
         Twig $twig,
         HeaderController $headerController,
         WorkerController $workerController,
-        ProductPaymentController $productPaymentController
+        ProductPaymentController $productPaymentController,
+        PaymentController $paymentController,
+        PaymentStatusController $paymentStatusController
     )
     {
         $this->twig = $twig;
         $this->headerController = $headerController;
         $this->workerController = $workerController;
         $this->productPaymentController = $productPaymentController;
+        $this->paymentController = $paymentController;
+        $this->paymentStatusController = $paymentStatusController;
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -142,8 +152,31 @@ class PaymentPage
     }
 
     public function paymentList(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+        $params = $request->getQueryParams();
         $login = trim($_COOKIE["user"]);
         $headerData = $this->headerController->getHeaderData($login);
+
+        $workerPaymentList = $this->paymentController->getWorkerDeals($params);
+        $finalWorkerPaymentList = [];
+
+        if(!empty($workerPaymentList)) {
+            foreach ($workerPaymentList as $item) {
+                $status_id = $item['status_id'];
+                $brigade_id = $item['brigade_id'];
+                $status_info = $this->paymentStatusController->getDealStatusById($status_id);
+                $brigade_info = $this->workerController->getWorkerById($brigade_id);
+                $item['status_name'] = $status_info['name'];
+                $item['status_class'] = $status_info['color_class'];
+                $item['brigade_name'] = $brigade_info['name'];
+                $finalWorkerPaymentList[] = $item;
+            }
+        }
+
+
+
+        $brigadeList = $this->workerController->getWorkers();
+        $statusList = $this->paymentStatusController->getStatusList();
+
 
         $data = $this->twig->fetch('payment-list.twig', [
             'title' => 'Список к оплате',
@@ -151,6 +184,9 @@ class PaymentPage
             'avatar' => $headerData['avatar'],
             'funnelSwitch' => false,
             'workAreaTitle' => 'Список к оплате',
+            'worker_payment_list' => $finalWorkerPaymentList,
+            'brigade_list' => $brigadeList,
+            'status_list' => $statusList
         ]);
 
         return new Response(

@@ -58,6 +58,7 @@ class CardController
         return [
             'deal_name' => $deal['name'],
             'agent' => $deal['agent'],
+            'tag' => $deal['tag'],
             'stage_name' => $dealStage['name'],
             'stage_color' => $dealStage['color_class'],
             'dead_name' => $deal['dead_name'],

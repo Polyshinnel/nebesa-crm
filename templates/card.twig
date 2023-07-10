@@ -144,12 +144,19 @@
                 <h2 class="work-area-info-messages-title">Данные заказа</h2>
                 <div class="add-brigade-list">
                     <div class="add-brigade-list-btn">
-                        <p>Назначить бригаду</p>
+                        {% if worker_name %}
+                            <p>{{ worker_name }}</p>
+                        {% else %}
+                            <p>Назначить бригаду</p>
+                        {% endif %}
                     </div>
+                    {% if worker_list %}
                     <ul class="add-brigade-list-block">
-                        <li>Бригада 1</li>
-                        <li>Бригада 2</li>
+                        {% for worker in worker_list %}
+                            <li data-id="{{ worker.id }}">{{ worker.name }}</li>
+                        {% endfor %}
                     </ul>
+                    {% endif %}
                 </div>
             </div>
             

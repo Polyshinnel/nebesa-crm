@@ -15,7 +15,11 @@ class PaymentStatusRepository
         $this->paymentStatusModel = $paymentStatusModel;
     }
 
+    public function getStatusList(): array {
+        return $this->paymentStatusModel::all()->toArray();
+    }
+
     public function getStatusById($id): array {
-        return $this->paymentStatusModel::where('id', $id)->get()->toArray();
+        return $this->paymentStatusModel::where('id', $id)->first()->toArray();
     }
 }

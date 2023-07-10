@@ -15,7 +15,8 @@ class WorkerDealDetails extends Model
         'product_name',
         'quantity',
         'price',
-        'total'
+        'total',
+        'state'
     ];
     public $timestamps = false;
 }

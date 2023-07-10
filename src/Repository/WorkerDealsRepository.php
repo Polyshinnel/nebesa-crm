@@ -30,7 +30,31 @@ class WorkerDealsRepository
             ->toArray();
     }
 
+    public function updateWorkerDeal($dealId, $updateArr) {
+        $this->workerDealsModel::where('id', $dealId)->update($updateArr);
+    }
+
     public function getWorkerDealsData($dateStart, $dateEnd) {
         return $this->workerDealsModel->whereBetween('date_create', [$dateStart, $dateEnd])->get()->toArray();
+    }
+
+    public function getFirstWorkerDealsData() {
+        $dealData = $this->workerDealsModel->orderBy('date_create', 'ASC')->limit(1)->offset(0)->get()->toArray();
+        if(!empty($dealData)) {
+            return $dealData[0]['date_create'];
+        }
+        return false;
+    }
+
+    public function getLastWorkerDealsData() {
+        $dealData = $this->workerDealsModel->orderBy('date_create', 'DESC')->limit(1)->offset(0)->get()->toArray();
+        if(!empty($dealData)) {
+            return $dealData[0]['date_create'];
+        }
+        return false;
+    }
+
+    public function createDeal($createArr) {
+        $this->workerDealsModel::create($createArr);
     }
 }

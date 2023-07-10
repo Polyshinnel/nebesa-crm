@@ -536,3 +536,40 @@ $('.delete-product-btn').click(function () {
         }
     });
 })
+
+$('.add-brigade-list-btn').click(function () {
+    $('.add-brigade-list-block').slideToggle();
+})
+
+$('.add-brigade-list-block li').click(function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+
+    let name = $(this).html()
+    let id = $(this).attr('data-id')
+
+    $('.add-brigade-list-block').slideUp()
+
+    $.ajax({
+        url: '/add-worker',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'deal_id': idDeal,
+            'brigade_name': name,
+            'brigade_id': id,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+$('.products-periods-filter-btn').click(function () {
+    $('.products-periods-filter-block').slideToggle()
+})
+
+$('.close-filter').click(function () {
+    $('.products-periods-filter-block').slideUp()
+})

@@ -38,8 +38,11 @@ return static function (App $app): void {
         $group->post('change-stage',[ChangeStagePage::class,'get']);
         $group->post('add-deal',[AddDealPage::class,'get']);
         $group->post('add-event',[AddEventPage::class,'get']);
+
+
         $group->post('send-sms',[CardPage::class,'sendSms']);
         $group->post('update-payment',[CardPage::class,'updateDeal']);
+        $group->post('add-worker',[CardPage::class,'addWorker']);
 
         $group->post('create-worker',[WorkerActionPage::class,'create']);
         $group->post('update-worker',[WorkerActionPage::class,'update']);

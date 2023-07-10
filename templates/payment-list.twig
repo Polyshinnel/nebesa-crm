@@ -22,124 +22,95 @@
 
             <div class="products-periods-filter-block">
                 <img src="/assets/img/payment/close.svg" alt="" class="close-filter">
-                <div class="form-input">
-                    <label for="">Статус</label>
-                    <input type="text" placeholder="Статус">
+                {% if status_list %}
+                    <div class="form-input form-input-select">
+                        <label for="">Статус</label>
+                        <input type="text" placeholder="Статус">
 
-                    <ul class="form-input-list">
-                        <li>Не оплачено</li>
-                        <li>Частично оплачено</li>
-                        <li>Оплачено</li>
-                    </ul>
-                </div>
+                        <ul class="form-input-list">
+                            {% for status in status_list %}
+                                <li data-id="{{ status.id }}">{{ status.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
-                <div class="form-input">
+                {% if brigade_list %}
+                <div class="form-input form-input-select">
                     <label for="">Бригада</label>
                     <input type="text" placeholder="Бригада">
 
                     <ul class="form-input-list">
-                        <li>Бригада 1</li>
-                        <li>Бригада 2</li>
+                        {% for brigade in brigade_list %}
+                            <li id="{{ brigade.id }}">{{ brigade.name }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
+                {% endif %}
 
-                <div class="work-area__rows-btn work-area__rows-btn_acept-filter">
-                    <p>Применить</p>
+                <div class="filter-btn-line">
+                    <div class="work-area__rows-btn work-area__rows-btn_acept-filter">
+                        <p>Применить</p>
+                    </div>
+
+                    <div class="filter-btn__reset">
+                        <p>Сбросить</p>
+                    </div>
                 </div>
+
             </div>
         </div>
 
+        {% if worker_payment_list %}
         <div class="payment-worker-list">
-            <div class="work-area__row">
-                <div class="work-area__row-info">
-                    <a href="/payment-edit/1"><h4 class="card-title">Заказ № 00639</h4></a>
-                    <p class="card-subtitle">Иванов Иван Иванович</p>
-                    <p class="card-agent">Агент/Мастер: Спасенов Александр</p>
-                </div>
-
-                <div class="work-area__row-tag-graveyard">
-                    <div class="work-area__row-tag">
-                        <p>Памятники</p>
+            {% for payment in worker_payment_list %}
+                <div class="work-area__row">
+                    <div class="work-area__row-info">
+                        <a href="/payment-edit/{{ payment.id }}"><h4 class="card-title">{{ payment.name }}</h4></a>
+                        <p class="card-subtitle">{{ payment.dead_name }}</p>
+                        <p class="card-agent">Агент/Мастер: {{ payment.agent_name }}</p>
                     </div>
 
-                    <div class="work-area__row-graveyard">
-                        <img src="/assets/img/grave.svg" alt="">
-                        <p>Литвиново</p>
-                    </div>
-                </div>
+                    <div class="work-area__row-tag-graveyard">
+                        <div class="work-area__row-tag">
+                            <p>{{ payment.tag }}</p>
+                        </div>
 
-                <div class="work-area__row-stage-info">
-                    <p>Статус:</p>
-
-                    <div class="work-area__row-stage">
-                        <h4>Не оплачено</h4>
-                    </div>
-                </div>
-
-                <div class="work-area__row-chat-date">
-                    <div class="work-area__row-chat">
-                        <img src="/assets/img/payment/list.svg" alt="">
-                        <p>5/7</p>
-                    </div>
-                    <div class="work-area__row-date">
-                        <img src="/assets/img/payment/money.svg" alt="">
-                        <p>4300р / 5200р</p>
-                    </div>
-                </div>
-
-                <div class="work-area__row-chat-date">
-                    <div class="work-area__row-chat">
-                        <img src="/assets/img/payment/brigade.svg" alt="">
-                        <p>Бригада 1</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="work-area__row">
-                <div class="work-area__row-info">
-                    <a href="/payment-edit/1"><h4 class="card-title">Заказ № 00639</h4></a>
-                    <p class="card-subtitle">Иванов Иван Иванович</p>
-                    <p class="card-agent">Агент/Мастер: Спасенов Александр</p>
-                </div>
-
-                <div class="work-area__row-tag-graveyard">
-                    <div class="work-area__row-tag">
-                        <p>Памятники</p>
+                        <div class="work-area__row-graveyard">
+                            <img src="/assets/img/grave.svg" alt="">
+                            <p>{{ payment.funeral }}</p>
+                        </div>
                     </div>
 
-                    <div class="work-area__row-graveyard">
-                        <img src="/assets/img/grave.svg" alt="">
-                        <p>Литвиново</p>
+                    <div class="work-area__row-stage-info">
+                        <p>Статус:</p>
+
+                        <div class="work-area__row-stage {{ payment.status_class }}">
+                            <h4>{{ payment.status_name }}</h4>
+                        </div>
+                    </div>
+
+                    <div class="work-area__row-chat-date">
+                        <div class="work-area__row-chat">
+                            <img src="/assets/img/payment/list.svg" alt="">
+                            <p>{{ payment.task_done }}/{{ payment.tasks_totals }}</p>
+                        </div>
+                        <div class="work-area__row-date">
+                            <img src="/assets/img/payment/money.svg" alt="">
+                            <p>{{ payment.money_to_pay }}р / {{ payment.total_money }}р</p>
+                        </div>
+                    </div>
+
+                    <div class="work-area__row-chat-date">
+                        <div class="work-area__row-chat">
+                            <img src="/assets/img/payment/brigade.svg" alt="">
+                            <p>{{ payment.brigade_name }}</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="work-area__row-stage-info">
-                    <p>Статус:</p>
-
-                    <div class="work-area__row-stage">
-                        <h4>Не оплачено</h4>
-                    </div>
-                </div>
-
-                <div class="work-area__row-chat-date">
-                    <div class="work-area__row-chat">
-                        <img src="/assets/img/payment/list.svg" alt="">
-                        <p>5/7</p>
-                    </div>
-                    <div class="work-area__row-date">
-                        <img src="/assets/img/payment/money.svg" alt="">
-                        <p>4300р / 5200р</p>
-                    </div>
-                </div>
-
-                <div class="work-area__row-chat-date">
-                    <div class="work-area__row-chat">
-                        <img src="/assets/img/payment/brigade.svg" alt="">
-                        <p>Бригада 1</p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+        {% endif %}
     </div>
 
     <script>

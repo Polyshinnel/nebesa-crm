@@ -21,6 +21,10 @@ class WorkerController
         return $this->workerRepository->getWorkers();
     }
 
+    public function getWorkerById($workerId): array {
+        return $this->workerRepository->getWorkerById($workerId);
+    }
+
     public function addWorker($params): string {
         $name = $params['name'];
         $createArr = [

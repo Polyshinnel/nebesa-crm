@@ -8,7 +8,9 @@ use App\Controllers\CardController;
 use App\Controllers\DealController;
 use App\Controllers\HeaderController;
 use App\Controllers\MoySkladController;
+use App\Controllers\PaymentController;
 use App\Controllers\SMSRU;
+use App\Controllers\WorkerController;
 use App\Repository\EventRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,14 +26,25 @@ class CardPage
     private HeaderController $headerController;
     private CardController $cardController;
     private EventRepository $eventRepository;
+    private WorkerController $workerController;
+    private PaymentController $paymentController;
 
 
-    public function __construct(Twig $twig, HeaderController $headerController, CardController $cardController,EventRepository $eventRepository)
+    public function __construct(
+        Twig $twig,
+        HeaderController $headerController,
+        CardController $cardController,
+        EventRepository $eventRepository,
+        WorkerController $workerController,
+        PaymentController $paymentController
+    )
     {
         $this->twig = $twig;
         $this->headerController = $headerController;
         $this->cardController = $cardController;
         $this->eventRepository = $eventRepository;
+        $this->workerController = $workerController;
+        $this->paymentController = $paymentController;
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -54,9 +67,19 @@ class CardPage
         $customerName = $cardData['customer_name'];
 
         $dealNum = preg_replace('![^0-9]+!', '', $cardData['deal_name']);
+        $workerList = $this->workerController->getWorkers();
+
+        $workerPaymentData = $this->paymentController->getWorkerDealByOrderId($dealId);
+        $workerName = '';
+        if($workerPaymentData) {
+            $workerInfo = $this->workerController->getWorkerById($workerPaymentData['brigade_id']);
+            $workerName = $workerInfo['name'];
+        }
 
 
-        $memorialText = "Здравствуйте $customerName, это Похоронный дом Небеса,Ваш памятник по заказу $dealNum готов. Приглашаем Вас в ближайшее время произвести осмотр камня и подписать документы приема-передачи.";
+        $memorialText = "Здравствуйте $customerName, 
+        это Похоронный дом Небеса,Ваш памятник по заказу $dealNum готов. 
+        Приглашаем Вас в ближайшее время произвести осмотр камня и подписать документы приема-передачи.";
 
         $data = $this->twig->fetch('card.twig', [
             'title' => 'Карточка',
@@ -66,7 +89,9 @@ class CardPage
             'stages' => $stagesList,
             'customer_phone' => $phone,
             'memorial_text' => $memorialText,
-            'funnelId' => $funnelId
+            'funnelId' => $funnelId,
+            'worker_list' => $workerList,
+            'worker_name' => $workerName
         ]);
         return new Response(
             200,
@@ -156,6 +181,70 @@ class CardPage
         }
 
         $answer = json_encode($dataMsg,JSON_UNESCAPED_UNICODE);
+        return new Response(
+            200,
+            new Headers(['Content-Type' => 'text/html']),
+            (new StreamFactory())->createStream($answer)
+        );
+    }
+
+    public function addWorker(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $params = $request->getParsedBody();
+        $login = trim($_COOKIE["user"]);
+        $headerData = $this->headerController->getHeaderData($login);
+        $userId = $headerData['id'];
+        $userName = $headerData['name'];
+
+        $dealId = $params['deal_id'];
+        $brigadeName = $params['brigade_name'];
+        $brigadeId = $params['brigade_id'];
+
+        $text = "На сделку назначена бригада: $brigadeName, назначил $userName";
+
+        $workerPaymentData = $this->paymentController->getWorkerDealByOrderId($dealId);
+
+        if($workerPaymentData) {
+            $id = $workerPaymentData['id'];
+            $this->paymentController->updateDeal($id, $brigadeId);
+        } else {
+            $cardInfo = $this->cardController->getCardInfo($dealId);
+
+            $createArr = [
+                'order_id' => $dealId,
+                'name' => $cardInfo['deal_name'],
+                'dead_name' => $cardInfo['dead_name'],
+                'agent_name' => $cardInfo['agent'],
+                'tag' => $cardInfo['tag'],
+                'funeral' => $cardInfo['graveyard'],
+                'status_id' => 1,
+                'task_done' => 0,
+                'tasks_totals' => 0,
+                'money_to_pay' => 0,
+                'total_money' => 0,
+                'brigade_id' => $brigadeId,
+                'date_create' => date('Y-m-d H:i:s')
+            ];
+
+            $this->paymentController->createDeal($createArr);
+        }
+
+        $createArr = [
+            'type_event' => 'system',
+            'text' => $text,
+            'user_id' => $userId,
+            'deal_id' => $dealId,
+            'date_create' => date('Y-m-d H:i:s')
+        ];
+        $this->eventRepository->createEvent($createArr);
+
+        $dataMsg = [
+            'msg' => 'Данные обновлены',
+            'err' => 'none'
+        ];
+
+        $answer = json_encode($dataMsg,JSON_UNESCAPED_UNICODE);
+
         return new Response(
             200,
             new Headers(['Content-Type' => 'text/html']),

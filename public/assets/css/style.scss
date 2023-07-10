@@ -1869,3 +1869,27 @@ a{
         }
     }
 }
+
+.filter-btn-line{
+    display: flex;
+    align-items: center;
+
+
+    .filter-btn__reset{
+        margin-left: 40px;
+        border: 1px solid $primaryColor;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 45px;
+        border-radius: 10px;
+        margin-top: 30px;
+        cursor: pointer;
+
+        p{
+            font-size: 14px;
+            color: $primaryColor;
+        }
+    }
+}
