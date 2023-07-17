@@ -19,6 +19,10 @@ class WorkerDealDetailsRepository
         return $this->workerDealsDetailModel::where('worker_deal', $dealId)->get()->toArray();
     }
 
+    public function getDealProductById($productId): array {
+        return $this->workerDealsDetailModel::where('id', $productId)->get()->toArray();
+    }
+
     public function createDealProduct($createArr): void {
         $this->workerDealsDetailModel::create($createArr);
     }

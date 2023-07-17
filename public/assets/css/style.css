@@ -1637,4 +1637,8 @@ a {
 .filter-btn-line .filter-btn__reset p {
   font-size: 14px;
   color: #5B8EDF;
+}
+
+.payment-event-block {
+  margin: 40px 0;
 }/*# sourceMappingURL=style.css.map */

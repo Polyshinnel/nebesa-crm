@@ -51,6 +51,11 @@ class PaymentDetailsController
         $this->updateCurrDeal($dealId, $dealDetails);
     }
 
+    public function getDealPositionById($productId) {
+        $res = $this->workerDealDetails->getDealProductById($productId);
+        return $res[0];
+    }
+
     public function getAllDealsProducts($dealId) {
         return $this->workerDealDetails->getDealProducts($dealId);
     }

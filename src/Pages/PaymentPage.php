@@ -11,6 +11,7 @@ use App\Controllers\PaymentDetailsController;
 use App\Controllers\PaymentStatusController;
 use App\Controllers\ProductPaymentController;
 use App\Controllers\WorkerController;
+use App\Controllers\WorkerDealEventController;
 use App\Repository\OrderDetailRepository;
 use App\Repository\PaymentStatusRepository;
 use Psr\Http\Message\ResponseInterface;
@@ -30,6 +31,7 @@ class PaymentPage
     private PaymentController $paymentController;
     private PaymentStatusController $paymentStatusController;
     private PaymentDetailsController $paymentDetailsController;
+    private WorkerDealEventController $workerDealEventsController;
 
 
     public function __construct(
@@ -39,7 +41,8 @@ class PaymentPage
         ProductPaymentController $productPaymentController,
         PaymentController $paymentController,
         PaymentStatusController $paymentStatusController,
-        PaymentDetailsController $paymentDetailsController
+        PaymentDetailsController $paymentDetailsController,
+        WorkerDealEventController $workerDealEventController
     )
     {
         $this->twig = $twig;
@@ -49,6 +52,7 @@ class PaymentPage
         $this->paymentController = $paymentController;
         $this->paymentStatusController = $paymentStatusController;
         $this->paymentDetailsController = $paymentDetailsController;
+        $this->workerDealEventsController = $workerDealEventController;
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -237,6 +241,8 @@ class PaymentPage
         $positionQuantity = 0;
         $positionTotal = 0;
 
+        $eventList = $this->workerDealEventsController->getDealEvents($id);
+
         if(!empty($productList)) {
             foreach ($productList as $item) {
                 if($item['state'] == 1){
@@ -255,7 +261,8 @@ class PaymentPage
             'workAreaTitle' => 'Расчет зарплаты',
             'product_list' => $productList,
             'deal_total' => $positionTotal,
-            'deal_quantity' => $positionQuantity
+            'deal_quantity' => $positionQuantity,
+            'event_list' => $eventList
         ]);
 
 

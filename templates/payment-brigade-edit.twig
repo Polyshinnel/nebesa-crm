@@ -50,6 +50,14 @@
             <p>Добавить позицию</p>
         </div>
 
+        <div class="payment-event-block">
+            {% if event_list %}
+                {% for event in event_list %}
+                    <p class="work-area-info-message-event"><b>{{ event.date_create }}: </b>{{ event.event_text }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
         <div class="total-block">
             <p><b>Итого к оплате:</b> {{ deal_quantity }} позиций на {{ deal_total}} руб.</p>
 
