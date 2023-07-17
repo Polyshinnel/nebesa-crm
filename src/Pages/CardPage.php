@@ -221,6 +221,7 @@ class CardPage
                 'task_done' => 0,
                 'tasks_totals' => 0,
                 'money_to_pay' => 0,
+                'payment_money' => 0,
                 'total_money' => 0,
                 'brigade_id' => $brigadeId,
                 'date_create' => date('Y-m-d H:i:s')

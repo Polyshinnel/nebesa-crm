@@ -60,6 +60,13 @@ class PaymentDetailsController
         return $this->workerDealDetails->getDealProducts($dealId);
     }
 
+    public function addPaymentMoney($dealId, $paymentMoney) {
+        $updateArr = [
+            'payment_money' => $paymentMoney
+        ];
+        $this->workerDeals->updateWorkerDeal($dealId, $updateArr);
+    }
+
     private function updateCurrDeal($dealId, $dealDetails) {
         $tasksTotal = 0;
         $tasksDone = 0;

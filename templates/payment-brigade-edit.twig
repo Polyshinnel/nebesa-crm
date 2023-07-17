@@ -59,7 +59,20 @@
         </div>
 
         <div class="total-block">
-            <p><b>Итого к оплате:</b> {{ deal_quantity }} позиций на {{ deal_total}} руб.</p>
+            <p><b>Итого к оплате:</b> {{ deal_quantity }} позиций на {{ deal_total }} руб.</p>
+            <p><b>Оплачено:</b> {{ deal_info.payment_money }} руб. из {{ deal_info.total_money }} руб.</p>
+
+            <div class="add-payment-brigade">
+                <h4>Выплатить по заявке:</h4>
+                <div class="form-input">
+                    <label for="add-deal-payment">Количество денег</label>
+                    <input type="text" placeholder="{{ deal_total }} " id="add-deal-payment">
+                </div>
+
+                <div class="work-area__rows-btn" id="add-payment" data-id="{{ deal_id }}">
+                    <p>Добавить оплату</p>
+                </div>
+            </div>
 
             <div class="total-block-btns">
                 <a href="/payment-list" style="text-decoration: none">

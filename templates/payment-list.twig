@@ -69,6 +69,7 @@
                         <a href="/payment-edit/{{ payment.id }}"><h4 class="card-title">{{ payment.name }}</h4></a>
                         <p class="card-subtitle">{{ payment.dead_name }}</p>
                         <p class="card-agent">Агент/Мастер: {{ payment.agent_name }}</p>
+                        <p class="card-subtitle"><b>Выплачено:</b> {{ payment.payment_money }}₽/{{ payment.total_money }}₽</p>
                     </div>
 
                     <div class="work-area__row-tag-graveyard">

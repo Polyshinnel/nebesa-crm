@@ -1641,4 +1641,40 @@ a {
 
 .payment-event-block {
   margin: 40px 0;
+}
+
+.add-payment-brigade {
+  margin-top: 40px;
+  margin-bottom: 45px;
+}
+.add-payment-brigade h4 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+}
+.add-payment-brigade .work-area__rows-btn {
+  margin-top: 20px;
+  height: 35px;
+  width: 140px;
+}
+.add-payment-brigade .work-area__rows-btn p {
+  font-size: 12px;
+}
+.add-payment-brigade .form-input {
+  width: 250px;
+}
+.add-payment-brigade .form-input label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0F2744;
+}
+.add-payment-brigade .form-input input {
+  width: 100%;
+  height: 40px;
+  padding: 0 15px;
+  color: #333;
+  font-size: 14px;
+  border: 1px solid #C1C7CF;
+  border-radius: 4px;
+  margin-top: 4px;
 }/*# sourceMappingURL=style.css.map */

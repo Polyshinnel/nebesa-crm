@@ -124,4 +124,28 @@ class PaymentDetailActionPage
             (new StreamFactory())->createStream($data)
         );
     }
+
+    public function addPayment(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $login = trim($_COOKIE["user"]);
+
+        $params = $request->getParsedBody();
+        $json = json_decode($params['json'], true);
+
+        $dealId = $json['deal_id'];
+        $paymentSum = $json['payment_sum'];
+
+        $this->paymentDetailController->addPaymentMoney($dealId, $paymentSum);
+
+        $textEvent = 'Добавлена выплата на '.$paymentSum.' руб.';
+        $this->workerDealEventController->createEvent($dealId, $textEvent, $login);
+
+        $data = json_encode(['msg' => 'product was created']);
+
+        return new Response(
+            200,
+            new Headers(['Content-Type' => 'text/html']),
+            (new StreamFactory())->createStream($data)
+        );
+    }
 }

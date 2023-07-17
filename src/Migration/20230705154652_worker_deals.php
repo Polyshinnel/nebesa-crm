@@ -20,6 +20,7 @@ final class WorkerDeals extends Migration
             $table->integer('task_done');
             $table->integer('tasks_totals');
             $table->decimal('money_to_pay', 10, 2);
+            $table->decimal('payment_money', 10, 2);
             $table->decimal('total_money', 10,2);
             $table->integer('brigade_id');
             $table->dateTime('date_create');

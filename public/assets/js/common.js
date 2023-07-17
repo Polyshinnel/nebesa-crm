@@ -743,3 +743,30 @@ $(document).on('click', '.create-product-btn', function () {
 
 })
 
+
+$('#add-payment').click(function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let idDeal = url.pop();
+    let money = $('#add-deal-payment').val();
+
+    let productObj = {
+        'deal_id': idDeal,
+        'payment_sum': money
+    }
+
+    let json = JSON.stringify(productObj)
+
+    $.ajax({
+        url: '/money-deal-detail',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'json': json,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+

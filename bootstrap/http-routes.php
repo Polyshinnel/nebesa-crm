@@ -56,5 +56,6 @@ return static function (App $app): void {
         $group->post('create-deal-detail',[PaymentDetailActionPage::class,'create']);
         $group->post('update-deal-detail',[PaymentDetailActionPage::class,'update']);
         $group->post('delete-deal-detail',[PaymentDetailActionPage::class,'delete']);
+        $group->post('money-deal-detail',[PaymentDetailActionPage::class,'addPayment']);
     })->add(BasicAuthMiddleware::class);;
 };

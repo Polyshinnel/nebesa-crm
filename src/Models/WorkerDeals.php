@@ -21,6 +21,7 @@ class WorkerDeals extends Model
         'task_done',
         'tasks_totals',
         'money_to_pay',
+        'payment_money',
         'total_money',
         'brigade_id',
         'date_create'

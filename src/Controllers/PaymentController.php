@@ -49,6 +49,18 @@ class PaymentController
         return false;
     }
 
+    public function getWorkerDealById($id) {
+        $filter = [
+            'id' => $id
+        ];
+
+        $res = $this->workerDealsRepository->getFilteredWorkerDeals($filter);
+        if($res) {
+            return $res[0];
+        }
+        return false;
+    }
+
     public function createDeal($createArr) {
         $orderId = $createArr['order_id'];
         $orderProducts = $this->orderDetailRepository->getFilteredProducts($orderId);
