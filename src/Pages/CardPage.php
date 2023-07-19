@@ -211,7 +211,7 @@ class CardPage
             $cardInfo = $this->cardController->getCardInfo($dealId);
 
             $createArr = [
-                'order_id' => $dealId,
+                'order_id' => $cardInfo['order_id'],
                 'name' => $cardInfo['deal_name'],
                 'dead_name' => $cardInfo['dead_name'],
                 'agent_name' => $cardInfo['agent'],

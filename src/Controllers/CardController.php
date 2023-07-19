@@ -75,6 +75,7 @@ class CardController
             'events' => $dealEventsProcessing,
             'payed_sum' => $deal['payed_sum'],
             'total_sum' => $deal['total_sum'],
+            'order_id' => $deal['order_id'],
         ];
     }
 
