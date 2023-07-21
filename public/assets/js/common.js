@@ -776,7 +776,7 @@ $(document).ready(function() {
     let workerArea = $('.payment-worker-list');
     $('#payment-search').on('keyup', function(){
         let search = $(this).val()
-        if((search !== '') && (search.length > 3)) {
+        if((search !== '') && (search.length > 2)) {
             workerArea.empty()
             $.ajax({
                 url: '/worker-deals-search',
