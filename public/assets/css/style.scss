@@ -1945,3 +1945,76 @@ a{
         }
     }
 }
+
+.products-periods-filter-search{
+    margin-left: 20px;
+    width: 250px;
+
+    .form-input{
+        width: 250px;
+
+        img{
+            width: 18px;
+            height: 18px;
+            top: 32px;
+            filter: opacity(27%)
+        }
+    }
+}
+
+.empty-search{
+    margin-top: 30px;
+}
+
+.reset-search{
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 43px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    background: #FFF;
+    cursor: pointer;
+    transition: 0.3s all ease;
+
+
+    p{
+        font-size: 14px;
+        color: $primaryColor;
+    }
+
+    &:hover{
+        background: $primaryColor;
+
+        p{
+            color: #fff;
+        }
+    }
+}
+
+.new-product-name__variants{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 5px;
+
+
+    li{
+        padding: 5px;
+        border-top: 1px solid #ccc;
+        cursor: pointer;
+        background-color: #fff;
+        transition: 0.3s all ease;
+
+        &:hover{
+            background-color: #bde5f8;
+        }
+    }
+}

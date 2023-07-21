@@ -58,4 +58,28 @@ class WorkerDealsRepository
         $model = $this->workerDealsModel::create($createArr);
         return $model->id;
     }
+
+    public function getSearchWorkerDeals($filter) {
+        return $this->workerDealsModel::select(
+            'worker_deals.id',
+            'worker_deals.name',
+            'worker_deals.dead_name',
+            'worker_deals.tag',
+            'worker_deals.funeral',
+            'worker_deals.task_done',
+            'worker_deals.tasks_totals',
+            'worker_deals.money_to_pay',
+            'worker_deals.payment_money',
+            'worker_deals.total_money',
+            'worker_deals.date_create',
+            'workers.name as brigade_name',
+            'payment_status.name as status_name',
+            'payment_status.color_class as status_class'
+        )
+            ->leftjoin('workers','workers.id','=','worker_deals.brigade_id')
+            ->leftjoin('payment_status','payment_status.id','=','worker_deals.status_id')
+            ->where($filter)
+            ->get()
+            ->toArray();
+    }
 }

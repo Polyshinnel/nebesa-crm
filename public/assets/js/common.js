@@ -616,6 +616,7 @@ $('.work-area__rows-btn-add-payment-position').click(function () {
         '    <div class="form-input">\n' +
         '        <label for="">Наименование</label>\n' +
         '        <input type="text" placeholder="Наименование" class="new-product-name">\n' +
+        '        <ul class="new-product-name__variants"></ul>\n'+
         '    </div>\n' +
         '\n' +
         '    <div class="form-input">\n' +
@@ -770,3 +771,130 @@ $('#add-payment').click(function () {
     });
 })
 
+
+$(document).ready(function() {
+    let workerArea = $('.payment-worker-list');
+    $('#payment-search').on('keyup', function(){
+        let search = $(this).val()
+        if((search !== '') && (search.length > 3)) {
+            workerArea.empty()
+            $.ajax({
+                url: '/worker-deals-search',
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    'deal': search,
+                },
+                success: function(data){
+                    console.log(data)
+                    if(data.err !== 'none') {
+                        workerArea.append('<div class="empty-search">\n' +
+                            '                <p>К сожалению поиск не дал результатов</p>\n' +
+                            '                <div class="reset-search">\n' +
+                            '                    <p>Сбросить</p>\n' +
+                            '                </div>\n' +
+                            '            </div>')
+                    } else {
+                        for(let i = 0; i < data.deals.length; i++) {
+                            workerArea.append('<div class="work-area__row">\n' +
+                                '                    <div class="work-area__row-info">\n' +
+                                '                        <a href="/payment-edit/{{ payment.id }}"><h4 class="card-title">'+data.deals[i].name+'</h4></a>\n' +
+                                '                        <p class="card-subtitle">'+data.deals[i].dead_name+'</p>\n' +
+                                '                        <p class="card-agent">Агент/Мастер: '+data.deals[i].agent_name+'</p>\n' +
+                                '                        <p class="card-subtitle"><b>Выплачено:</b> '+data.deals[i].payment_money+'₽/'+data.deals[i].total_money+'₽</p>\n' +
+                                '                    </div>\n' +
+                                '\n' +
+                                '                    <div class="work-area__row-tag-graveyard">\n' +
+                                '                        <div class="work-area__row-tag">\n' +
+                                '                            <p>'+data.deals[i].tag+'</p>\n' +
+                                '                        </div>\n' +
+                                '\n' +
+                                '                        <div class="work-area__row-graveyard">\n' +
+                                '                            <img src="/assets/img/grave.svg" alt="">\n' +
+                                '                            <p>'+data.deals[i].funeral+'</p>\n' +
+                                '                        </div>\n' +
+                                '                    </div>\n' +
+                                '\n' +
+                                '                    <div class="work-area__row-stage-info">\n' +
+                                '                        <p>Статус:</p>\n' +
+                                '\n' +
+                                '                        <div class="work-area__row-stage '+data.deals[i].status_class+'">\n' +
+                                '                            <h4>'+data.deals[i].status_name+'</h4>\n' +
+                                '                        </div>\n' +
+                                '                    </div>\n' +
+                                '\n' +
+                                '                    <div class="work-area__row-chat-date">\n' +
+                                '                        <div class="work-area__row-chat">\n' +
+                                '                            <img src="/assets/img/payment/list.svg" alt="">\n' +
+                                '                            <p>'+data.deals[i].task_done+'/'+data.deals[i].tasks_totals+'</p>\n' +
+                                '                        </div>\n' +
+                                '                        <div class="work-area__row-date">\n' +
+                                '                            <img src="/assets/img/payment/money.svg" alt="">\n' +
+                                '                            <p>'+data.deals[i].money_to_pay+'р / '+data.deals[i].total_money+'р</p>\n' +
+                                '                        </div>\n' +
+                                '                    </div>\n' +
+                                '\n' +
+                                '                    <div class="work-area__row-chat-date">\n' +
+                                '                        <div class="work-area__row-chat">\n' +
+                                '                            <img src="/assets/img/payment/brigade.svg" alt="">\n' +
+                                '                            <p>'+data.deals[i].brigade_name+'</p>\n' +
+                                '                        </div>\n' +
+                                '\n' +
+                                '                        <div class="work-area__row-date">\n' +
+                                '                            <img src="/assets/img/calendar-card.svg" alt="">\n' +
+                                '                            <p>'+data.deals[i].date_create+'</p>\n' +
+                                '                        </div>\n' +
+                                '                    </div>\n' +
+                                '                </div>')
+                        }
+                    }
+                }
+            });
+        }
+        if(search.length === 0) {
+            window.location.reload(true);
+        }
+    })
+})
+
+$(document).on('click', '.reset-search', function () {
+    window.location.reload(true);
+})
+
+$(document).on('keyup', '.new-product-name', function () {
+    let productName = $(this).val()
+    let dataField = $(this).parent().find('.new-product-name__variants')
+    if((productName !== '') && (productName.length > 3)) {
+        dataField.empty()
+        $.ajax({
+            url: '/search-product',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                'name': productName,
+            },
+            success: function(data){
+                console.log(data)
+                if(data.err === 'none') {
+                    dataField.fadeIn(300)
+                    console.log(data.products)
+                    for(let i = 0; i < data.products.length; i++) {
+                        dataField.append('<li>'+data.products[i].name+'</li>')
+                    }
+                }
+            }
+        });
+    }
+
+    if(productName.length === 0) {
+        dataField.empty()
+        dataField.fadeOut(300)
+    }
+})
+
+$(document).on('click', '.new-product-name__variants li', function () {
+    let name = $(this).html();
+    let field = $(this).parent().parent().find('.new-product-name')
+    field.val(name)
+    $(this).parent().fadeOut(300)
+})

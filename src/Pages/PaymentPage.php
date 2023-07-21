@@ -277,12 +277,17 @@ class PaymentPage
         );
     }
 
-    public function brigadeToOrder(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-
+    public function searchDeals(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+        $params = $request->getParsedBody();
+        $deal = '';
+        if(!empty($params['deal'])) {
+            $deal = $params['deal'];
+        }
+        $data = $this->paymentController->getWorkerDealByName($deal);
 
         return new Response(
             200,
-            new Headers(['Content-Type' => 'text/html']),
+            new Headers(['Content-Type' => 'application/json']),
             (new StreamFactory())->createStream($data)
         );
     }

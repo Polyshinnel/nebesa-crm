@@ -73,4 +73,23 @@ class ProductPaymentController
         $this->productPaymentRepository->deleteProduct($id);
         return json_encode(['msg' => "product_id $id was deleted"]);
     }
+
+    public function searchProduct($name){
+        $jsonArr = [
+            'err' => 'none'
+        ];
+        $filter = [
+            [
+                'name','LIKE',"%$name%"
+            ]
+        ];
+        $result = $this->productPaymentRepository->getFilteredProduct($filter);
+        if(empty($result)) {
+            $jsonArr['err'] = 'search has no result';
+        } else {
+            $jsonArr['products'] = $result;
+        }
+
+        return json_encode($jsonArr, JSON_UNESCAPED_UNICODE);
+    }
 }

@@ -63,4 +63,18 @@ class ProductPaymentActionPage
             (new StreamFactory())->createStream($data)
         );
     }
+
+    public function searchProducts(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $login = trim($_COOKIE["user"]);
+        $params = $request->getParsedBody();
+        $name = $params['name'];
+        $data = $this->productPaymentController->searchProduct($name);
+
+        return new Response(
+            200,
+            new Headers(['Content-Type' => 'application/json']),
+            (new StreamFactory())->createStream($data)
+        );
+    }
 }

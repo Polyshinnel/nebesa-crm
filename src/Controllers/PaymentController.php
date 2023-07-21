@@ -170,5 +170,22 @@ class PaymentController
         return $this->workerDealsRepository->getAllWorkerDeals();
     }
 
+    public function getWorkerDealByName($dealName) {
+        $jsonArr = [
+            'err' => 'none'
+        ];
+        $filter = [
+            [
+                'worker_deals.name','LIKE',"%$dealName%"
+            ]
+        ];
+        $result = $this->workerDealsRepository->getSearchWorkerDeals($filter);
+        if(empty($result)) {
+            $jsonArr['err'] = 'search has no result';
+        } else {
+            $jsonArr['deals'] = $result;
+        }
 
+        return json_encode($jsonArr, JSON_UNESCAPED_UNICODE);
+    }
 }

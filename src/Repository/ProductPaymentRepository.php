@@ -71,4 +71,8 @@ class ProductPaymentRepository
     public function getAllPaymentCategories() {
         return $this->paymentCategories::all()->toArray();
     }
+
+    public function getFilteredProduct($filter) {
+        return $this->paymentProductModel::where($filter)->get()->toArray();
+    }
 }

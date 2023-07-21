@@ -41,6 +41,8 @@ return static function (App $app): void {
         $group->post('add-event',[AddEventPage::class,'get']);
 
 
+        $group->post('worker-deals-search',[PaymentPage::class,'searchDeals']);
+
         $group->post('send-sms',[CardPage::class,'sendSms']);
         $group->post('update-payment',[CardPage::class,'updateDeal']);
         $group->post('add-worker',[CardPage::class,'addWorker']);
@@ -52,6 +54,7 @@ return static function (App $app): void {
         $group->post('create-products',[ProductPaymentActionPage::class,'create']);
         $group->post('update-product',[ProductPaymentActionPage::class,'update']);
         $group->post('delete-product',[ProductPaymentActionPage::class,'delete']);
+        $group->post('search-product',[ProductPaymentActionPage::class,'searchProducts']);
 
         $group->post('create-deal-detail',[PaymentDetailActionPage::class,'create']);
         $group->post('update-deal-detail',[PaymentDetailActionPage::class,'update']);

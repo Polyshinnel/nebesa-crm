@@ -1677,4 +1677,68 @@ a {
   border: 1px solid #C1C7CF;
   border-radius: 4px;
   margin-top: 4px;
+}
+
+.products-periods-filter-search {
+  margin-left: 20px;
+  width: 250px;
+}
+.products-periods-filter-search .form-input {
+  width: 250px;
+}
+.products-periods-filter-search .form-input img {
+  width: 18px;
+  height: 18px;
+  top: 32px;
+  filter: opacity(27%);
+}
+
+.empty-search {
+  margin-top: 30px;
+}
+
+.reset-search {
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 43px;
+  border-radius: 5px;
+  border: 1px solid #CCC;
+  background: #FFF;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+.reset-search p {
+  font-size: 14px;
+  color: #5B8EDF;
+}
+.reset-search:hover {
+  background: #5B8EDF;
+}
+.reset-search:hover p {
+  color: #fff;
+}
+
+.new-product-name__variants {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 5px;
+}
+.new-product-name__variants li {
+  padding: 5px;
+  border-top: 1px solid #ccc;
+  cursor: pointer;
+  background-color: #fff;
+  transition: 0.3s all ease;
+}
+.new-product-name__variants li:hover {
+  background-color: #bde5f8;
 }/*# sourceMappingURL=style.css.map */
