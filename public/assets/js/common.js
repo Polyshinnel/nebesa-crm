@@ -104,7 +104,12 @@ $('.form-block__btn').on('click',function () {
         success: function(data){
             let dealId = data.deal_id;
             let url = '/card/'+dealId+'?funnel_id='+funnelId
-            $(location).attr('href',url);
+            if(data.err === 'none') {
+                $(location).attr('href',url);
+            } else {
+                let text = data.err+' ссылка на сделку <a href="'+url+'">Сделка</a>'
+                $('.await-text').html(text)
+            }
         }
     });
 })

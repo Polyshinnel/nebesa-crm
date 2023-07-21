@@ -26,13 +26,13 @@ class AddDealPage
         $dealNum = $params['deal_num'];
         $funnelId = $params['funnel_id'];
 
-        $dealId = $this->dealController->createDeal($dealNum,$funnelId);
+        $dataArr = $this->dealController->createDeal($dealNum,$funnelId);
 
-        $data = json_encode(['deal_id' => $dealId]);
+        $data = json_encode($dataArr, JSON_UNESCAPED_UNICODE);
 
         return new Response(
             200,
-            new Headers(['Content-Type' => 'text/html']),
+            new Headers(['Content-Type' => 'application/json']),
             (new StreamFactory())->createStream($data)
         );
     }

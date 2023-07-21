@@ -44,62 +44,78 @@ class DealController
         $this->funnelRepository = $funnelRepository;
     }
 
-    public function createDeal($deanNum,$funnelId): string
+    public function createDeal($deanNum,$funnelId): array
     {
         $data = $this->skladController->getTotalOrderData($deanNum);
 
-        $createOrderArr = [
-            'name' => $deanNum,
-            'date_create' => date("Y-m-d")
+        $skladId = $data['common_data']['order_id'];
+        $filter = [
+            'deals.sklad_id' => $skladId,
+            'deals.funnel_id' => $funnelId
         ];
+        $dealInfo = $this->dealRepository->getFullFilteredDeals($filter);
 
-        $orderId = $this->orderRepository->createOrder($createOrderArr);
 
-        $products = $data['products'];
-        foreach ($products as $product) {
-            $createArr = [
-                'order_id' => $orderId,
-                'name' => $product['name'],
-                'position' => $product['position'],
-                'quantity' => $product['quantity'],
-                'price' => $product['price']
+        if(empty($dealInfo)) {
+            $deanNum = $this->normalizeDeal($deanNum);
+
+            $createOrderArr = [
+                'name' => $deanNum,
+                'date_create' => date("Y-m-d")
             ];
 
-            $this->orderDetailRepository->createOrderDetail($createArr);
+            $orderId = $this->orderRepository->createOrder($createOrderArr);
+
+            $products = $data['products'];
+            foreach ($products as $product) {
+                $createArr = [
+                    'order_id' => $orderId,
+                    'name' => $product['name'],
+                    'position' => $product['position'],
+                    'quantity' => $product['quantity'],
+                    'price' => $product['price']
+                ];
+
+                $this->orderDetailRepository->createOrderDetail($createArr);
+            }
+
+            $stageInfo = $this->stageRepository->getFirstStage($funnelId);
+            $stageId = $stageInfo['id'];
+            $funnelInfo = $this->funnelRepository->getFunnelById($funnelId);
+            $tag = $funnelInfo['tag'];
+            $normalizeData = $this->normalizeDate($data['common_data']['date_created']);
+
+
+            $dealCreateArr = [
+                'name' => 'Заказ №' . $deanNum.' от '.$normalizeData,
+                'sklad_id' => $data['common_data']['order_id'],
+                'payed_sum' => $data['common_data']['payed_sum'],
+                'total_sum' => $data['common_data']['total_sum'],
+                'agent' => $data['common_data']['agent_name'],
+                'tag' => $tag,
+                'dead_name' => $data['common_data']['dead_name'],
+                'customer_name' => $data['customer_data']['customer_name'],
+                'customer_phone' => $data['customer_data']['phone'],
+                'graveyard' => $data['common_data']['graveyard'],
+                'graveyard_place' => $data['common_data']['graveyard_place'],
+                'description' => htmlspecialchars($data['common_data']['description']),
+                'order_id' => $orderId,
+                'date_birth' => $this->toolClass->reformatDate($data['common_data']['date_birth'], 'eng'),
+                'date_dead' => $this->toolClass->reformatDate($data['common_data']['date_dead'], 'eng'),
+                'funnel_id' => $funnelId,
+                'stage_id' => $stageId,
+                'date_add' => date("Y-m-d H:i:s"),
+                'date_create' => $data['common_data']['date_created'],
+                'date_delivery' => $data['common_data']['delivery_moment'],
+                'date_updated' => date("Y-m-d H:i:s"),
+            ];
+
+
+            return ['err' => 'none', 'deal_id' => $this->dealRepository->createDeal($dealCreateArr)];
+        } else {
+            return ['err' => 'В данной воронке сделка уже существует', 'deal_id' => $dealInfo[0]['id']];
         }
 
-        $stageInfo = $this->stageRepository->getFirstStage($funnelId);
-        $stageId = $stageInfo['id'];
-        $funnelInfo = $this->funnelRepository->getFunnelById($funnelId);
-        $tag = $funnelInfo['tag'];
-
-
-        $dealCreateArr = [
-            'name' => 'Заказ №' . $deanNum,
-            'sklad_id' => $data['common_data']['order_id'],
-            'payed_sum' => $data['common_data']['payed_sum'],
-            'total_sum' => $data['common_data']['total_sum'],
-            'agent' => $data['common_data']['agent_name'],
-            'tag' => $tag,
-            'dead_name' => $data['common_data']['dead_name'],
-            'customer_name' => $data['customer_data']['customer_name'],
-            'customer_phone' => $data['customer_data']['phone'],
-            'graveyard' => $data['common_data']['graveyard'],
-            'graveyard_place' => $data['common_data']['graveyard_place'],
-            'description' => htmlspecialchars($data['common_data']['description']),
-            'order_id' => $orderId,
-            'date_birth' => $this->toolClass->reformatDate($data['common_data']['date_birth'], 'eng'),
-            'date_dead' => $this->toolClass->reformatDate($data['common_data']['date_dead'], 'eng'),
-            'funnel_id' => $funnelId,
-            'stage_id' => $stageId,
-            'date_add' => date("Y-m-d H:i:s"),
-            'date_create' => $data['common_data']['date_created'],
-            'date_delivery' => $data['common_data']['delivery_moment'],
-            'date_updated' => date("Y-m-d H:i:s"),
-        ];
-
-
-        return $this->dealRepository->createDeal($dealCreateArr);
     }
 
     public function updateDeal($dealId,$stageId,$userName,$userId,$funnelId) {
@@ -115,5 +131,24 @@ class DealController
             'date_create' => date('Y-m-d H:i:s')
         ];
         $this->eventRepository->createEvent($createArr);
+    }
+
+    private function normalizeDeal($dealName) {
+        $totalCount = 5;
+
+        $diff = $totalCount - mb_strlen($dealName);
+
+        for($i = 0; $i < $diff; $i++) {
+            $dealName = '0'.$dealName;
+        }
+
+        return $dealName;
+    }
+
+    private function normalizeDate($dateTime) {
+        $dateTimeArr = explode(' ', $dateTime);
+        $date = $dateTimeArr[0];
+        $dateArr = explode('-', $date);
+        return $dateArr[2].'.'.$dateArr[1].'.'.$dateArr[0];
     }
 }

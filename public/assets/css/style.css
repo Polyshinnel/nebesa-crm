@@ -442,7 +442,7 @@ a {
   align-items: center;
 }
 .work-area-info-common .work-area-info-common-title h2 {
-  font-size: 28px;
+  font-size: 22px;
   color: #333;
   font-weight: 600;
   margin-left: 15px;
@@ -1288,7 +1288,7 @@ a {
 
 .refresh-payment {
   cursor: pointer;
-  margin-left: 150px;
+  margin-left: 60px;
 }
 
 .rotation-animation {
