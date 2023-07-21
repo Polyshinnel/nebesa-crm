@@ -898,3 +898,49 @@ $(document).on('click', '.new-product-name__variants li', function () {
     field.val(name)
     $(this).parent().fadeOut(300)
 })
+
+$(document).ready(function () {
+    $('.prod_pay_quant').on('input', function () {
+        let priceField = $(this).parent().parent().find('.prod_pay_price')
+        if(priceField.val() !== '') {
+            let price = parseFloat(priceField.val())
+            let quantity = parseFloat($(this).val())
+            let total = price*quantity
+            total = total.toFixed(2)
+            $(this).parent().parent().find('.total_pay_price').val(total)
+        }
+    })
+
+    $('.prod_pay_price').on('input', function () {
+        let quantField = $(this).parent().parent().find('.prod_pay_quant')
+        if(quantField.val() !== '') {
+            let quantity = parseFloat(quantField.val())
+            let price = parseFloat($(this).val())
+            let total = price*quantity
+            total = total.toFixed(2)
+            $(this).parent().parent().find('.total_pay_price').val(total)
+        }
+    })
+})
+
+$(document).on('input','.new-product-quant', function () {
+    let priceField = $(this).parent().parent().find('.new-product-price')
+    if(priceField.val() !== '') {
+        let quantity = parseFloat($(this).val())
+        let price = parseFloat(priceField.val())
+        let total = quantity*price
+        total = total.toFixed(2)
+        $(this).parent().parent().find('.new-product-total').val(total)
+    }
+})
+
+$(document).on('input','.new-product-price', function () {
+    let quantField = $(this).parent().parent().find('.new-product-quant')
+    if(quantField.val() !== '') {
+        let price = parseFloat($(this).val())
+        let quantity = parseFloat(quantField.val())
+        let total = quantity*price
+        total = total.toFixed(2)
+        $(this).parent().parent().find('.new-product-total').val(total)
+    }
+})
