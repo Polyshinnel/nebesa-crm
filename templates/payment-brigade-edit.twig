@@ -1,7 +1,26 @@
 {% extends 'base-extended.twig' %}
 
 {% block body %}
+    <ul class="breadcrumbs">
+        <li><a href="/payment-board">Расчет зарплаты</a>&nbsp;>&nbsp;</li>
+        <li><a href="/payment-list">Список оплаты</a>&nbsp;>&nbsp;</li>
+        <li class="last-crumb">{{ workAreaTitle }}</li>
+    </ul>
     <div class="work-area__rows work-area__rows_search">
+        <div class="worker-deal__detail-block">
+            <div class="worker-deal__detail-block__line">
+                <h4>Название сделки:</h4>
+                <p>{{ deal_info.name }}</p>
+            </div>
+            <div class="worker-deal__detail-block__line">
+                <h4>ФИО Умершего:</h4>
+                <p>{{ deal_info.dead_name }}</p>
+            </div>
+            <div class="worker-deal__detail-block__line">
+                <h4>Бригада:</h4>
+                <p>{{ worker_info.name }}</p>
+            </div>
+        </div>
         <div class="position-list-wrapper">
             {% if product_list %}
                 {% for product in product_list %}

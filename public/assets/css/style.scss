@@ -2018,3 +2018,23 @@ a{
         }
     }
 }
+
+.breadcrumbs{
+    display: flex;
+    list-style: none;
+    margin-top: 20px;
+}
+
+.worker-deal__detail-block{
+    margin-bottom: 15px;
+
+    .worker-deal__detail-block__line{
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        p{
+            margin-left: 5px;
+        }
+    }
+}

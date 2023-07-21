@@ -239,6 +239,8 @@ class PaymentPage
 
         $dealInfo = $this->paymentController->getWorkerDealById($id);
 
+        $workerInfo = $this->workerController->getWorkerById($dealInfo['brigade_id']);
+
         $productList = $this->paymentDetailsController->getAllDealsProducts($id);
         $positionQuantity = 0;
         $positionTotal = 0;
@@ -256,17 +258,18 @@ class PaymentPage
         }
 
         $data = $this->twig->fetch('payment-brigade-edit.twig', [
-            'title' => 'Расчет зарплаты',
+            'title' => $dealInfo['name'],
             'userName' => $headerData['name'],
             'avatar' => $headerData['avatar'],
             'funnelSwitch' => false,
-            'workAreaTitle' => 'Расчет зарплаты',
+            'workAreaTitle' => $dealInfo['name'],
             'deal_id' => $id,
             'product_list' => $productList,
             'deal_total' => $positionTotal,
             'deal_quantity' => $positionQuantity,
             'event_list' => $eventList,
-            'deal_info' => $dealInfo
+            'deal_info' => $dealInfo,
+            'worker_info' => $workerInfo
         ]);
 
 

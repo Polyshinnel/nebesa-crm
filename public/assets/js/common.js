@@ -804,7 +804,7 @@ $(document).ready(function() {
                         for(let i = 0; i < data.deals.length; i++) {
                             workerArea.append('<div class="work-area__row">\n' +
                                 '                    <div class="work-area__row-info">\n' +
-                                '                        <a href="/payment-edit/{{ payment.id }}"><h4 class="card-title">'+data.deals[i].name+'</h4></a>\n' +
+                                '                        <a href="/payment-edit/'+data.deals[i].id+'"><h4 class="card-title">'+data.deals[i].name+'</h4></a>\n' +
                                 '                        <p class="card-subtitle">'+data.deals[i].dead_name+'</p>\n' +
                                 '                        <p class="card-agent">Агент/Мастер: '+data.deals[i].agent_name+'</p>\n' +
                                 '                        <p class="card-subtitle"><b>Выплачено:</b> '+data.deals[i].payment_money+'₽/'+data.deals[i].total_money+'₽</p>\n' +
@@ -883,9 +883,8 @@ $(document).on('keyup', '.new-product-name', function () {
                 console.log(data)
                 if(data.err === 'none') {
                     dataField.fadeIn(300)
-                    console.log(data.products)
                     for(let i = 0; i < data.products.length; i++) {
-                        dataField.append('<li>'+data.products[i].name+'</li>')
+                        dataField.append('<li data-price="'+data.products[i].price+'">'+data.products[i].name+'</li>')
                     }
                 }
             }
@@ -900,8 +899,15 @@ $(document).on('keyup', '.new-product-name', function () {
 
 $(document).on('click', '.new-product-name__variants li', function () {
     let name = $(this).html();
-    let field = $(this).parent().parent().find('.new-product-name')
-    field.val(name)
+    let price = $(this).attr('data-price')
+    let fieldName = $(this).parent().parent().find('.new-product-name')
+    let fieldQuant = $(this).parent().parent().parent().find('.new-product-quant')
+    let fieldPrice = $(this).parent().parent().parent().find('.new-product-price')
+    let fieldTotal = $(this).parent().parent().parent().find('.new-product-total')
+    fieldName.val(name)
+    fieldQuant.val(1.00)
+    fieldPrice.val(price)
+    fieldTotal.val(price)
     $(this).parent().fadeOut(300)
 })
 

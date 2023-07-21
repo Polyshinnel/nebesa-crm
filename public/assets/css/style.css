@@ -1741,4 +1741,22 @@ a {
 }
 .new-product-name__variants li:hover {
   background-color: #bde5f8;
+}
+
+.breadcrumbs {
+  display: flex;
+  list-style: none;
+  margin-top: 20px;
+}
+
+.worker-deal__detail-block {
+  margin-bottom: 15px;
+}
+.worker-deal__detail-block .worker-deal__detail-block__line {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.worker-deal__detail-block .worker-deal__detail-block__line p {
+  margin-left: 5px;
 }/*# sourceMappingURL=style.css.map */
