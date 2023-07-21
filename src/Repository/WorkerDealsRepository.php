@@ -64,6 +64,7 @@ class WorkerDealsRepository
             'worker_deals.id',
             'worker_deals.name',
             'worker_deals.dead_name',
+            'worker_deals.agent_name',
             'worker_deals.tag',
             'worker_deals.funeral',
             'worker_deals.task_done',

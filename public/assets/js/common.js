@@ -795,6 +795,7 @@ $(document).ready(function() {
                             '                </div>\n' +
                             '            </div>')
                     } else {
+                        console.log(data.deals)
                         for(let i = 0; i < data.deals.length; i++) {
                             workerArea.append('<div class="work-area__row">\n' +
                                 '                    <div class="work-area__row-info">\n' +
