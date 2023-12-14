@@ -1,0 +1,127 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+    <div class="work-area-info-common">
+        <div class="work-area-info-common-title">
+            <a href="/tasks"><img src="/assets/img/angle.svg" alt=""></a>
+            <h2>{{ task.task_name }}</h2>
+        </div>
+
+        <div class="work-area-info-common-stage">
+            <p class="work-area-info-common-stage_subtitle">Текущий этап:</p>
+            <div class="work-area-info-common-stage-block {{ task.stage_color }}">
+                <h4>{{ task.stage_name }}</h4>
+                <img src="/assets/img/angle.svg" alt="" class="angle-rotated">
+            </div>
+
+            <ul class="work-area-info-common-stage-list">
+                {% if stages %}
+                    {% for stage in stages %}
+                        <li data-class="{{ stage.color_class }}" data-id="{{ stage.id }}">{{ stage.name }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="work-area-info-common-text">
+            <div class="work-area-info-common-text-line">
+                <p class="title">Контролер:</p>
+                <p class="text">Спасенов Александр</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Кому поручено:</p>
+                <p class="text">Иванов Иван</p>
+            </div>
+
+            <div class="work-area-info-common-text-line">
+                <p class="title">Дата выполнения:</p>
+                <p class="text">21.12.2023</p>
+            </div>
+
+            <div class="work-area-info-common-btns">
+                <div class="work-area-info-common-btn end-btn">
+                    <p>Принять задачу</p>
+                </div>
+
+                <div class="work-area-info-common-btn cancel-btn">
+                    <p>Отменить задачу</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="work-area work-area_card">
+        <div class="work-area__header">
+            <div class="work-area__header-title">
+                <h1>Задачи</h1>
+                <p>С возвращением, {{ userName }}</p>
+            </div>
+
+            <div class="work-area__header-search">
+                <input type="text" name="" id="search" placeholder="Поиск">
+                <img src="/assets/img/search.svg" alt="" class="search-btn">
+            </div>
+
+            <div class="work-area__header-add-btn">
+                <img src="/assets/img/plus-btn.svg" alt="">
+                <p>Новая задача</p>
+            </div>
+
+            <div class="work-area__header-notify">
+                <img src="/assets/img/notification.svg" alt="">
+            </div>
+
+            <div class="work-area__header-user">
+                <img src="{{ avatar }}" alt="">
+            </div>
+        </div>
+
+        <div class="work-area-info-messages">
+            <div class="work-area-info-messages-title-block">
+                <h2 class="work-area-info-messages-title">Информация по задаче</h2>
+            </div>
+            
+            <div class="work-area-block">
+                <div class="work-area-info-messages-area">
+                    {% if task.events %}
+                        {% for event in card.events %}
+                            {% if event.type_event == 'system' %}
+                                <p class="work-area-info-message-event">{{ event.text }}</p>
+                            {% endif %}
+
+                            {% if event.type_event == 'message' %}
+                                <div class="work-area-info-message">
+                                    <div class="work-area-info-message-header">
+                                        <div class="work-area-info-message-header-icon">
+                                            <img src="/assets/img/chat-msg.svg" alt="">
+                                        </div>
+                                        <div class="work-area-info-message-header-text">
+                                            <h4>Сообщение:</h4>
+                                            <p>{{ event.date_create }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="work-area-info-message-body">
+                                        <p>{{ event.text }}</p>
+                                    </div>
+                                    <p class="work-area-info-message-from">от {{ event.username }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="add-text-message">
+                    <div class="add-text-message__input">
+                        <textarea placeholder="Введите текст сообщения" id="msg-text"></textarea>
+                        <img src="/assets/img/chat-msg.svg" alt="">
+                    </div>
+                    <div class="add-text-message-btn">
+                        <p>Отправить</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

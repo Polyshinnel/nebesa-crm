@@ -1,0 +1,24 @@
+<div class="work-area__header">
+    <div class="work-area__header-title">
+        <h1>{{ workAreaTitle }}</h1>
+        <p>С возвращением, {{ userName }}</p>
+    </div>
+
+    <div class="work-area__header-search">
+        <input type="text" name="search" id="task_search" placeholder="Поиск по задачам">
+        <img src="/assets/img/search.svg" alt="" class="search-btn">
+    </div>
+
+    <div class="work-area__header-add-btn" id="add-task-header" data-fancybox data-src="#task-form">
+        <img src="/assets/img/plus-btn.svg" alt="">
+        <p>Новая задача</p>
+    </div>
+
+    <div class="work-area__header-notify">
+        <img src="/assets/img/notification.svg" alt="">
+    </div>
+
+    <div class="work-area__header-user">
+        <img src="{{ avatar }}" alt="">
+    </div>
+</div>

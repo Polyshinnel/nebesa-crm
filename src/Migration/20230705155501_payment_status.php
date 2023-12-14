@@ -8,11 +8,15 @@ final class PaymentStatus extends Migration
 {
     public function up()
     {
-        $this->schema->create('payment_status',function (Blueprint $table){
-            $table->increments('id');
-            $table->string('name','127');
-            $table->string('color_class','127');
-        });
+        $exists = $this->hasTable('payment_status');
+
+        if(!$exists) {
+            $this->schema->create('payment_status',function (Blueprint $table){
+                $table->increments('id');
+                $table->string('name','127');
+                $table->string('color_class','127');
+            });
+        }
     }
 
     public function down()

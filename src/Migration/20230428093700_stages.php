@@ -10,99 +10,104 @@ final class Stages extends Migration
 {
     public function up()
     {
-        $this->schema->create('stages',function (Blueprint $table){
-            $table->increments('id');
-            $table->string('name','127');
-            $table->string('color_class','127');
-            $table->integer('visible');
-            $table->integer('funnel_id');
-        });
+        $exists = $this->hasTable('stages');
 
-        $listAdds = [
-            [
-                'name' => 'Заказ поставщику',
-                'color_class' => 'base',
-                'visible' => 1,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Соглас. ретуши',
-                'color_class' => 'stage-2',
-                'visible' => 1,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Приемка(склад)',
-                'color_class' => 'stage-3',
-                'visible' => 1,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Гравировка',
-                'color_class' => 'stage-4',
-                'visible' => 1,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Приемка',
-                'color_class' => 'stage-5',
-                'visible' => 1,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Отмененный',
-                'color_class' => 'canceled',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Успешно выполненный',
-                'color_class' => 'success',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
+        if(!$exists) {
+            $this->schema->create('stages',function (Blueprint $table){
+                $table->increments('id');
+                $table->string('name','127');
+                $table->string('color_class','127');
+                $table->integer('visible');
+                $table->integer('funnel_id');
+            });
 
-            [
-                'name' => 'Бланк выдан',
-                'color_class' => 'base',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Бетонные работы',
-                'color_class' => 'stage-2',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Установка памятника',
-                'color_class' => 'stage-3',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Приемка',
-                'color_class' => 'stage-4',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Успешно выполненный',
-                'color_class' => 'success',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
-            [
-                'name' => 'Отмененный',
-                'color_class' => 'canceled',
-                'visible' => 0,
-                'funnel_id' => 1,
-            ],
-        ];
+            $listAdds = [
+                [
+                    'name' => 'Заказ поставщику',
+                    'color_class' => 'base',
+                    'visible' => 1,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Соглас. ретуши',
+                    'color_class' => 'stage-2',
+                    'visible' => 1,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Приемка(склад)',
+                    'color_class' => 'stage-3',
+                    'visible' => 1,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Гравировка',
+                    'color_class' => 'stage-4',
+                    'visible' => 1,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Приемка',
+                    'color_class' => 'stage-5',
+                    'visible' => 1,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Отмененный',
+                    'color_class' => 'canceled',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Успешно выполненный',
+                    'color_class' => 'success',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
 
-        foreach ($listAdds as $listAdd){
-            Capsule::table('stages')->insert($listAdd);
+                [
+                    'name' => 'Бланк выдан',
+                    'color_class' => 'base',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Бетонные работы',
+                    'color_class' => 'stage-2',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Установка памятника',
+                    'color_class' => 'stage-3',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Приемка',
+                    'color_class' => 'stage-4',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Успешно выполненный',
+                    'color_class' => 'success',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
+                [
+                    'name' => 'Отмененный',
+                    'color_class' => 'canceled',
+                    'visible' => 0,
+                    'funnel_id' => 1,
+                ],
+            ];
+
+            foreach ($listAdds as $listAdd){
+                Capsule::table('stages')->insert($listAdd);
+            }
         }
+
     }
 
     public function down()

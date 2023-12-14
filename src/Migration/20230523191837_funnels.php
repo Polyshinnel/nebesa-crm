@@ -9,26 +9,30 @@ final class Funnels extends Migration
 {
     public function up()
     {
-        $this->schema->create('funnels',function (Blueprint $table){
-            $table->increments('id');
-            $table->string('name','127');
-            $table->string('tag','127');
-        });
+        $exists = $this->hasTable('funnels');
+        if(!$exists) {
+            $this->schema->create('funnels',function (Blueprint $table){
+                $table->increments('id');
+                $table->string('name','127');
+                $table->string('tag','127');
+            });
 
-        $listAdds = [
-            [
-                'name' => 'Производство памятников',
-                'tag' => 'Памятники'
-            ],
-            [
-                'name' => 'Благоустройство',
-                'tag' => 'Благоустройство'
-            ]
-        ];
+            $listAdds = [
+                [
+                    'name' => 'Производство памятников',
+                    'tag' => 'Памятники'
+                ],
+                [
+                    'name' => 'Благоустройство',
+                    'tag' => 'Благоустройство'
+                ]
+            ];
 
-        foreach ($listAdds as $listAdd){
-            Capsule::table('funnels')->insert($listAdd);
+            foreach ($listAdds as $listAdd){
+                Capsule::table('funnels')->insert($listAdd);
+            }
         }
+
     }
 
     public function down()

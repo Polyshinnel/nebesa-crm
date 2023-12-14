@@ -14,6 +14,7 @@ use App\Pages\PaymentDetailActionPage;
 use App\Pages\PaymentPage;
 use App\Pages\ProductPaymentActionPage;
 use App\Pages\SearchPage;
+use App\Pages\TaskPage;
 use App\Pages\WorkerActionPage;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
@@ -36,6 +37,11 @@ return static function (App $app): void {
         $group->get('add-payment-products',[PaymentPage::class,'addProducts']);
         $group->get('payment-list',[PaymentPage::class,'paymentList']);
         $group->get('payment-edit/{id}',[PaymentPage::class,'EditPayment']);
+        $group->get('tasks', [TaskPage::class,'get']);
+        $group->get('tasks/task/{id}', [TaskPage::class,'getTask']);
+
+
+
         $group->post('change-stage',[ChangeStagePage::class,'get']);
         $group->post('add-deal',[AddDealPage::class,'get']);
         $group->post('add-event',[AddEventPage::class,'get']);

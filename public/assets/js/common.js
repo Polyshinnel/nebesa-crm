@@ -55,6 +55,20 @@ $(function() {
 });
 
 
+$(function() {
+    $( ".sortable_tasks" ).sortable({
+        connectWith: ".connectedSortable",
+        dropOnEmpty: true,
+        remove: function(event, ui) {
+
+        },
+        receive: function( event, ui ) {
+
+        },
+        placeholder: "card-highlight"
+    }).disableSelection();
+});
+
 $('.work-area__view-btn').on('click',function () {
     $('.work-area__view-btn').each(function () {
         $(this).removeClass('work-area__view-btn_active')
@@ -72,7 +86,7 @@ $('.work-area__view-btn').on('click',function () {
     }
 });
 
-$('.work-area__header-add-btn, .add-new-order').on('click',function () {
+$('#add-header-order, #add-order').on('click',function () {
     $('.fancy-box').fadeIn(300)
 });
 

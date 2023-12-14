@@ -8,10 +8,15 @@ final class Workers extends Migration
 {
     public function up()
     {
-        $this->schema->create('workers',function (Blueprint $table){
-            $table->increments('id');
-            $table->string('name','127');
-        });
+        $exists = $this->hasTable('workers');
+
+        if(!$exists) {
+            $this->schema->create('workers',function (Blueprint $table){
+                $table->increments('id');
+                $table->string('name','127');
+            });
+        }
+
     }
 
     public function down()

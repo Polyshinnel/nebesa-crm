@@ -1,0 +1,11 @@
+{% include 'common/header.twig' %}
+
+{% include 'common/sidebar.twig' %}
+
+<div class="work-area">
+    {% include 'common/taskHeader.twig' %}
+    {% block body %}{% endblock body %}
+</div>
+
+
+{% include 'common/footer.twig' %}
