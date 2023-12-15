@@ -19,7 +19,7 @@ class TaskRepository
     }
 
     public function updateTask($updateArr, $id): void {
-        $this->taskModel::where('id', $id)->update('id', $id);
+        $this->taskModel::where('id', $id)->update($updateArr);
     }
 
     public function getTasks($selectArr): ?array {

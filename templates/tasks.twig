@@ -3,70 +3,60 @@
 {% block body %}
 <!--Canban-->
 <div class="work-area__columns">
+    {% for stage in data_list %}
     <div class="container">
-        <div class="container__header base">
-            <h2>Новая задача</h2>
+        <div class="container__header {{ stage.color_class }}">
+            <h2>{{ stage.name }}</h2>
         </div>
+        {% if stage.id == 1 %}
         <div class="add-new-order" id="add-task-header" data-fancybox data-src="#task-form">
             <img src="assets/img/plus.svg" alt="">
             <p>Новая задача</p>
         </div>
+        {% endif %}
 
-        <ul class="sortable_tasks connectedSortable">
-
-        </ul>
-    </div>
-
-    <div class="container">
-        <div class="container__header stage-2">
-            <h2>Задача выполняется</h2>
-        </div>
-
-        <ul class="sortable_tasks connectedSortable">
-            <li class="task-item">
-                <div class="card-header">
-                    <a href="/tasks/task/1"><h4 class="card-title">Починить синхрофазатрон</h4></a>
-                    <p class="card-subtitle">Иванов Иван Иванович</p>
-                    <p class="card-agent">Контролер: Спасенов Александр </p>
-                </div>
-                <div class="card-footer">
-                    <div class="card-footer-demiter"></div>
-                    <div class="card-footer__bottom">
-                        <div class="card-footer__bottom-unit">
-                            <img src="assets/img/chat-card.svg" alt="">
-                            <p>2</p>
+        <ul class="sortable_tasks connectedSortable" data-stage="{{ stage.id }}">
+            {% if stage.tasks %}
+                {% for task in stage.tasks %}
+                    <li class="task-item" data-item="{{ task.id }}">
+                        <div class="card-header">
+                            <a href="/tasks/task/{{ task.id }}"><h4 class="card-title">{{ task.task_title }}</h4></a>
+                            <p class="card-subtitle">{{ task.executor_name }}</p>
+                            <p class="card-agent">Контролер: {{ task.controller_name }}</p>
                         </div>
-                        <div class="card-footer__bottom-unit">
-                            <img src="assets/img/calendar-card.svg" alt="">
-                            <p>24.04.2023</p>
+                        <div class="card-footer">
+                            <div class="card-footer-demiter"></div>
+                            <div class="card-footer__bottom">
+                                <div class="card-footer__bottom-unit">
+                                    <img src="assets/img/chat-card.svg" alt="">
+                                    <p>{{ task.messages }}</p>
+                                </div>
+                                <div class="card-footer__bottom-unit">
+                                    <img src="assets/img/calendar-card.svg" alt="">
+                                    <p>{{ task.reformat_date }}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </li>
+                    </li>
+                {% endfor %}
+            {% endif %}
         </ul>
     </div>
-
-    <div class="container">
-        <div class="container__header stage-3">
-            <h2>Сдана на проверку</h2>
-        </div>
-
-        <ul class="sortable_tasks connectedSortable">
-
-        </ul>
-    </div>
+    {% endfor %}
 
 </div>
 
-    <form action="" class="add-tasks" id="task-form">
+    <form action="/add-task" class="add-tasks" id="task-form" method="post">
         <h2>Создать новую задачу</h2>
         <div class="controls">
             <div class="input-block">
                 <label for="executor">Выберете исполнителя</label>
                 <select name="executor" id="executor">
-                    <option value="1">Иван Иванов</option>
-                    <option value="2">Петр Петров</option>
-                    <option value="3">Алексей Алексеев</option>
+                    {% if users %}
+                        {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.fullname }}</option>
+                        {% endfor %}
+                    {% endif %}
                 </select>
             </div>
 
@@ -79,7 +69,7 @@
                 <label for="task-name">Название задачи</label>
                 <input type="text" id="task-name" name="task-name" placeholder="Название задачи">
             </div>
-            
+
             <div class="input-block">
                 <label for="task-text">Текст задачи</label>
                 <textarea name="task-text" id="task-text" placeholder="Текст задачи"></textarea>

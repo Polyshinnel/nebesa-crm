@@ -27,7 +27,7 @@ class TaskEventController
             $userId = $params['user_id'];
             $stageId = $params['stage_id'];
             $userData = $this->userRepository->getFilteredUsers(['id' => $userId]);
-            $userName = $userData[0]['name'];
+            $userName = $userData[0]['fullname'];
             $stageInfo = $this->taskStageRepository->selectStages(['id' => $stageId]);
             $stageName = $stageInfo[0]['name'];
 
@@ -41,10 +41,10 @@ class TaskEventController
             $expiredDate = $params['expired_date'];
 
             $userData = $this->userRepository->getFilteredUsers(['id' => $userId]);
-            $userName = $userData[0]['name'];
+            $userName = $userData[0]['fullname'];
 
             $executorDate = $this->userRepository->getFilteredUsers(['id' => $executorId]);
-            $executorName = $executorDate[0]['name'];
+            $executorName = $executorDate[0]['fullname'];
 
             $format = '%s изменил пользователя на %s и время выполнения на %s';
             return sprintf($format, $userName, $executorName, $expiredDate);
@@ -55,10 +55,10 @@ class TaskEventController
             $executorId = $params['executor_id'];
 
             $userData = $this->userRepository->getFilteredUsers(['id' => $userId]);
-            $userName = $userData[0]['name'];
+            $userName = $userData[0]['fullname'];
 
             $executorDate = $this->userRepository->getFilteredUsers(['id' => $executorId]);
-            $executorName = $executorDate[0]['name'];
+            $executorName = $executorDate[0]['fullname'];
 
             $format = 'Создана новая задача, исполнитель: %s, контролер: %s, дата создания: %s';
             return sprintf($format, $executorName, $userName, date('d.m.Y H:i:s'));

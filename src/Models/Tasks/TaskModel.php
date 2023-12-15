@@ -13,7 +13,8 @@ class TaskModel extends Model
         'executor_id',
         'controller_id',
         'task_title',
-        'date_create'
+        'date_create',
+        'expired_date'
     ];
     public $timestamps = false;
 }

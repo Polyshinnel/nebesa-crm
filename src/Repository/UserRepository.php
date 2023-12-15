@@ -17,4 +17,8 @@ class UserRepository
     {
         return $this->userModel->where($filter)->get()->toArray();
     }
+
+    public function getAllUsers() {
+        return $this->userModel->all()->toArray();
+    }
 }

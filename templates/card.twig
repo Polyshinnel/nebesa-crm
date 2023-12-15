@@ -15,7 +15,7 @@
                 <img src="/assets/img/angle.svg" alt="" class="angle-rotated">
             </div>
 
-            <ul class="work-area-info-common-stage-list">
+            <ul class="work-area-info-common-stage-list" id="deal-stage">
                 {% if stages %}
                     {% for stage in stages %}
                         <li data-class="{{ stage.color_class }}" data-id="{{ stage.id }}">{{ stage.name }}</li>
@@ -102,11 +102,11 @@
             </div>
 
             <div class="work-area-info-common-btns">
-                <div class="work-area-info-common-btn end-btn">
+                <div class="work-area-info-common-btn end-btn" id="end-deal">
                     <p>Завершить заказ</p>
                 </div>
 
-                <div class="work-area-info-common-btn cancel-btn">
+                <div class="work-area-info-common-btn cancel-btn" id="cancel-deal">
                     <p>Отменить заказ</p>
                 </div>
             </div>
@@ -229,7 +229,7 @@
                         <textarea placeholder="Введите текст сообщения" id="msg-text"></textarea>
                         <img src="/assets/img/chat-msg.svg" alt="">
                     </div>
-                    <div class="add-text-message-btn">
+                    <div class="add-text-message-btn" id="create-message">
                         <p>Отправить</p>
                     </div>
                 </div>

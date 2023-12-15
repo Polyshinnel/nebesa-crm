@@ -34,7 +34,7 @@ class ToolClass
         return $res;
     }
 
-    public function reformatDate(string $date, string $lang = 'ru')
+    public function reformatDate(string $date, string $lang = 'ru'): string
     {
         if ($lang == 'ru') {
             $dateArr = explode('-', $date);

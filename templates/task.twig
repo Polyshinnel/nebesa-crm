@@ -14,7 +14,7 @@
                 <img src="/assets/img/angle.svg" alt="" class="angle-rotated">
             </div>
 
-            <ul class="work-area-info-common-stage-list">
+            <ul class="work-area-info-common-stage-list" id="task-stage">
                 {% if stages %}
                     {% for stage in stages %}
                         <li data-class="{{ stage.color_class }}" data-id="{{ stage.id }}">{{ stage.name }}</li>
@@ -26,25 +26,25 @@
         <div class="work-area-info-common-text">
             <div class="work-area-info-common-text-line">
                 <p class="title">Контролер:</p>
-                <p class="text">Спасенов Александр</p>
+                <p class="text">{{ task.controller_name }}</p>
             </div>
 
             <div class="work-area-info-common-text-line">
                 <p class="title">Кому поручено:</p>
-                <p class="text">Иванов Иван</p>
+                <p class="text">{{ task.executor_name }}</p>
             </div>
 
             <div class="work-area-info-common-text-line">
                 <p class="title">Дата выполнения:</p>
-                <p class="text">21.12.2023</p>
+                <p class="text">{{ task.expired_date }}</p>
             </div>
 
             <div class="work-area-info-common-btns">
-                <div class="work-area-info-common-btn end-btn">
+                <div class="work-area-info-common-btn end-btn" id="success-task" data-id="{{ task.id }}">
                     <p>Принять задачу</p>
                 </div>
 
-                <div class="work-area-info-common-btn cancel-btn">
+                <div class="work-area-info-common-btn cancel-btn" id="cancel-task" data-id="{{ task.id }}">
                     <p>Отменить задачу</p>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 <img src="/assets/img/search.svg" alt="" class="search-btn">
             </div>
 
-            <div class="work-area__header-add-btn">
+            <div class="work-area__header-add-btn" data-fancybox data-src="#task-form">
                 <img src="/assets/img/plus-btn.svg" alt="">
                 <p>Новая задача</p>
             </div>
@@ -85,9 +85,9 @@
             <div class="work-area-block">
                 <div class="work-area-info-messages-area">
                     {% if task.events %}
-                        {% for event in card.events %}
+                        {% for event in task.events %}
                             {% if event.type_event == 'system' %}
-                                <p class="work-area-info-message-event">{{ event.text }}</p>
+                                <p class="work-area-info-message-event">{{ event.event_text }}</p>
                             {% endif %}
 
                             {% if event.type_event == 'message' %}
@@ -103,7 +103,7 @@
                                     </div>
 
                                     <div class="work-area-info-message-body">
-                                        <p>{{ event.text }}</p>
+                                        <p>{{ event.event_text }}</p>
                                     </div>
                                     <p class="work-area-info-message-from">от {{ event.username }}</p>
                                 </div>
@@ -117,11 +117,50 @@
                         <textarea placeholder="Введите текст сообщения" id="msg-text"></textarea>
                         <img src="/assets/img/chat-msg.svg" alt="">
                     </div>
-                    <div class="add-text-message-btn">
+                    <div class="add-text-message-btn" id="add-task-message">
                         <p>Отправить</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <form action="/add-task" class="add-tasks" id="task-form" method="post">
+        <h2>Создать новую задачу</h2>
+        <div class="controls">
+            <div class="input-block">
+                <label for="executor">Выберете исполнителя</label>
+                <select name="executor" id="executor">
+                    {% if users %}
+                        {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.fullname }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+
+            <div class="input-block">
+                <label for="date_end">Дата выполнения</label>
+                <input type="text" id="date_end" name="date_end" placeholder="Дата выполнения">
+            </div>
+
+            <div class="input-block">
+                <label for="task-name">Название задачи</label>
+                <input type="text" id="task-name" name="task-name" placeholder="Название задачи">
+            </div>
+
+            <div class="input-block">
+                <label for="task-text">Текст задачи</label>
+                <textarea name="task-text" id="task-text" placeholder="Текст задачи"></textarea>
+            </div>
+        </div>
+
+        <input type="submit" class="create-task__btn" value="Создать задачу">
+    </form>
+
+    <script>
+        new AirDatepicker('#date_end', {
+            autoClose: true,
+        });
+    </script>
 {% endblock %}

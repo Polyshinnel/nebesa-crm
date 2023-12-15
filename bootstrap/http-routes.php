@@ -37,8 +37,13 @@ return static function (App $app): void {
         $group->get('add-payment-products',[PaymentPage::class,'addProducts']);
         $group->get('payment-list',[PaymentPage::class,'paymentList']);
         $group->get('payment-edit/{id}',[PaymentPage::class,'EditPayment']);
+
         $group->get('tasks', [TaskPage::class,'get']);
         $group->get('tasks/task/{id}', [TaskPage::class,'getTask']);
+        $group->post('add-task', [TaskPage::class, 'createTask']);
+        $group->post('update-task-stage', [TaskPage::class, 'updateTaskStage']);
+        $group->post('update-task', [TaskPage::class, 'updateTask']);
+        $group->post('message-task', [TaskPage::class, 'createTaskMessage']);
 
 
 

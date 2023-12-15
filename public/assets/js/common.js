@@ -63,7 +63,21 @@ $(function() {
 
         },
         receive: function( event, ui ) {
+            let idStage = $(this).attr('data-stage');
+            let taskId = ui.item.attr('data-item');
 
+            $.ajax({
+                url: '/update-task-stage',
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    'task_id': taskId,
+                    'stage_id': idStage,
+                },
+                success: function(data){
+
+                }
+            });
         },
         placeholder: "card-highlight"
     }).disableSelection();
@@ -128,7 +142,7 @@ $('.form-block__btn').on('click',function () {
     });
 })
 
-$('.add-text-message-btn').on('click',function () {
+$('#create-message').on('click',function () {
     let text_msg = $('#msg-text').val()
     console.log(text_msg)
     let url = window.location.pathname;
@@ -168,7 +182,29 @@ $('.add-text-message-btn').on('click',function () {
     });
 })
 
-$('.end-btn').on('click',function () {
+$('#add-task-message').on('click',function () {
+    let text_msg = $('#msg-text').val()
+    console.log(text_msg)
+    let url = window.location.pathname;
+    url = url.split('/');
+    let taskId = url.pop();
+
+
+    $.ajax({
+        url: '/message-task',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'task_id': taskId,
+            'text': text_msg,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+$('#end-deal').on('click',function () {
     let text_msg = $('#msg-text').val()
     console.log(text_msg)
     let url = window.location.pathname;
@@ -201,7 +237,7 @@ $('.end-btn').on('click',function () {
     });
 })
 
-$('.cancel-btn').on('click',function () {
+$('#cancel-deal').on('click',function () {
     let text_msg = $('#msg-text').val()
     console.log(text_msg)
     let url = window.location.pathname;
@@ -234,6 +270,44 @@ $('.cancel-btn').on('click',function () {
     });
 })
 
+$('#success-task').click(function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let taskId = url.pop();
+    $.ajax({
+        url: '/update-task-stage',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'task_id': taskId,
+            'stage_id': 5,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+$('#cancel-task').click(function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let taskId = url.pop();
+    $.ajax({
+        url: '/update-task-stage',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'task_id': taskId,
+            'stage_id': 4,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+
+
 function createSearchUrl(value) {
     let obj = {
         query: value
@@ -260,7 +334,7 @@ $('.work-area-info-common-stage-block').on('click',function () {
     $('.work-area-info-common-stage-list').slideToggle();
 })
 
-$('.work-area-info-common-stage-list li').on('click', function () {
+$('#deal-stage li').on('click', function () {
     let idStage = $(this).attr('data-id')
     let className = $(this).attr('data-class')
     let name = $(this).html()
@@ -291,6 +365,26 @@ $('.work-area-info-common-stage-list li').on('click', function () {
             'funnel_id': funnelId,
             'deal_id': idDeal,
             'stage_id': idStage,
+        },
+        success: function(data){
+            window.location.reload(true);
+        }
+    });
+})
+
+
+$('#task-stage li').click(function () {
+    let url = window.location.pathname;
+    url = url.split('/');
+    let taskId = url.pop();
+    let stageId = $(this).attr('data-id')
+    $.ajax({
+        url: '/update-task-stage',
+        method: 'post',
+        dataType: 'json',
+        data: {
+            'task_id': taskId,
+            'stage_id': stageId,
         },
         success: function(data){
             window.location.reload(true);
