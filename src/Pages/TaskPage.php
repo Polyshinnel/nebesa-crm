@@ -47,7 +47,7 @@ class TaskPage
         $dataList = $this->taskController->getTaskList();
         $allUsers = $this->userRepository->getAllUsers();
 
-        $data = $this->twig->fetch('Tasks.twig', [
+        $data = $this->twig->fetch('tasks.twig', [
             'title' => 'Задачи',
             'userName' => $headerData['name'],
             'avatar' => $headerData['avatar'],
