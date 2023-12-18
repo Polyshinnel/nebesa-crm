@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/assets/telegram/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/telegram/css/style.css">
+    <title>TaskTracker | {{ title }}</title>
+</head>
+<body>
+    <header class="header w-full h-20 bg-blue-400 flex items-center">
+        <div class="box-container">
+            <div class="header-wrapper flex justify-between items-center">
+                <a href="/">
+                    <div class="header-title flex items-center">
+                        <img src="/assets/telegram/img/logo.svg" alt="">
+                        <p class="text-xl text-white ml-8">TaskTracker</p>
+                    </div>
+                </a>
+    
+                <div class="menu-btn w-11 h-11 rounded-md border border-white flex justify-center items-center" id="menu-btn">
+                    <img src="/assets/telegram/img/menu.svg" alt="">
+                </div>
+    
+                <div class="menu-block absolute top-20 left-0 bg-white border border-gray-400 w-full p-7" id="header-menu">
+                    <ul>
+                        <li class="mt-3 text-xl"><a href="#">Новые задачи</a></li>
+                        <li class="mt-3 text-xl"><a href="#">Принятые задачи</a></li>
+                        <li class="mt-3 text-xl"><a href="#">На проверке</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% block body %}{% endblock body %}
+
+    <script src="/assets/telegram/js/tg-work.js"></script>
+    </body>
+</html>

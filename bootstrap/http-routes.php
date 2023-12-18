@@ -15,6 +15,7 @@ use App\Pages\PaymentPage;
 use App\Pages\ProductPaymentActionPage;
 use App\Pages\SearchPage;
 use App\Pages\TaskPage;
+use App\Pages\Telegram\TelegramPage;
 use App\Pages\WorkerActionPage;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
@@ -71,5 +72,10 @@ return static function (App $app): void {
         $group->post('update-deal-detail',[PaymentDetailActionPage::class,'update']);
         $group->post('delete-deal-detail',[PaymentDetailActionPage::class,'delete']);
         $group->post('money-deal-detail',[PaymentDetailActionPage::class,'addPayment']);
-    })->add(BasicAuthMiddleware::class);;
+    })->add(BasicAuthMiddleware::class);
+
+    $app->get('/telegram', [TelegramPage::class, 'get']);
+    $app->get('/telegram/new-tasks', [TelegramPage::class, 'getNewTasks']);
+    $app->get('/telegram/process-tasks', [TelegramPage::class, 'getNewTasks']);
+    $app->get('/telegram/success-tasks', [TelegramPage::class, 'getNewTasks']);
 };
