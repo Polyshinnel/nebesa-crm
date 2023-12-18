@@ -15,6 +15,7 @@ class Users extends Model
         'username',
         'password',
         'fullname',
-        'avatar'
+        'avatar',
+        'telegram_id'
     ];
 }

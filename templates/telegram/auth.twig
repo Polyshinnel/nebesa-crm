@@ -24,7 +24,7 @@
 <main>
 
     <div class="form-wrapper absolute left-0 top-0 w-full h-full flex justify-center items-center">
-        <form action="" class="flex w-80 flex-col items-center">
+        <form action="/telegram/auth-user" method="post" class="flex w-80 flex-col items-center">
             <img src="/assets/telegram/img/auth-img.png" alt="">
             <div class="input-block flex flex-col items-start mt-4 w-full">
                 <label for="login" class="text-gray-500 text-xs">ЛОГИН</label>
@@ -33,11 +33,18 @@
             <div class="input-block mt-2 w-full">
                 <label for="pass" class="text-gray-500 text-xs">ПАРОЛЬ</label>
                 <input type="password" name="pass" id="pass" placeholder="****" class="w-full h-12 border border-gray-400 mt-1 rounded px-4">
-                <p class="hint text-center text-xs text-red-500 mt-2 hidden">Не правильный логин и/или пароль !</p>
+                {% if err %}
+                    <p class="hint text-center text-xs text-red-500 mt-2">Не правильный логин и/или пароль !</p>
+                {% else %}
+                    <p class="hint text-center text-xs text-red-500 mt-2 hidden">Не правильный логин и/или пароль !</p>
+                {% endif %}
             </div>
             <input type="submit" value="Авторизоваться" class="w-full h-12 text-white rounded bg-blue-400 mt-5">
+            <input type="hidden" name="telegram_id" id="telegram_id">
         </form>
     </div>
 </main>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="/assets/telegram/js/tg-info.js"></script>
 </body>
 </html>

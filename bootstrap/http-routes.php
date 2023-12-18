@@ -78,4 +78,7 @@ return static function (App $app): void {
     $app->get('/telegram/new-tasks', [TelegramPage::class, 'getNewTasks']);
     $app->get('/telegram/process-tasks', [TelegramPage::class, 'getNewTasks']);
     $app->get('/telegram/success-tasks', [TelegramPage::class, 'getNewTasks']);
+
+    $app->post('/telegram/check-user', [TelegramPage::class, 'checkUser']);
+    $app->post('/telegram/auth-user', [TelegramPage::class, 'authUser']);
 };

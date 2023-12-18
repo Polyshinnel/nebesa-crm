@@ -13,12 +13,16 @@ class UserRepository
         $this->userModel = $userModel;
     }
 
-    public function getFilteredUsers($filter)
+    public function getFilteredUsers($filter): ?array
     {
         return $this->userModel->where($filter)->get()->toArray();
     }
 
-    public function getAllUsers() {
+    public function getAllUsers(): ?array {
         return $this->userModel->all()->toArray();
+    }
+
+    public function updateUser($updateArr, $userId): void {
+        $this->userModel->where('id', $userId)->update($updateArr);
     }
 }
