@@ -51,7 +51,7 @@ class TelegramTask
         $this->userRepository->updateUser($updateArr, $userId);
     }
 
-    public function generateMenu($userId) {
+    public function generateMenu($userId): array {
         return [
             [
                 'name' => 'Новые задачи',
@@ -66,5 +66,43 @@ class TelegramTask
                 'href' => '/telegram/success-tasks?user_id='.$userId
             ],
         ];
+    }
+
+    public function getFilteredTasks($userId, $taskStage): ?array {
+        return $this->taskController->getFilteredTasks($userId, $taskStage);
+    }
+
+    public function getTask($taskId, $userId): ?array {
+        $task = $this->taskController->getTask($taskId);
+        $stageId = $task['stage_id'];
+        $stageLink = 'new-tasks';
+        $taskColor = 'bg-gray-600';
+        $taskBtnText = 'Принять задачу';
+        $nextStage = '2';
+
+        if($stageId == 2) {
+            $stageLink = 'process-tasks';
+            $taskColor = 'bg-blue-500';
+            $taskBtnText = 'На проверку';
+            $nextStage = '3';
+        }
+
+        if($stageId == 3) {
+            $stageLink = 'success-tasks';
+            $taskColor = 'bg-green-600';
+            $taskBtnText = 'Проверяем';
+            $nextStage = '0';
+        }
+
+        $backUrl = sprintf('/telegram/%s?user_id=%s',$stageLink,$userId);
+        $task['back_url'] = $backUrl;
+        $task['task_color'] = $taskColor;
+        $task['task_btn_text'] = $taskBtnText;
+        $task['next_stage'] = $nextStage;
+        return $task;
+    }
+
+    public function updateStage($taskId, $stageId, $userId) {
+        $this->taskController->updateStageTask($taskId, $stageId, $userId);
     }
 }

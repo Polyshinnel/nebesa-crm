@@ -4,13 +4,14 @@
 
 <main>
     <div class="box-container">
-        <h1 class="page-title mt-7 text-3xl font-semibold">Новые задачи</h1>
+        <h1 class="page-title mt-7 text-3xl font-semibold">{{ title }}</h1>
         <div class="task-wrapper">
-            <a href="#">
+            {% for task in tasks %}
+            <a href="{{ task.task_url }}">
                 <div class="task-item border border-gray-400 rounded-xl px-6 py-7 mt-6">
                     <div class="task-item__header">
-                        <h2 class="new-task text-gray-600 text-xl font-semibold">Починить синхрофазатрон</h2>
-                        <p class="text-sm text-gray-400 mt-2">Контролер: Спасенов Александр</p>
+                        <h2 class="new-task {{ task.stage_class }} text-xl font-semibold">{{ task.task_title }}</h2>
+                        <p class="text-sm text-gray-400 mt-2">Контролер: {{ task.controller_name }}</p>
                     </div>
 
                     <div class="task-item__demiter h-px bg-gray-400 my-5 w-full"></div>
@@ -18,62 +19,17 @@
                     <div class="task-item__bottom flex items-center justify-between">
                         <div class="task-item__bottom-unit flex items-center">
                             <img src="/assets/telegram/img/chat.svg" alt="">
-                            <p class="text-sm ml-4 text-gray-400">2</p>
+                            <p class="text-sm ml-4 text-gray-400">{{ task.messages }}</p>
                         </div>
 
                         <div class="task-item__bottom-unit flex items-center">
                             <img src="/assets/telegram/img/calendar.svg" alt="">
-                            <p class="text-sm ml-4 text-gray-400">24.04.2023</p>
+                            <p class="text-sm ml-4 text-gray-400">{{ task.formatted_date }}</p>
                         </div>
                     </div>
                 </div>
             </a>
-
-            <a href="#">
-                <div class="task-item border border-gray-400 rounded-xl px-6 py-7 mt-6">
-                    <div class="task-item__header">
-                        <h2 class="new-task text-gray-600 text-xl font-semibold">Починить синхрофазатрон</h2>
-                        <p class="text-sm text-gray-400 mt-2">Контролер: Спасенов Александр</p>
-                    </div>
-
-                    <div class="task-item__demiter h-px bg-gray-400 my-5 w-full"></div>
-
-                    <div class="task-item__bottom flex items-center justify-between">
-                        <div class="task-item__bottom-unit flex items-center">
-                            <img src="/assets/telegram/img/chat.svg" alt="">
-                            <p class="text-sm ml-4 text-gray-400">2</p>
-                        </div>
-
-                        <div class="task-item__bottom-unit flex items-center">
-                            <img src="/assets/telegram/img/calendar.svg" alt="">
-                            <p class="text-sm ml-4 text-gray-400">24.04.2023</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#">
-                <div class="task-item border border-gray-400 rounded-xl px-6 py-7 mt-6">
-                    <div class="task-item__header">
-                        <h2 class="new-task text-gray-600 text-xl font-semibold">Починить синхрофазатрон</h2>
-                        <p class="text-sm text-gray-400 mt-2">Контролер: Спасенов Александр</p>
-                    </div>
-
-                    <div class="task-item__demiter h-px bg-gray-400 my-5 w-full"></div>
-
-                    <div class="task-item__bottom flex items-center justify-between">
-                        <div class="task-item__bottom-unit flex items-center">
-                            <img src="/assets/telegram/img/chat.svg" alt="">
-                            <p class="text-sm ml-4 text-gray-400">2</p>
-                        </div>
-
-                        <div class="task-item__bottom-unit flex items-center">
-                            <img src="/assets/telegram/img/calendar.svg" alt="">
-                            <p class="text-sm ml-4 text-gray-400">24.04.2023</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
+            {% endfor %}
         </div>
     </div>
 </main>

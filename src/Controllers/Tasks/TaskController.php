@@ -117,12 +117,17 @@ class TaskController
                     $userData = $this->userRepository->getFilteredUsers(['id' => $userId]);
                     $userName = $userData[0]['fullname'];
                     $event['username'] = $userName;
+                    $dateArr = explode(' ', $event['date_create']);
+                    $event['reformat_date'] = $this->toolClass->reformatDate($dateArr[0]).' '.$dateArr[1];
                     $modEvents[] = $event;
                 }
             }
 
 
             return [
+                'task_id' => $taskData['id'],
+                'executor_id' => $taskData['executor_id'],
+                'stage_id' => $taskData['stage_id'],
                 'task_name' => $taskData['task_title'],
                 'stage_name' => $stageInfo[0]['name'],
                 'stage_color' => $stageInfo[0]['color_class'],
@@ -168,5 +173,38 @@ class TaskController
 
     public function createMessage($userId, $message, $taskId) {
         $this->taskEventController->createEvent($taskId, 'message', $message, $userId);
+    }
+
+    public function getFilteredTasks($userId, $stageId): ?array {
+        $selectArr = [
+            'executor_id' => $userId,
+            'stage_id' => $stageId
+        ];
+        $rawTasks = $this->taskRepository->getTasks($selectArr);
+        $stageClass = 'text-gray-600';
+        if($stageId == 2) {
+            $stageClass = 'text-blue-600';
+        }
+        if($stageId == 3) {
+            $stageClass = 'text-green-600';
+        }
+
+        $tasks = [];
+
+        foreach ($rawTasks as $task) {
+
+            $taskUrl = sprintf('/telegram/task/%s?user_id=%s',$task['id'],$userId);
+            $controllerData = $this->userRepository->getFilteredUsers((['id' => $task['controller_id']]));
+            $controllerName = $controllerData[0]['fullname'];
+            $formattedDate = $this->toolClass->reformatDate($task['expired_date']);
+            $messages = $this->taskEventController->getMessages($task['id']);
+            $task['controller_name'] = $controllerName;
+            $task['formatted_date'] = $formattedDate;
+            $task['messages'] = count($messages);
+            $task['stage_class'] = $stageClass;
+            $task['task_url'] = $taskUrl;
+            $tasks[] = $task;
+        }
+        return $tasks;
     }
 }

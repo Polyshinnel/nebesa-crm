@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/telegram/css/style.css">
     <title>TaskTracker | {{ title }}</title>
 </head>
-<body>
+<body class="bg-white pb-14">
     <header class="header w-full h-20 bg-blue-400 flex items-center">
         <div class="box-container">
             <div class="header-wrapper flex justify-between items-center">
@@ -25,7 +25,7 @@
                 <div class="menu-block absolute top-20 left-0 bg-white border border-gray-400 w-full p-7" id="header-menu">
                     <ul>
                         {% for item in menu %}
-                            <li><a href="{{ item.href }}">{{ item.name }}</a></li>
+                            <li class="mt-10 text-xl"><a href="{{ item.href }}">{{ item.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

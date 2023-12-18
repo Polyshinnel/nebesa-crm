@@ -46,10 +46,12 @@ class TelegramPage
             $userId = $params['user_id'];
             $menu = $this->telegramTask->generateMenu($userId);
             $baseUrl = '/telegram/new-tasks?user_id='.$userId;
+            $tasks = $this->telegramTask->getFilteredTasks($userId, '1');
             $data = $this->twig->fetch('telegram/task-template.twig', [
                 'title' => 'Новые задачи',
                 'menu' => $menu,
-                'base_url' => $baseUrl
+                'base_url' => $baseUrl,
+                'tasks' => $tasks
             ]);
             return new Response(
                 200,
@@ -67,11 +69,12 @@ class TelegramPage
             $userId = $params['user_id'];
             $menu = $this->telegramTask->generateMenu($userId);
             $baseUrl = '/telegram/new-tasks?user_id='.$userId;
-
+            $tasks = $this->telegramTask->getFilteredTasks($userId, '2');
             $data = $this->twig->fetch('telegram/task-template.twig', [
                 'title' => 'Принятые задачи',
                 'menu' => $menu,
-                'base_url' => $baseUrl
+                'base_url' => $baseUrl,
+                'tasks' => $tasks
             ]);
             return new Response(
                 200,
@@ -91,11 +94,13 @@ class TelegramPage
             $userId = $params['user_id'];
             $menu = $this->telegramTask->generateMenu($userId);
             $baseUrl = '/telegram/new-tasks?user_id='.$userId;
+            $tasks = $this->telegramTask->getFilteredTasks($userId, '3');
 
             $data = $this->twig->fetch('telegram/task-template.twig', [
                 'title' => 'На проверке',
                 'menu' => $menu,
-                'base_url' => $baseUrl
+                'base_url' => $baseUrl,
+                'tasks' => $tasks
             ]);
             return new Response(
                 200,
@@ -146,5 +151,53 @@ class TelegramPage
         }
 
         return $response->withHeader('Location','/telegram?err=true')->withStatus(302);
+    }
+
+    public function getTask(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $params = $request->getQueryParams();
+        if(isset($params['user_id'])) {
+            $userId = $params['user_id'];
+            $menu = $this->telegramTask->generateMenu($userId);
+            $baseUrl = '/telegram/new-tasks?user_id='.$userId;
+            $taskId = $args['id'];
+            $task = $this->telegramTask->getTask($taskId, $userId);
+            $taskTitle = $task['task_name'];
+
+            $data = $this->twig->fetch('telegram/task.twig', [
+                'title' => $taskTitle,
+                'menu' => $menu,
+                'base_url' => $baseUrl,
+                'task_info' => $task
+            ]);
+            return new Response(
+                200,
+                new Headers(['Content-Type' => 'text/html']),
+                (new StreamFactory())->createStream($data)
+            );
+        }
+        return $response->withHeader('Location','/telegram')->withStatus(302);
+    }
+
+    public function updateTask(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $params = $request->getParsedBody();
+        $stageId = $params['stage_id'];
+        $userId = $params['user_id'];
+        $taskId = $params['task_id'];
+
+        $this->telegramTask->updateStage($taskId, $stageId, $userId);
+
+        $msg = [
+            'msg' => 'success'
+        ];
+
+        $data = json_encode($msg);
+
+        return new Response(
+            200,
+            new Headers(['Content-Type' => 'application/json']),
+            (new StreamFactory())->createStream($data)
+        );
     }
 }

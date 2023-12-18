@@ -1,0 +1,58 @@
+{% extends 'telegram/tg-base.twig' %}
+
+{% block body %}
+
+<main>
+    <div class="box-container">
+        <a href="{{ task_info.back_url }}">
+            <button class="w-28 h-10 {{ task_info.task_color}} text-white rounded mt-5">Назад</button>
+        </a>
+
+        <div class="task-block-info mt-5">
+            <p class="text-base font-semibold">Название задачи: </p>
+            <span class="text-xl text-gray-600 mt-3">{{ task_info.task_name }}</span>
+        </div>
+
+        <div class="task-block-info mt-3">
+            <p class="text-base font-semibold">Кто поручил:</p>
+            <span class="text-xl text-gray-600 mt-3">{{ task_info.controller_name }}</span>
+        </div>
+
+        <div class="task-block-info mt-3">
+            <p class="text-base font-semibold">Срок выполнения:</p>
+            <span class="text-xl text-gray-600 mt-3">{{ task_info.expired_date }}</span>
+        </div>
+
+        {% if task_info.events %}
+            {% for event in task_info.events %}
+                {% if event.type_event == 'message' %}
+                    <div class="message-block flex items-start border rounded-md border-gray-600 p-2 mt-4">
+                        <img src="/assets/telegram/img/message.svg" alt="">
+
+                        <div class="message-body px-3 w-full">
+                            <p class="text-sm text-gray-600">Комментарий:</p>
+                            <p class="text-base mt-2">{{ event.event_text }}</p>
+                            <div class="message-body__bottom flex items-center justify-between mt-2 w-full text-sm text-gray-600">
+                                <p>От: {{ event.username }}</p>
+                                <p>{{ event.reformat_date }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if event.type_event == 'system' %}
+                    <div class="system-message mt-4 text-base text-gray-600">
+                        <p>{{ event.event_text }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+
+
+
+        <button class="change-task w-full {{ task_info.task_color }} h-11 rounded text-white mt-5" id="change-stage" data-stage="{{ task_info.next_stage }}" data-task="{{ task_info.task_id }}" data-user="{{ task_info.executor_id }}">{{ task_info.task_btn_text }}</button>
+    </div>
+</main>
+
+{% endblock %}
