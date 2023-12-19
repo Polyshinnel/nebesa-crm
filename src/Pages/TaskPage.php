@@ -46,6 +46,12 @@ class TaskPage
         $headerData = $this->headerController->getHeaderData($login);
         $dataList = $this->taskController->getTaskList();
         $allUsers = $this->userRepository->getAllUsers();
+        $users = [];
+        foreach ($allUsers as $user) {
+            if(!empty($user['telegram_id'])) {
+                $users[] = $user;
+            }
+        }
 
         $data = $this->twig->fetch('tasks.twig', [
             'title' => 'Задачи',
@@ -54,7 +60,7 @@ class TaskPage
             'funnelSwitch' => false,
             'workAreaTitle' => 'Задачи',
             'data_list' => $dataList,
-            'users' => $allUsers
+            'users' => $users
         ]);
         return new Response(
             200,
@@ -72,6 +78,12 @@ class TaskPage
         $taskInfo = $this->taskController->getTask($taskId);
         $taskInfo['id'] = $taskId;
         $allUsers = $this->userRepository->getAllUsers();
+        $users = [];
+        foreach ($allUsers as $user) {
+            if(!empty($user['telegram_id'])) {
+                $users[] = $user;
+            }
+        }
 
         $data = $this->twig->fetch('task.twig', [
             'title' => $taskInfo['task_name'],
@@ -81,7 +93,7 @@ class TaskPage
             'workAreaTitle' => $taskInfo['task_name'],
             'task' => $taskInfo,
             'stages' => $taskInfo['stages'],
-            'users' => $allUsers
+            'users' => $users
         ]);
         return new Response(
             200,
