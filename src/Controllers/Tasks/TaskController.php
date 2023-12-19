@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Tasks;
 
+use App\Controllers\Telegram\TelegramMessages;
 use App\Repository\Tasks\TaskEventRepository;
 use App\Repository\Tasks\TaskRepository;
 use App\Repository\Tasks\TaskStageRepository;
@@ -16,6 +17,7 @@ class TaskController
     private UserRepository $userRepository;
     private TaskEventController $taskEventController;
     private ToolClass $toolClass;
+    private TelegramMessages $telegramMessages;
 
     public function __construct(
         TaskRepository $taskRepository,
@@ -23,7 +25,8 @@ class TaskController
         TaskStageRepository $taskStageRepository,
         UserRepository  $userRepository,
         TaskEventController $taskEventController,
-        ToolClass $toolClass
+        ToolClass $toolClass,
+        TelegramMessages $telegramMessages
     )
     {
         $this->taskRepository = $taskRepository;
@@ -32,6 +35,7 @@ class TaskController
         $this->userRepository = $userRepository;
         $this->taskEventController = $taskEventController;
         $this->toolClass = $toolClass;
+        $this->telegramMessages = $telegramMessages;
     }
 
     public function createTask($executorId, $controllerId, $taskTitle, $taskText, $expiredDate): string {
@@ -51,6 +55,15 @@ class TaskController
         ];
         $systemText = $this->taskEventController->textCollector('create task', $params);
         $this->taskEventController->createEvent($taskId, 'system', $systemText, $controllerId);
+
+        $controllerData = $this->userRepository->getFilteredUsers(['id' => $controllerId]);
+        $executorData = $this->userRepository->getFilteredUsers(['id' => $executorId]);
+        $executorTgInfo = $executorData[0]['telegram_id'];
+        $controllerName = $controllerData[0]['fullname'];
+        $expiredDate = $this->toolClass->reformatDate($expiredDate);
+
+        $tgMessage = $this->telegramMessages->createMessage($controllerName, $taskTitle, $taskText, $expiredDate);
+        $this->telegramMessages->sendMessage($executorTgInfo, $tgMessage, 'Task', $taskId, $executorId);
 
         $this->taskEventController->createEvent($taskId, 'message', $taskText, $controllerId);
         return $taskId;
