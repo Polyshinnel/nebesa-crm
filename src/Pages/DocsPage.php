@@ -2,7 +2,7 @@
 
 namespace App\Pages;
 
-use App\Controllers\Documents\ActDocument;
+use App\Controllers\Documents\DocumentController;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Factory\StreamFactory;
@@ -11,9 +11,9 @@ use Slim\Psr7\Response;
 
 class DocsPage
 {
-    private ActDocument $actDocument;
-    public function __construct(ActDocument $actDocument) {
-        $this->actDocument = $actDocument;
+    private DocumentController $documentController;
+    public function __construct(DocumentController $documentController) {
+        $this->documentController = $documentController;
     }
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
@@ -21,7 +21,7 @@ class DocsPage
         $params = $request->getQueryParams();
         if($params['deal']) {
             $deal = $params['deal'];
-            $fileInfo = $this->actDocument->createAct($deal);
+            $fileInfo = $this->documentController->createAct($deal);
         }
 
         $headers = [
@@ -38,5 +38,10 @@ class DocsPage
             new Headers($headers),
             (new StreamFactory())->createStreamFromFile($fileInfo['filepath'])
         );
+    }
+
+    public function getDelalDoc(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+
     }
 }

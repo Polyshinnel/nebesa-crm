@@ -9,7 +9,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
 
-class ActDocument
+class DocumentController
 {
     private ToolClass $toolClass;
     private MoySkladController $moySkladController;
@@ -67,5 +67,13 @@ class ActDocument
             'filename' => $fileName,
             'filepath' => $outputFile
         ];
+    }
+
+    public function createDealDoc($dealNum) {
+        $dealData = $this->moySkladController->getTotalOrderData($dealNum);
+        $dateCreate = date('d.m.Y');
+        $stringDate = $this->toolClass->getStringDate($dateCreate);
+        $totalSumStr = $this->toolClass->num2str($dealData['common_data']['total_sum']);
+        $templateAddr = __DIR__.'/../../../public/assets/docs/dogovor-memorial.docx';
     }
 }
