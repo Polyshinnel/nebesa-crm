@@ -5,3 +5,4 @@ tmp/
 composer.lock
 logs/
 config/token.json
+public/temp-docs

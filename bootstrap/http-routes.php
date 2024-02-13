@@ -9,6 +9,7 @@ use App\Pages\CalendarDayPage;
 use App\Pages\CalendarPage;
 use App\Pages\CardPage;
 use App\Pages\ChangeStagePage;
+use App\Pages\DocsPage;
 use App\Pages\IndexPage;
 use App\Pages\PaymentDetailActionPage;
 use App\Pages\PaymentPage;
@@ -72,6 +73,8 @@ return static function (App $app): void {
         $group->post('update-deal-detail',[PaymentDetailActionPage::class,'update']);
         $group->post('delete-deal-detail',[PaymentDetailActionPage::class,'delete']);
         $group->post('money-deal-detail',[PaymentDetailActionPage::class,'addPayment']);
+
+        $group->get('docs',[DocsPage::class,'get']);
     })->add(BasicAuthMiddleware::class);
 
     $app->get('/telegram', [TelegramPage::class, 'get']);

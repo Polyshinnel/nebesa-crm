@@ -26,6 +26,8 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
-        "ext-calendar": "*"
+        "ext-calendar": "*",
+        "phpoffice/phpword": "^1.2",
+        "tecnickcom/tcpdf": "^6.6"
     }
 }
