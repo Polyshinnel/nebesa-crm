@@ -58,7 +58,7 @@ class ActDocument
         }
 
         $templateProcessor->cloneRowAndSetValues('productNum', $productValuesArr);
-        $fileName = 'Акт выполненный работ по'.$dealNum.'.docx';
+        $fileName = 'Акт выполненный работ по '.$dealNum.'.docx';
         $outPutPath = __DIR__.'/../../../public/temp-docs/';
         $outputFile = $outPutPath.$fileName;
         $templateProcessor->saveAs($outputFile);

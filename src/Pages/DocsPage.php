@@ -25,9 +25,12 @@ class DocsPage
         }
 
         $headers = [
-            'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'Content-Description' => 'File Transfer',
+            'Content-Type' => 'application/octet-stream',
             'Content-Disposition' => 'attachment; filename='.$fileInfo['filename'],
-            'Content-Transfer-Encoding' => 'binary'
+            'Content-Transfer-Encoding' => 'binary',
+            'Expires' => '0',
+            'Content-Length' => filesize($fileInfo['filepath']),
         ];
 
         return new Response(
