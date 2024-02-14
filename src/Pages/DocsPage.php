@@ -24,24 +24,18 @@ class DocsPage
             $fileInfo = $this->documentController->createAct($deal);
         }
 
-        $headers = [
-            'Content-Description' => 'File Transfer',
-            'Content-Type' => 'application/octet-stream',
-            'Content-Disposition' => 'attachment; filename='.$fileInfo['filename'],
-            'Content-Transfer-Encoding' => 'binary',
-            'Expires' => '0',
-            'Content-Length' => filesize($fileInfo['filepath']),
-        ];
-
-        return new Response(
-            200,
-            new Headers($headers),
-            (new StreamFactory())->createStreamFromFile($fileInfo['filepath'])
-        );
+        return $response->withHeader('Location', $fileInfo['output'])->withStatus(302);
     }
 
-    public function getDelalDoc(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function getDealDoc(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $params = $request->getQueryParams();
+        $fileInfo = '';
+        if($params['deal']) {
+            $deal = $params['deal'];
+            $fileInfo = $this->documentController->createDealDoc($deal);
+        }
 
+        return $response->withHeader('Location', $fileInfo['output'])->withStatus(302);
     }
 }

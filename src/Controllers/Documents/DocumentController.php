@@ -58,14 +58,15 @@ class DocumentController
         }
 
         $templateProcessor->cloneRowAndSetValues('productNum', $productValuesArr);
-        $fileName = 'Акт выполненный работ по '.$dealNum.'.docx';
+        $fileName = 'act_rabot_'.$dealNum.'.docx';
         $outPutPath = __DIR__.'/../../../public/temp-docs/';
         $outputFile = $outPutPath.$fileName;
         $templateProcessor->saveAs($outputFile);
 
         return [
             'filename' => $fileName,
-            'filepath' => $outputFile
+            'filepath' => $outputFile,
+            'output' => '/temp-docs/'.$fileName
         ];
     }
 
@@ -73,7 +74,44 @@ class DocumentController
         $dealData = $this->moySkladController->getTotalOrderData($dealNum);
         $dateCreate = date('d.m.Y');
         $stringDate = $this->toolClass->getStringDate($dateCreate);
-        $totalSumStr = $this->toolClass->num2str($dealData['common_data']['total_sum']);
+
+
+        $totalSum = $dealData['common_data']['total_sum'];
+        $totalSumStr = $this->toolClass->num2str($totalSum);
+        $payedSum = $dealData['common_data']['payed_sum'];
+
+
+        $passportNum = '2916 746124';
+        $passportInfo = 'Отделом УФМС России по Калужской обл, в гор. Калуге';
+        $customerAddr = 'г. Калуга ул. М.Жукова д.47 кв.34';
+        $customerName = $dealData['customer_data']['customer_name'];
+        $customerPhone = $dealData['customer_data']['phone'];
+
+
+
+
         $templateAddr = __DIR__.'/../../../public/assets/docs/dogovor-memorial.docx';
+        $fileName = 'dogovor_'.$dealNum.'.docx';
+        $outPutPath = __DIR__.'/../../../public/temp-docs/';
+        $outputFile = $outPutPath.$fileName;
+
+        $templateProcessor = new TemplateProcessor($templateAddr);
+        $templateProcessor->setValue('dealNum', $dealNum);
+        $templateProcessor->setValue('stringDate', $stringDate);
+        $templateProcessor->setValue('customerName', $customerName);
+        $templateProcessor->setValue('customerName', $customerName);
+        $templateProcessor->setValue('stringTotalSum', $totalSumStr);
+        $templateProcessor->setValue('passportNum', $passportNum);
+        $templateProcessor->setValue('passportInfo', $passportInfo);
+        $templateProcessor->setValue('customerAddr', $customerAddr);
+        $templateProcessor->setValue('customerPhone', $customerPhone);
+        $templateProcessor->setValue('TotalSum', $totalSum);
+        $templateProcessor->saveAs($outputFile);
+
+        return [
+            'filename' => $fileName,
+            'filepath' => $outputFile,
+            'output' => '/temp-docs/'.$fileName
+        ];
     }
 }

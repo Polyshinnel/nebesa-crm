@@ -75,6 +75,7 @@ return static function (App $app): void {
         $group->post('money-deal-detail',[PaymentDetailActionPage::class,'addPayment']);
 
         $group->get('docs',[DocsPage::class,'get']);
+        $group->get('dogovor',[DocsPage::class,'getDealDoc']);
     })->add(BasicAuthMiddleware::class);
 
     $app->get('/telegram', [TelegramPage::class, 'get']);
