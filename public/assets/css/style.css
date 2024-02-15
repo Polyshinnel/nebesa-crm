@@ -595,6 +595,8 @@ a {
   margin-top: 50px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 .work-area-info-common .work-area-info-common-btns .work-area-info-common-btn {
   padding: 0 10px;
@@ -606,6 +608,11 @@ a {
   cursor: pointer;
   border-radius: 10px;
   height: 45px;
+  width: 35%;
+}
+.work-area-info-common .work-area-info-common-btns .work-area-info-docs {
+  width: 200px;
+  background-color: #5B8EDF;
 }
 .work-area-info-common .work-area-info-common-btns .end-btn {
   background-color: #18BF15;

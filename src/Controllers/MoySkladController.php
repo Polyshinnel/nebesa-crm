@@ -70,6 +70,9 @@ class MoySkladController
         $graveyardPlace = '';
         $agent = '';
         $deadName = '';
+        $pasportNum = '';
+        $pasportInfo = '';
+        $customerAddr = '';
 
         foreach ($attributes as $attribute) {
             if($attribute['name'] == 'Умерший') {
@@ -99,6 +102,18 @@ class MoySkladController
             if($attribute['name'] == 'Агент/Мастер') {
                 $agent = $attribute['value']['name'];
             }
+
+            if($attribute['name'] == 'Серия и номер паспорта') {
+                $pasportNum = $attribute['value']['name'];
+            }
+
+            if($attribute['name'] == 'Кем и когда выдан паспорт') {
+                $pasportInfo = $attribute['value']['name'];
+            }
+
+            if($attribute['name'] == 'Адрес прописки заказчика') {
+                $customerAddr = $attribute['value']['name'];
+            }
         }
 
         return [
@@ -114,7 +129,10 @@ class MoySkladController
             'dead_name' => $deadName,
             'delivery_moment' => $deliveryMoment,
             'total_sum' => $totalSum,
-            'payed_sum' => $paymentSum
+            'payed_sum' => $paymentSum,
+            'passport_num' => $pasportNum,
+            'passport_info' => $pasportInfo,
+            'customer_addr' => $customerAddr
         ];
     }
 

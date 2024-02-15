@@ -54,6 +54,8 @@ class CardController
             $dealEvent['username'] = $userName;
             $dealEventsProcessing[] = $dealEvent;
         }
+        $dealNameArr = explode(' ', $deal['name']);
+        $dealNum = preg_replace('/[^0-9]/', '', $dealNameArr[1]);
 
         return [
             'deal_name' => $deal['name'],
@@ -76,6 +78,7 @@ class CardController
             'payed_sum' => $deal['payed_sum'],
             'total_sum' => $deal['total_sum'],
             'order_id' => $deal['order_id'],
+            'dealNum' => $dealNum
         ];
     }
 

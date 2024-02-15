@@ -80,26 +80,42 @@
                 <p class="text">{{ card.description | raw }}</p>
             </div>
 
-            <div class="work-area-info-sms-block">
-                <div class="work-area-info-sms-btn">
-                    <img src="/assets/img/sms-ru.png" alt="">
-                </div>
-                <div class="work-area-info-sms-form">
-                    <h4>Форма отправки смс</h4>
-                    <div class="work-area-info-sms-input">
-                        <label for="sms-num">Номер</label>
-                        <input type="text" name="sms-num" id="sms-num" value="{{ customer_phone }}">
+{#            <div class="work-area-info-sms-block">#}
+{#                <div class="work-area-info-sms-btn">#}
+{#                    <img src="/assets/img/sms-ru.png" alt="">#}
+{#                </div>#}
+{#                <div class="work-area-info-sms-form">#}
+{#                    <h4>Форма отправки смс</h4>#}
+{#                    <div class="work-area-info-sms-input">#}
+{#                        <label for="sms-num">Номер</label>#}
+{#                        <input type="text" name="sms-num" id="sms-num" value="{{ customer_phone }}">#}
+{#                    </div>#}
+{#                    <div class="work-area-info-sms-input">#}
+{#                        <label for="text-msg-sms">Сообщение</label>#}
+{#                        <textarea name="text-msg-sms" id="text-msg-sms">{{ memorial_text }}</textarea>#}
+{#                    </div>#}
+{#                    <div class="work-area-info-sms-btn-send">#}
+{#                        <p>Отправить</p>#}
+{#                    </div>#}
+{#                    <p class="sms-msg-info"></p>#}
+{#                </div>#}
+{#            </div>#}
+
+            <div class="work-area-info-common-btns">
+                <a href="/dogovor?deal={{ card.dealNum }}">
+                    <div class="work-area-info-common-btn work-area-info-docs">
+                        <p>Создать договор</p>
                     </div>
-                    <div class="work-area-info-sms-input">
-                        <label for="text-msg-sms">Сообщение</label>
-                        <textarea name="text-msg-sms" id="text-msg-sms">{{ memorial_text }}</textarea>
+                </a>
+
+                <a href="/docs?deal={{ card.dealNum }}">
+                    <div class="work-area-info-common-btn work-area-info-docs">
+                        <p>Создать акт</p>
                     </div>
-                    <div class="work-area-info-sms-btn-send">
-                        <p>Отправить</p>
-                    </div>
-                    <p class="sms-msg-info"></p>
-                </div>
+                </a>
+
             </div>
+            
 
             <div class="work-area-info-common-btns">
                 <div class="work-area-info-common-btn end-btn" id="end-deal">

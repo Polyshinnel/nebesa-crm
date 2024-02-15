@@ -27,9 +27,9 @@ class DocumentController
         $totalSumStr = $this->toolClass->num2str($dealData['common_data']['total_sum']);
 
         $customerName = $dealData['customer_data']['customer_name'];
-        $passportNum = '2916 746124';
-        $passportInfo = '26.04.2016, отделом УФМС России по Калужской обл. в гор. Калуге';
-        $customerAddr = 'г. Калуга ул.М.Жукова д.47, кв.34';
+        $passportNum = $dealData['common_data']['passport_num'];
+        $passportInfo = $dealData['common_data']['passport_info'];
+        $customerAddr = $dealData['common_data']['customer_addr'];
 
 
         $templateAddr = __DIR__.'/../../../public/assets/docs/act-priema.docx';
@@ -80,12 +80,20 @@ class DocumentController
         $totalSumStr = $this->toolClass->num2str($totalSum);
         $payedSum = $dealData['common_data']['payed_sum'];
 
+        $percentPayedSum = ceil(($payedSum / $totalSum)*100);
+        $payedSumStr = $this->toolClass->num2str($payedSum);
 
-        $passportNum = '2916 746124';
-        $passportInfo = 'Отделом УФМС России по Калужской обл, в гор. Калуге';
-        $customerAddr = 'г. Калуга ул. М.Жукова д.47 кв.34';
+
+
+        $passportNum = $dealData['common_data']['passport_num'];
+        $passportInfo = $dealData['common_data']['passport_info'];
+        $customerAddr = $dealData['common_data']['customer_addr'];
         $customerName = $dealData['customer_data']['customer_name'];
         $customerPhone = $dealData['customer_data']['phone'];
+
+        $deadName = $dealData['common_data']['dead_name'];
+        $deadDateBirth = $dealData['common_data']['date_birth'];
+        $deadDateDie = $dealData['common_data']['date_dead'];
 
 
 
@@ -106,6 +114,27 @@ class DocumentController
         $templateProcessor->setValue('customerAddr', $customerAddr);
         $templateProcessor->setValue('customerPhone', $customerPhone);
         $templateProcessor->setValue('TotalSum', $totalSum);
+        $templateProcessor->setValue('percent_payed_sum', $percentPayedSum);
+        $templateProcessor->setValue('payedSumStr', $payedSumStr);
+        $templateProcessor->setValue('deadName', $deadName);
+        $templateProcessor->setValue('deadDateBirth', $deadDateBirth);
+        $templateProcessor->setValue('deadDateDie', $deadDateDie);
+
+        $products = $dealData['products'];
+        $productValuesArr = [];
+
+        foreach ($products as $product) {
+            $productValuesArr[] = [
+                'productNum' => $product['position'],
+                'productName' => $product['name'],
+                'productQunt' => $product['quantity'],
+                'productPrice' => $product['price'].' руб.',
+                'productTotal' => $product['total'].' руб.'
+            ];
+        }
+
+        $templateProcessor->cloneRowAndSetValues('productNum', $productValuesArr);
+
         $templateProcessor->saveAs($outputFile);
 
         return [
