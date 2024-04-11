@@ -32,7 +32,7 @@ class MoySkladController
         $header = [
             "Authorization: Basic $credentials",
         ];
-        $url = 'https://online.moysklad.ru/api/remap/1.2/security/token';
+        $url = 'https://api.moysklad.ru/api/remap/1.2/security/token';
         $json = $this->tools->getPostRequest($url, $header);
         $jsonArr = json_decode($json, true);
         $token = $jsonArr['access_token'];
@@ -44,7 +44,7 @@ class MoySkladController
 
     private function getCustomerOrderInfo($orderNum) {
         $token = $this->getToken();
-        $url = 'https://online.moysklad.ru/api/remap/1.2/entity/customerorder?search='.$orderNum.'&limit=1&order=created,desc';
+        $url = 'https://api.moysklad.ru/api/remap/1.2/entity/customerorder?search='.$orderNum.'&limit=1&order=created,desc';
         $header = [
             "Authorization: Bearer $token",
         ];
@@ -75,45 +75,48 @@ class MoySkladController
         $customerAddr = '';
 
         foreach ($attributes as $attribute) {
-            if($attribute['name'] == 'Умерший') {
-                $deadName = $attribute['value'];
+            if(isset($attribute['name'])) {
+                if($attribute['name'] == 'Умерший') {
+                    $deadName = $attribute['value'];
+                }
+
+                if($attribute['name'] == 'Дата рождения') {
+                    $dateBirth = $attribute['value'];
+                    $dateFormatArr = explode(' ',$dateBirth);
+                    $dateBirth = $this->tools->reformatDate($dateFormatArr[0]);
+                }
+
+                if($attribute['name'] == 'Дата смерти') {
+                    $dateDead = $attribute['value'];
+                    $dateFormatArr = explode(' ',$dateDead);
+                    $dateDead = $this->tools->reformatDate($dateFormatArr[0]);
+                }
+
+                if($attribute['name'] == 'Кладбище') {
+                    $graveyard = $attribute['value'];
+                }
+
+                if($attribute['name'] == '№ участка') {
+                    $graveyardPlace = $attribute['value'];
+                }
+
+                if($attribute['name'] == 'Агент/Мастер') {
+                    $agent = $attribute['value']['name'];
+                }
+
+                if($attribute['name'] == 'Серия и номер паспорта') {
+                    $pasportNum = $attribute['value'];
+                }
+
+                if($attribute['name'] == 'Кем и когда выдан паспорт') {
+                    $pasportInfo = $attribute['value'];
+                }
+
+                if($attribute['name'] == 'Адрес прописки заказчика') {
+                    $customerAddr = $attribute['value'];
+                }
             }
 
-            if($attribute['name'] == 'Дата рождения') {
-                $dateBirth = $attribute['value'];
-                $dateFormatArr = explode(' ',$dateBirth);
-                $dateBirth = $this->tools->reformatDate($dateFormatArr[0]);
-            }
-
-            if($attribute['name'] == 'Дата смерти') {
-                $dateDead = $attribute['value'];
-                $dateFormatArr = explode(' ',$dateDead);
-                $dateDead = $this->tools->reformatDate($dateFormatArr[0]);
-            }
-
-            if($attribute['name'] == 'Кладбище') {
-                $graveyard = $attribute['value'];
-            }
-
-            if($attribute['name'] == '№ участка') {
-                $graveyardPlace = $attribute['value'];
-            }
-
-            if($attribute['name'] == 'Агент/Мастер') {
-                $agent = $attribute['value']['name'];
-            }
-
-            if($attribute['name'] == 'Серия и номер паспорта') {
-                $pasportNum = $attribute['value']['name'];
-            }
-
-            if($attribute['name'] == 'Кем и когда выдан паспорт') {
-                $pasportInfo = $attribute['value']['name'];
-            }
-
-            if($attribute['name'] == 'Адрес прописки заказчика') {
-                $customerAddr = $attribute['value']['name'];
-            }
         }
 
         return [
@@ -138,7 +141,7 @@ class MoySkladController
 
     private function getCustomerOrderPositions($orderId): array {
         $token = $this->getToken();
-        $url = 'https://online.moysklad.ru/api/remap/1.2/entity/customerorder/'.$orderId.'/positions';
+        $url = 'https://api.moysklad.ru/api/remap/1.2/entity/customerorder/'.$orderId.'/positions';
         $header = [
             "Authorization: Bearer $token",
         ];
@@ -176,7 +179,7 @@ class MoySkladController
     }
 
     private function getCustomerInfo($customerId): array {
-        $url = 'https://online.moysklad.ru/api/remap/1.2/entity/counterparty/'.$customerId;
+        $url = 'https://api.moysklad.ru/api/remap/1.2/entity/counterparty/'.$customerId;
         $token = $this->getToken();
         $header = [
             "Authorization: Bearer $token",
@@ -201,19 +204,18 @@ class MoySkladController
 
     public function getPaymentInfo($skladId) {
         $token = $this->getToken();
-        $url = 'https://online.moysklad.ru/api/remap/1.2/entity/customerorder/'.$skladId;
+        $url = 'https://api.moysklad.ru/api/remap/1.2/entity/customerorder/'.$skladId;
         $header = [
-            "Authorization: Bearer $token",
+            "Authorization: Bearer $token"
         ];
         $data = json_decode($this->tools->getGetRequest($url, $header),true);
-
-
         $totalSum = $this->tools->normalizeNum($data['sum']);
         $paymentSum = $this->tools->normalizeNum($data['payedSum']);
 
+
         return [
             'total_sum' => $totalSum,
-            'payed_sum' => $paymentSum
+            'payed_sum' => $paymentSum,
         ];
     }
 }

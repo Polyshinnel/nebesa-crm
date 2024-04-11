@@ -24,8 +24,10 @@ class ToolClass
     }
 
     public function getGetRequest(string $url, array $header) {
+        $header[] = 'Accept-Encoding: gzip, deflate, br';
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_ENCODING, "gzip");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);
