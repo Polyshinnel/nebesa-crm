@@ -153,6 +153,7 @@ class MoySkladController
             $position++;
             $quantity = $productItem['quantity'];
             $price = $productItem['price'];
+            $price = ceil($price);
             $price = substr($price, 0,-2);
             $total = $price * $quantity;
             $productHref = $productItem['assortment']['meta']['href'];
@@ -165,7 +166,6 @@ class MoySkladController
                 'total' => $total
             ];
         }
-
         return $products;
     }
 
